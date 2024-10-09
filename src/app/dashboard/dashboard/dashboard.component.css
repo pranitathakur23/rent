@@ -5,7 +5,7 @@
     margin-top: 20px; /* Add margin for spacing */
   }
   
-  .dashboard-main-card {
+  .dashboard-main-card { 
     width: 100%;
     max-width: 1200px; /* Limit the width of the main card */
     border: 1px solid #ccc; /* Lighter border for subtle look */
