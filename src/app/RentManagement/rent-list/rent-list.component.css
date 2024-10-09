@@ -1,0 +1,23 @@
+.table-responsive {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  #rentTable_wrapper .dataTables_filter {
+    float: right;
+  }
+  
+  #rentTable_wrapper .dataTables_paginate {
+    float: right;
+  }
+  .create-rent-card {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Optional: Add shadow to card */
+  }
+  
+  .card-header {
+    border-radius: 0.5rem 0.5rem 0 0; /* Rounded corners for header */
+  }
+  .is-invalid {
+    border: 1px solid red !important; /* Red border for invalid fields */
+  }
+  

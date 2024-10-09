@@ -1,0 +1,94 @@
+<div class="card mt-4">
+    <div class="card-header" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
+      <h4 style="font-size: 18px;">Branch Actions</h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <!-- Rent Master Select -->
+        <div class="col-md-2">
+          <label for="rentMaster">Rent Master</label>
+          <select class="form-control" id="rentMaster">
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+          </select>
+        </div>
+  
+        <!-- Month Select -->
+        <div class="col-md-2">
+          <label for="month">Month</label>
+          <select class="form-control" id="month">
+            <option value="january">January</option>
+            <option value="february">February</option>
+            <option value="march">March</option>
+            <option value="april">April</option>
+            <!-- Add more months as needed -->
+          </select>
+        </div>
+  
+        <!-- Actions Select -->
+        <div class="col-md-2">
+          <label for="action">Action</label>
+          <select class="form-control" id="action">
+            <option value="all">All</option>
+            <option value="adjust">Adjust</option>
+            <option value="hold">Hold</option>
+          </select>
+        </div>
+  
+        <!-- Save Button -->
+        <div class="col-md-2 text-center mt-4">
+          <button class="btn btn-primary">Save</button>
+        </div>
+      </div>
+  
+      <!-- DataTable -->
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Branch</th>
+                <th>Year/Month</th>
+                <th>Remark</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Branch 1</td>
+                <td>2024/September</td>
+                <td>Remark 1</td>
+                <td class="text-center">
+                  <button class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i> <!-- Delete icon -->
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>Branch 2</td>
+                <td>2024/August</td>
+                <td>Remark 2</td>
+                <td class="text-center">
+                  <button class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>Branch 3</td>
+                <td>2024/July</td>
+                <td>Remark 3</td>
+                <td class="text-center">
+                  <button class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  

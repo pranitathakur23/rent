@@ -1,0 +1,54 @@
+<div class="container mt-4">
+    <div class="card">
+      <div class="card-header text-center" style=" background: linear-gradient(90deg, #001f3f, #007bff); /* Navy to blue gradient */ color: white;">
+        <h5>Rent Details</h5>
+      </div>
+      <div class="card-body">
+        <form >
+          <div class="mb-3">
+            <div class="row ">
+              <div class="col-md-6">
+                <label for="fromDate" class="form-label">From Date (mm/dd/yyyy)</label>
+                <input type="date" id="fromDate" class="form-control" >
+              </div>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="toDate" class="form-label">To Date (mm/dd/yyyy)</label>
+                <input type="date" id="toDate" class="form-control" >
+              </div>
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="amount" class="form-label">Amount</label>
+                <input type="text" id="amount" class="form-control" placeholder="Amount" >
+              </div>
+            </div>
+          </div>
+  
+          <div class="mb-3">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="totalRent" class="form-label">Total Rent Amount</label>
+                <input type="text" id="totalRent" class="form-control" >
+              </div>
+            </div>
+          </div>
+  
+          <div class="d-flex mt-3">
+            <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button> &nbsp;
+            <button type="submit" class="btn btn-primary" onclick="onSubmit()">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    
+  </div>
+  

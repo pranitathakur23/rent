@@ -1,0 +1,244 @@
+<!-- Create Rent Agreement Card -->
+<div class="card col-md-8 create-rent-card" style="    padding: 20px;
+    width: 100%;" *ngIf="showCreateRentAgreement">
+  <div class="card-header d-flex justify-content-between align-items-center" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
+    <h5>Create Rent Agreement</h5>
+    <button class="btn btn-link" (click)="onCancel()">
+      <i class="fas fa-times" style="color: white;"></i>
+    </button>  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="bank" style="font-weight: bold">Bank *</label>
+          <select id="bank" class="form-control">
+            <option value="">Select Bank</option>
+            <option value="SBI">SBI</option>
+            <option value="HDFC">HDFC</option>
+            <option value="ICICI">ICICI</option>
+            <option value="Axis Bank">Axis Bank</option>
+            <option value="PNB">PNB</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="state" style="font-weight: bold">State *</label>
+          <select id="state" class="form-control">
+            <option value="">Select State</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="district" style="font-weight: bold">District *</label>
+          <select id="district" class="form-control">
+            <!-- Options for districts -->
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="branch" style="font-weight: bold">Branch *</label>
+          <select id="branch" class="form-control">
+            <!-- Options for branches -->
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+     
+    
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="landlordName" style="font-weight: bold">Landlord Name *</label>
+          <input type="text" id="landlordName" class="form-control" />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="landlordEmail" style="font-weight: bold">Landlord Email *</label>
+          <input type="email" id="landlordEmail" class="form-control" />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="accountNo" style="font-weight: bold">Landlord Account No *</label>
+          <input type="text" id="accountNo" class="form-control" />
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="confirmAccountNo" style="font-weight: bold">Confirm Account No *</label>
+          <input type="text" id="confirmAccountNo" class="form-control" />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="landlordMobile" style="font-weight: bold">Landlord Mobile No *</label>
+          <input type="tel" id="landlordMobile" class="form-control" />
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="ifscCode" style="font-weight: bold">Landlord IFSC Code *</label>
+          <input type="text" id="ifscCode" class="form-control" />
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="depositAmount" style="font-weight: bold">Deposit Amount *</label>
+          <input type="text" id="depositAmount" class="form-control" />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="utrReferenceNo" style="font-weight: bold">Deposit Amt UTR Reference No *</label>
+          <input type="text" id="utrReferenceNo" class="form-control" />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="depositDate" style="font-weight: bold">Deposit Date *</label>
+          <input type="date" id="depositDate" class="form-control" />
+        </div>
+      </div>
+
+      <div class="col-md-9">
+        <div class="form-group">
+          <label for="remark" style="font-weight: bold">Remark</label>
+          <textarea id="remark" class="form-control"></textarea>
+        </div>
+      </div>
+    </div>
+    <!-- Attach Button at the top-right corner and other buttons -->
+    <div class="d-flex justify-content-between mt-4">
+      <div class="d-flex align-items-center">
+        <input type="file" id="fileUpload" (change)="onFileChange($event)" (click)="uploadFile()" class="form-control" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;" />
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" (click)="onCreate()" style="margin-right: 10px;">Create</button>
+        <button class="btn btn-primary">
+          Update
+        </button>&nbsp;
+        <button class="btn" style="background-color: rgb(246, 43, 43);color: white;"  (click)="closeBranchs()">Close Branch</button>
+      </div>
+    </div>
+  </div>
+  <hr/>
+      <!-- Buttons row for Add and Update Rent Details -->
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-6 text-center">
+          <button class="btn btn-gradient mr-3" style="background: linear-gradient(45deg, #e0eafc, #cfdef3); color: black;">
+            Add Rent Details
+          </button>
+          
+        </div>
+      </div>
+      <table class="table table-bordered table-striped mt-4">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">From Date</th>
+            <th scope="col">To Date</th>
+            <th scope="col">Rent Amount</th>
+            <th scope="col">Update</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>01-01-2023</td>
+            <td>31-01-2023</td>
+            <td>$500</td>
+            <td><button class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></button></td>
+          </tr>
+          <!-- More rows here -->
+        </tbody>
+      </table>
+      </div>
+
+<!-- Rent Details Section -->
+<div *ngIf="showRentDetails" class="card col-md-8 create-rent-card" style="margin: auto;
+padding: 20px;
+position: absolute;
+top: 25%;
+left: 54%;
+transform: translateX(-50%);
+width: auto;">
+  <div class="card-header d-flex justify-content-between align-items-center" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
+    <h5>Rent Details</h5>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <!-- From Date -->
+      <label for="fromDate">From Date</label>
+
+      <div class="col-md-12">
+        <input type="date" id="fromDate" class="form-control">
+      </div>
+    </div>
+     <!-- To Date -->
+      <div class="row">
+        <label for="toDate">To Date</label>
+
+      <div class="col-md-12">
+        <input type="date" id="toDate" class="form-control" >
+      </div>
+      </div>
+      <!-- Total Rent Amount -->
+      <div class="row">
+        <label for="totalRentAmount">Total Rent Amount</label>
+
+      <div class="col-md-12">
+        <input type="number" id="totalRentAmount" class="form-control" >
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex mt-3">
+      <button class="btn btn-secondary mr-2" (click)="cancelRentDetails()">Cancel</button> &nbsp;
+      <button class="btn btn-primary" >Submit</button>
+    </div>
+  </div>
+</div>
+<!-- Rent Details Section -->
+<div *ngIf="closeBranch" class="card col-md-8 create-rent-card" style="margin: auto; padding: 20px; position: absolute; top: 50%; left: 58%; transform: translateX(-50%); width: auto;">
+  <div class="card-header d-flex justify-content-between align-items-center" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
+    <h6>Close Branch</h6>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <!-- From Date -->
+      <label for="fromDate">From Date</label>
+
+      <div class="col-md-12">
+        <input type="date" id="fromDate" class="form-control">
+      </div>
+    </div>
+    
+
+    <!-- Buttons -->
+    <div class="d-flex mt-3">
+      <button class="btn btn-secondary mr-2" (click)="closeBranchfun()">Cancel</button> &nbsp;
+      <button class="btn btn-primary" >Submit</button>
+    </div>
+  </div>
+</div>
+
