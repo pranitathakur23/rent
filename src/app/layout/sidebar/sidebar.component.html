@@ -1,0 +1,15 @@
+<div class="sidebar">
+    <div class="user-info">
+      <i class="fas fa-user-circle user-icon"></i>
+      <p class="user-email">pravin.nocpl.in</p>
+    </div>
+  
+    <hr>
+  
+    <ul class="menu-list">
+      <li *ngFor="let item of menuItems" class="menu-item" (click)="onMenuItemClick(item.route)">
+        <i class="{{ item.icon }}"></i> 
+        <span>{{ item.label }}</span>
+      </li>
+    </ul>
+  </div>

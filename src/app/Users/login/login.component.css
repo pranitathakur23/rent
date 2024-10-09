@@ -1,0 +1,58 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  background: linear-gradient(135deg, #0a0a45, #141E61);
+  padding-top: 50px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 500px; /* Reduce the max width for a smaller card */
+  padding: 20px; /* Reduce padding */
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  height: auto; /* Remove fixed height to make it dynamic */
+}
+
+.card-header {
+  margin-bottom: 20px; /* Adjust spacing */
+}
+
+.card-header h3 {
+  margin: 0;
+  color: #0a0a45;
+}
+
+.form-group {
+  margin-bottom: 15px; /* Reduce spacing between form elements */
+}
+
+.forgot-password {
+  font-size: 0.9em;
+  color: #007bff;
+  text-decoration: underline;
+  margin-left: 73%;
+}
+
+button {
+  background-color: #0a0a45;
+  border: none;
+  padding: 8px 20px; /* Adjust padding for a smaller button */
+}
+
+button:hover {
+  background-color: #3333cc;
+}
+
+.text-center {
+  display: flex;
+  justify-content: center;
+}
+
+#captcha {
+  height: 50px; /* Set a height for the captcha box */
+}
+

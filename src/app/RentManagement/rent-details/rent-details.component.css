@@ -1,0 +1,15 @@
+/* rent-details.component.css */
+
+.card {
+    max-width: 600px; /* Adjust the card width as needed */
+  }
+  
+  .form-control {
+    width: 100%; /* Make input fields take full width */
+  }
+  
+  .mb-3 {
+    margin-bottom: 1rem; /* Maintain consistent spacing */
+  }
+  
+  
