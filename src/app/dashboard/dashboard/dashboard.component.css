@@ -1,0 +1,109 @@
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items at the start */
+    margin-top: 20px; /* Add margin for spacing */
+  }
+  
+  .dashboard-main-card { 
+    width: 100%;
+    max-width: 1200px; /* Limit the width of the main card */
+    border: 1px solid #ccc; /* Lighter border for subtle look */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+  }
+  
+  .dashboard-header {
+    background: linear-gradient(90deg, #001f3f, #007bff); /* Navy to blue gradient */
+    color: white;
+    padding: 15px; /* Add padding for the header */
+    font-size: 18px; /* Increased font size for visibility */
+    font-weight: bold;
+  }
+  .state {
+    stroke: #000;
+    stroke-width: 1px;
+  }
+  
+  svg {
+    width: 100%;
+    height: auto;
+  }
+  
+  
+  .dashboard-card {
+    border: 1px solid #ccc; /* Lighter border for dashboard cards */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.3s; /* Smooth hover effect */
+  }
+  
+  .dashboard-card:hover {
+    transform: translateY(-3px); /* Lift effect on hover */
+  }
+  
+  .dashboard-card-title {
+    font-size: 14px; /* Increased title font size for better visibility */
+    margin-bottom: 5px; /* Space below title */
+    font-weight: bold; /* Bold title */
+  }
+  
+  .dashboard-card-text {
+    font-size: 12px; /* Slightly larger text font size */
+    color: #333; /* Darker text for better readability */
+  }
+  
+  
+  .tab {
+    padding: 10px 15px;
+    background-color: #f1f1f1; /* Normal color */
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 13px;
+  }
+  
+  .tab.active {
+    background: linear-gradient(90deg, #001f3f, #007bff); /* Navy to blue gradient */
+    color: white; /* White text for active tab */
+  }
+  .dashboard-container {
+    padding: 20px;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .tabs button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #ccc;
+    cursor: pointer;
+  }
+  
+  .tabs button.active {
+    background-color: #1f77b4;
+    color: white;
+  }
+  
+  .state-map {
+    width: 100%;
+    height: 500px;
+    background-color: #f4f4f4;
+  }
+  
+  .state-details {
+    margin-top: 20px;
+  }
+  
+  .state-details h3 {
+    font-size: 20px;
+  }
+  
+  .state-details p {
+    font-size: 18px;
+  }
+  

@@ -1,0 +1,80 @@
+<div class="container mt-4">
+    <div class="card">
+      <div class="card-header" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
+        <h3 style="font-size: 18px;">UTR Upload</h3>
+      </div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col">
+            <a href="your-download-link-here" class="text-primary">Download</a>
+          </div>
+        </div>
+        <div class="row mb-3 align-items-center">
+          <div class="col-md-8">
+            <input type="file" id="fileUpload" (change)="onFileChange($event)" class="form-control" />
+            <small id="fileName" class="form-text text-muted">{{ fileName }}</small>
+          </div>
+          <div class="col-md-4">
+            <button (click)="uploadFile()" class="btn btn-gradient">Upload</button>
+          </div>
+        </div>
+        <!-- <div class="table-responsive mt-4">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Txn Date</th>
+                <th>Month</th>
+                <th>Year</th>
+                <th>UTR No</th>
+                <th>Branch</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2024-10-01</td>
+                <td>October</td>
+                <td>2024</td>
+                <td>UTR00123</td>
+                <td>Main Branch</td>
+                <td>1000.00</td>
+              </tr>
+              <tr>
+                <td>2024-10-02</td>
+                <td>October</td>
+                <td>2024</td>
+                <td>UTR00124</td>
+                <td>Secondary Branch</td>
+                <td>1500.00</td>
+              </tr>
+              <tr>
+                <td>2024-10-03</td>
+                <td>October</td>
+                <td>2024</td>
+                <td>UTR00125</td>
+                <td>Tertiary Branch</td>
+                <td>2000.00</td>
+              </tr>
+              <tr>
+                <td>2024-10-04</td>
+                <td>October</td>
+                <td>2024</td>
+                <td>UTR00126</td>
+                <td>Branch Office</td>
+                <td>2500.00</td>
+              </tr>
+              <tr>
+                <td>2024-10-05</td>
+                <td>October</td>
+                <td>2024</td>
+                <td>UTR00127</td>
+                <td>Remote Branch</td>
+                <td>3000.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  

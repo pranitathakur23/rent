@@ -1,0 +1,64 @@
+.sidebar {
+    background-color: white;
+    padding: 20px;
+    width: 250px;
+    height: 132vh;
+    border-right: 1px solid #ccc;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-info {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .user-icon {
+    font-size: 40px;
+    color: gray;
+  }
+  
+  .user-email {
+    font-size: 12px;
+    color: black;
+  }
+  
+  hr {
+    margin: 10px 0;
+  }
+  
+  .menu-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .menu-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .menu-item i {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  
+  .menu-item span {
+    font-size: 16px;
+  }
+  
+  .modal-content {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-body {
+    font-size: 16px;
+  }
+  
