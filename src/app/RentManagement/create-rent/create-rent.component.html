@@ -157,14 +157,14 @@
             <th scope="col">From Date</th>
             <th scope="col">To Date</th>
             <th scope="col">Rent Amount</th>
-            <th scope="col">Update</th>
+            <th scope="col">Update</th> 
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>01-01-2023</td>
-            <td>31-01-2023</td>
-            <td>$500</td>
+          <tr *ngFor="let item of rentData">
+            <td>{{ item.FromDate }}</td>
+            <td>{{ item.ToDate }}</td>
+            <td>{{ item.rentAmnt }}</td>
             <td><button class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></button></td>
           </tr>
           <!-- More rows here -->
