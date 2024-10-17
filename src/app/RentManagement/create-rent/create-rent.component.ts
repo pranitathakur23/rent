@@ -88,6 +88,20 @@ export class CreateRentComponent {
   closeBranchfun(): void {
     this.closeBranch = false;
   }
+  savebranchstatus(): void {
+    const apiUrl = '/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
+    const body = { branch: 1 ,closingDate:'2024-10-18'};
+    this.http.post<any>(apiUrl, body).subscribe(
+      (response: any) => {
+        if (response.status==true) {
+          this.closeBranch = false;
+               } else {
+          console.error('Failed to fetch rent agreement list:', response.message);
+        }
+      }, error => {
+        console.error('Error fetching rent agreement list:', error);
+      });
+  }
   closeBranchs(): void{
     this.closeBranch = true;
 

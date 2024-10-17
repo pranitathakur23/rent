@@ -226,10 +226,10 @@ width: auto;">
   <div class="card-body">
     <div class="row">
       <!-- From Date -->
-      <label for="fromDate">From Date</label>
+      <label for="fromDate">Closing Date</label>
 
       <div class="col-md-12">
-        <input type="date" id="fromDate" class="form-control">
+        <input type="date" id="closingdate" class="form-control">
       </div>
     </div>
     
@@ -237,7 +237,7 @@ width: auto;">
     <!-- Buttons -->
     <div class="d-flex mt-3">
       <button class="btn btn-secondary mr-2" (click)="closeBranchfun()">Cancel</button> &nbsp;
-      <button class="btn btn-primary" >Submit</button>
+      <button class="btn btn-primary" (click)="savebranchstatus()">Submit</button>
     </div>
   </div>
 </div>
