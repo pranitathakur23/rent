@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "https://devrentapi.nocpl.in",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

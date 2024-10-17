@@ -8,19 +8,34 @@
     </div>
 
     <div class="card-body">
+       <!-- Error Message Display -->
+       <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
       <form>
         <!-- Username Input -->
         <div class="form-group">
           <label for="username" style="font-weight: 600;">Username</label>
-          <input type="text" id="username" class="form-control mt-2" placeholder="Enter username">
+          <input type="text" 
+                 #employeeCodeInput 
+                 id="employeeCode" 
+                 [(ngModel)]="employeeCode" 
+                 class="form-control mt-2" 
+                 placeholder="Enter username" 
+                 [ngModelOptions]="{standalone: true}" 
+                 required>
         </div>
 
         <!-- Password Input -->
         <div class="form-group mt-4">
           <label for="password" style="font-weight: 600;">Password</label>
-          <input type="password" id="password" class="form-control mt-2" placeholder="Enter password">
+          <input type="password"  
+                 #passwordInput 
+                 id="password" 
+                 [(ngModel)]="password" 
+                 class="form-control mt-2" 
+                 placeholder="Enter password" 
+                 [ngModelOptions]="{standalone: true}"
+                 required>
         </div>
-
         <!-- Forgot Password Link -->
         <div class="text-right mt-2">
           <a href="#" class="forgot-password">Forgot Password?</a>
@@ -35,17 +50,18 @@
           </div>
         </div>
 
-        <!-- CAPTCHA Input -->
-        <div class="form-group">
-          <input 
-            #captchaCodeInput 
-            id="captchaCode" 
-            type="text" 
-            class="form-control fontSize" 
-            placeholder="Enter Captcha" 
-            autocomplete="off"
-          >
-        </div>
+       
+
+        <input 
+  #captchaCodeInput 
+  id="captchaCode"  
+  type="text" 
+  class="input form-control" 
+  style="margin-top: 21px;" 
+  placeholder="Enter Captcha" 
+  autocomplete="off"
+/>
+       
 
         <!-- Login Button -->
         <div class="text-center mt-4">

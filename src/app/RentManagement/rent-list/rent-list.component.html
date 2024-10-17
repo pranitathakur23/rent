@@ -1,5 +1,4 @@
 <div class="card rent-list-card" *ngIf="!showCreateRentAgreement">
-  <!-- Card Header with Title and + Icon Button -->
   <div class="card-header d-flex justify-content-between align-items-center" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
     <h2 style="font-size: 18px; margin: 0;">Rent List</h2>
     <button class="btn btn-light" (click)="onAdd()" style="border-radius: 50%;">
@@ -7,7 +6,6 @@
     </button>
   </div>
 
-  <!-- Card Body with DataTable -->
   <div class="card-body">
     <div class="table-responsive">
       <table id="rentTable" class="table table-bordered table-striped">
@@ -29,7 +27,7 @@
             <td>{{ item.mobile }}</td>
             <td>{{ item.deposit }}</td>
             <td>
-              <button class="btn btn-danger btn-sm" >
+              <button class="btn btn-danger btn-sm">
                 <i class="fa fa-trash"></i>
               </button>
             </td>
@@ -40,11 +38,9 @@
   </div>
 </div>
 
-<!-- Overlay for lightening the background -->
 <div *ngIf="showCreateRentAgreement" class="overlay"></div>
 
-<!-- Create Rent Agreement Card -->
-<div *ngIf="showCreateRentAgreement" class="card col-md-6 create-rent-card" style="    margin: auto;">
+<div *ngIf="showCreateRentAgreement" class="card col-md-6 create-rent-card" style="margin: auto;">
   <div class="card-header d-flex justify-content-between align-items-center" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
     <h5>Create Rent Agreement</h5>
     <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
@@ -60,7 +56,8 @@
             <option value="HDFC">HDFC</option>
             <option value="ICICI">ICICI</option>
             <option value="Axis Bank">Axis Bank</option>
-            <option value="PNB">PNB</option>          </select>
+            <option value="PNB">PNB</option>
+          </select>
         </div>
       </div>
       <div class="col-md-6">
@@ -72,7 +69,8 @@
             <option value="Delhi">Delhi</option>
             <option value="Karnataka">Karnataka</option>
             <option value="Tamil Nadu">Tamil Nadu</option>
-            <option value="Uttar Pradesh">Uttar Pradesh</option>          </select>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+          </select>
         </div>
       </div>
     </div>
@@ -145,12 +143,12 @@
       <div class="col-md-6">
         <div class="form-group">
           <label for="depositAmount">Deposit Amount *</label>
-          <input type="text" id="depositAmount" class="form-control" />
+          <input type="number" id="depositAmount" class="form-control" />
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
-          <label for="utrReferenceNo">Deposit Amount UTR Reference No *</label>
+          <label for="utrReferenceNo">UTR Reference No *</label>
           <input type="text" id="utrReferenceNo" class="form-control" />
         </div>
       </div>
@@ -165,15 +163,14 @@
       </div>
       <div class="col-md-6">
         <div class="form-group">
-          <label for="remark">Remark</label>
-          <textarea id="remark" class="form-control"></textarea>
+          <label for="remark">Remark *</label>
+          <input type="text" id="remark" class="form-control" />
         </div>
       </div>
     </div>
 
-    <div class="mt-3">
-      <button class="btn btn-primary" (click)="onAttach()"><i class="fas fa-paperclip"></i> Attach</button> &nbsp;
-      <button class="btn btn-success" (click)="onCreate()">Create</button>
-    </div>  </div>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-primary" (click)="onCreate()">Create</button>
+    </div>
+  </div>
 </div>
-
