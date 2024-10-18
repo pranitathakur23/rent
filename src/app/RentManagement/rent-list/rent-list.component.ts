@@ -103,7 +103,7 @@ export class RentListComponent implements OnInit { // Implement OnInit
    deletedata(): void {
     if(window.confirm('Are sure you want to delete this item ?')){
       const apiUrl = '/api/rent/Delete';  // Note the relative path
-      const body = { id: 1 };
+      const body = { id: 2 };
       this.http.post<any>(apiUrl, body).subscribe(
         (response: any) => {
           if (response.status==true) {
