@@ -63,6 +63,7 @@ export class LoginComponent implements OnInit {
     const enteredCaptcha = (document.getElementById('captchaCode') as HTMLInputElement).value; // Update here
     return enteredCaptcha === this.captchaCode;
   }
+  
   onLogin(): void {
     this.errorMessage = ''; // Clear previous error message
 

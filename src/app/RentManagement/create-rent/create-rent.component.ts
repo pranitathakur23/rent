@@ -7,6 +7,7 @@ import { RentService } from '../rent.service';
 import { RentListComponent } from '../rent-list/rent-list.component';
 import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, PLATFORM_ID,OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -19,7 +20,10 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrls: ['./create-rent.component.css']
 })
 
-export class CreateRentComponent implements OnInit {
+
+
+  export class CreateRentComponent implements OnInit {
+
 
   constructor(private sanitizer: DomSanitizer, private http: HttpClient, private router: Router,private rentservice:RentService,  private route: ActivatedRoute) { }  
  
@@ -36,6 +40,7 @@ export class CreateRentComponent implements OnInit {
   file: File | null = null;
   fromDate: string | undefined; 
   toDate: string | undefined;  
+  isButtonVisible = false;
   rentAmnt: string = '';
   errorMessage: string = '';
   fileURL: SafeResourceUrl | null = null;  // Use SafeResourceUrl type
@@ -78,19 +83,20 @@ export class CreateRentComponent implements OnInit {
         console.error('Error fetching rent agreement list:', error);
       });
   }
- 
+
   /** Load initial data for banks and states */
   loadInitialData(): void {
     this.fetchBankData();
     this.fetchStates();
   }
+
  /** Handle dropdown change event to log selected value */
  onDropdownChange(fieldName: string, selectedValue: string): void {
   console.log(`${fieldName} selected:`, selectedValue);
 }
 
 onCreate(): void {
-  const requestData = {
+    const requestData = {
     bank: Number(this.formFields['bank']),
     State: Number(this.formFields['state']),
     area: Number(this.formFields['district']),
@@ -108,21 +114,22 @@ onCreate(): void {
     makerid: 'AB203'
   };
 
-  this.http.post('/api/RentAgreeMent/SaveRentData', requestData)
-    .subscribe(
-      (response: any) => {
-        if (response.status) {
-          console.log('API call successful:', response);
-          this.rentservice.triggerRefresh(); // Trigger refresh here
-          this.router.navigate(['/layout/rent-list']);
-        } else {
-          console.error('API call failed:', response.message);
-        }
-      },
-      error => {
-        console.error('Error making API call:', error);
-      }
-    );
+  // this.http.post('/api/RentAgreeMent/SaveRentData', requestData)
+  //   .subscribe(
+  //     (response: any) => {
+  //       if (response.status) {
+  //         console.log('API call successful:', response);
+  //         this.rentservice.triggerRefresh(); // Trigger refresh here
+  //         this.router.navigate(['/layout/rent-list']);
+  //         this.isButtonVisible = true;
+  //       } else {
+  //         console.error('API call failed:', response.message);
+  //       }
+  //     },
+  //     error => {
+  //       console.error('Error making API call:', error);
+  //     }
+  //   );
 }
 
   /** Fetch bank data from the API */
@@ -177,7 +184,7 @@ onCreate(): void {
   }
 
 /** Fetch branches from the API */
-fetchBranches(areaCode: number): void {
+  fetchBranches(areaCode: number): void {
   this.http.post('/api/RentAgreeMent/GetDropDownData', { Mode: 4, ID: areaCode }) // Use areaCode instead of hardcoded value
     .subscribe((response: any) => {
       if (response.status) {
@@ -188,29 +195,26 @@ fetchBranches(areaCode: number): void {
     }, error => {
       console.error('Error fetching branches:', error);
     });
-}
+  }
  /** Handle area change event to fetch branches */
- onAreaChange(event: Event): void {
+  onAreaChange(event: Event): void {
   const selectElement = event.target as HTMLSelectElement;
   if (selectElement) {
     const areaCode = Number(selectElement.value);
     this.fetchBranches(areaCode); // Fetch branches based on the selected area code
   }
-}
+  }
   /** Navigate to create rent page */
   onAdd(): void {
     this.router.navigate(['/layout/create-rent']);
   }
 
-
- 
   /** Cancel the rent details view */
   cancelRentDetails(): void {
     this.showRentDetails = false;
   }
 
   /** Handle file selection */
-
 
   onFileChange(event: any): void {
     const selectedFile = event.target.files[0];
@@ -225,7 +229,6 @@ fetchBranches(areaCode: number): void {
     console.log('File uploaded:', this.fileName);
   }
 
-
   removeFile(): void {
     this.file = null; 
     this.fileName = ''; 
@@ -235,7 +238,6 @@ fetchBranches(areaCode: number): void {
     }
   }
 
- 
   previewFile(event: Event): void {
     event.preventDefault();
     if (this.file) {
@@ -266,12 +268,14 @@ fetchBranches(areaCode: number): void {
     }
   }
 
-
   onCancel(): void {
     this.showCreateRentAgreement = false;
     this.router.navigate(['/layout/rent-list']);
   }
 
+  onAttach(): void {
+    console.log('Attach button clicked');
+  }
   /** Close the branch dropdown */
   closeBranchfun(): void {
     this.closeBranch = false;
@@ -292,14 +296,8 @@ fetchBranches(areaCode: number): void {
       });
   }
 
-  /** Open the branch dropdown */
   closeBranchs(): void {
     this.closeBranch = true;
-  }
-
-  /** Handle attach button click */
-  onAttach(): void {
-    console.log('Attach button clicked');
   }
 
   onUpdate(rentDetail: any): void {
@@ -309,7 +307,7 @@ fetchBranches(areaCode: number): void {
   onAddRentDetails(): void {
     this.showRentDetails = true;
   }
-  
+
   btnSaveRentPopupData(): void {
     this.errorMessage = ''; 
     const apiUrl = '/api/RentAgreeMent/SaveRentPopupData'; 
@@ -332,5 +330,4 @@ fetchBranches(areaCode: number): void {
       }
     );
   }
-
 }

@@ -56,30 +56,23 @@ export class RentListComponent implements OnInit {
 
   // Fetch rent agreements from API
   getRentAgreementList(): void {
-    this.http
-      .get<{ status: boolean; data: any[]; message: string }>(
-        '/api/RentAgreeMent/GetRentAgreeMentList'
-      )
-      .subscribe(
-        (response) => {
-          if (response.status == true) {
-            this.rentData = response.data.map((item) => ({
-              branch: item.Branch,
-              landlordName: item.landLordName,
-              email: item.landLordEmail,
-              mobile: item.landLordMobileNo,
-              deposit: item.depositeAmnt,
-            }));
-            this.filteredRentData = [...this.rentData]; // Initialize with full data
-          } else {
-            console.error(
-              'Failed to fetch rent agreement list:',
-              response.message
-            );
-          }
-        },
-        (error) => {
-          console.error('Error fetching rent agreement list:', error);
+
+    this.http.get<{ status: boolean; data: any[]; message: string }>('/api/RentAgreeMent/GetRentAgreeMentList')
+      .subscribe(response => {
+        if (response.status== true) {
+          this.filteredRentData = response.data;
+          // .map(item => ({
+            // branch: item.Branch, // Replace with actual branch name if needed
+            // landlordName: item.landLordName,
+            // email: item.landLordEmail,
+            // mobile: item.landLordMobileNo,
+            // deposit: item.depositeAmnt,
+          // }
+        // ));
+          console.log('Rent Data:', this.rentData);
+
+        } else {
+          console.error('Failed to fetch rent agreement list:', response.message);
         }
       );
   }
@@ -137,7 +130,7 @@ export class RentListComponent implements OnInit {
    deletedata(): void {
     if(window.confirm('Are sure you want to delete this item ?')){
       const apiUrl = '/api/rent/Delete';  // Note the relative path
-      const body = { id: 1 };
+      const body = { id: 2 };
       this.http.post<any>(apiUrl, body).subscribe(
         (response: any) => {
           if (response.status==true) {
