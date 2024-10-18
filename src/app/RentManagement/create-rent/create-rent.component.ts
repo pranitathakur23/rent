@@ -36,6 +36,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   file: File | null = null;
   fromDate: string | undefined; 
   toDate: string | undefined;  
+  isButtonVisible = false;
   rentAmnt: string = '';
   errorMessage: string = '';
   fileURL: SafeResourceUrl | null = null;  // Use SafeResourceUrl type
@@ -91,7 +92,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 }
 
 onCreate(): void {
-  const requestData = {
+    const requestData = {
     bank: Number(this.formFields['bank']),
     State: Number(this.formFields['state']),
     area: Number(this.formFields['district']),
@@ -109,21 +110,22 @@ onCreate(): void {
     makerid: 'AB203'
   };
 
-  this.http.post('/api/RentAgreeMent/SaveRentData', requestData)
-    .subscribe(
-      (response: any) => {
-        if (response.status) {
-          console.log('API call successful:', response);
-          this.rentservice.triggerRefresh(); // Trigger refresh here
-          this.router.navigate(['/layout/rent-list']);
-        } else {
-          console.error('API call failed:', response.message);
-        }
-      },
-      error => {
-        console.error('Error making API call:', error);
-      }
-    );
+  // this.http.post('/api/RentAgreeMent/SaveRentData', requestData)
+  //   .subscribe(
+  //     (response: any) => {
+  //       if (response.status) {
+  //         console.log('API call successful:', response);
+  //         this.rentservice.triggerRefresh(); // Trigger refresh here
+  //         this.router.navigate(['/layout/rent-list']);
+  //         this.isButtonVisible = true;
+  //       } else {
+  //         console.error('API call failed:', response.message);
+  //       }
+  //     },
+  //     error => {
+  //       console.error('Error making API call:', error);
+  //     }
+  //   );
 }
 
   /** Fetch bank data from the API */

@@ -137,7 +137,7 @@
 
       <div class="d-flex justify-content-end">
         <button class="btn btn-primary" (click)="onCreate()" style="margin-right: 10px;">Create</button>
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" *ngIf="this.isButtonVisible">
           Update
         </button>&nbsp;
         <button class="btn" style="background-color: rgb(246, 43, 43);color: white;"  (click)="closeBranchs()">Close Branch</button>
@@ -145,7 +145,7 @@
     </div>
 
 <!-- Modal -->
-<div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" aria-labelledby="filePreviewLabel" aria-hidden="true">
+<div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" aria-labelledby="filePreviewLabel" aria-hidden="true" >
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -166,9 +166,9 @@
 
     
   </div>
-  <hr/>
+  <hr *ngIf="this.isButtonVisible"/>
       <!-- Buttons row for Add and Update Rent Details -->
-      <div class="row d-flex justify-content-center">
+      <div class="row d-flex justify-content-center" *ngIf="this.isButtonVisible">
         <div class="col-md-6 text-center">
           <button class="btn btn-gradient mr-3" (click)="onAddRentDetails()" style="background: linear-gradient(45deg, #e0eafc, #cfdef3); color: black;">
             Add Rent Details
@@ -176,7 +176,7 @@
           
         </div>
       </div>
-      <table class="table table-bordered table-striped mt-4">
+      <table class="table table-bordered table-striped mt-4" *ngIf="this.isButtonVisible">
         <thead class="thead-dark">
           <tr>
             <th scope="col">From Date</th>
