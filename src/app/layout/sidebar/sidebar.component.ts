@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { Router } from '@angular/router'; // Import Router
 
@@ -9,7 +9,12 @@ import { Router } from '@angular/router'; // Import Router
   standalone: true,
   imports: [NgFor]
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
+  userName: string = '';
+
+  ngOnInit(): void {
+    this.userName = sessionStorage.getItem('userName') || 'Guest'; // Default to 'Guest' if not found
+  }
   constructor(private router: Router) {} // Inject Router
 
   menuItems = [
