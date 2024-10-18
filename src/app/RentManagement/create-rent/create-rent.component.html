@@ -128,9 +128,17 @@
     </div>
     <!-- Attach Button at the top-right corner and other buttons -->
     <div class="d-flex justify-content-between mt-4">
-      <div class="d-flex align-items-center">
-        <input type="file" id="fileUpload" (change)="onFileChange($event)" (click)="uploadFile()" class="form-control" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;" />
-      </div>
+<!-- File Upload -->
+<div class="d-flex align-items-center">
+  <input type="file" id="fileUpload" (change)="onFileChange($event)" class="form-control" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;" />
+  
+  <div *ngIf="fileName" class="d-flex align-items-center">
+    <a href="#" (click)="previewFile($event)" style="color: rgb(1, 1, 1); text-decoration: underline; margin-left: 10px;">
+      {{ fileName }}
+    </a>
+    <span (click)="removeFile()" class="remove-file-icon" aria-label="Remove file">&#10006;</span>
+  </div>
+</div>
 
       <div class="d-flex justify-content-end">
         <button class="btn btn-primary" (click)="onCreate()" style="margin-right: 10px;">Create</button>
@@ -140,12 +148,34 @@
         <button class="btn" style="background-color: rgb(246, 43, 43);color: white;"  (click)="closeBranchs()">Close Branch</button>
       </div>
     </div>
+
+<!-- Modal -->
+<div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" aria-labelledby="filePreviewLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title mb-0" id="filePreviewLabel">File Preview</h5>
+        <button type="button" (click)="closeModal()" class="close ml-auto" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Bind the sanitized fileURL to the iframe src using [src] -->
+        <iframe *ngIf="fileURL" [src]="fileURL" width="100%" height="600px"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    
   </div>
   <hr/>
       <!-- Buttons row for Add and Update Rent Details -->
       <div class="row d-flex justify-content-center">
         <div class="col-md-6 text-center">
-          <button class="btn btn-gradient mr-3" style="background: linear-gradient(45deg, #e0eafc, #cfdef3); color: black;">
+          <button class="btn btn-gradient mr-3" (click)="onAddRentDetails()" style="background: linear-gradient(45deg, #e0eafc, #cfdef3); color: black;">
             Add Rent Details
           </button>
           
@@ -173,13 +203,7 @@
       </div>
 
 <!-- Rent Details Section -->
-<div *ngIf="showRentDetails" class="card col-md-8 create-rent-card" style="margin: auto;
-padding: 20px;
-position: absolute;
-top: 25%;
-left: 54%;
-transform: translateX(-50%);
-width: auto;">
+<div *ngIf="showRentDetails" class="card col-md-8 create-rent-card" style="margin: auto; padding: 20px; position: absolute; top: 25%; left: 54%; transform: translateX(-50%); width: auto;">
   <div class="card-header d-flex justify-content-between align-items-center" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
     <h5>Rent Details</h5>
   </div>
@@ -188,32 +212,31 @@ width: auto;">
     <div class="row">
       <!-- From Date -->
       <label for="fromDate">From Date</label>
-
       <div class="col-md-12">
-        <input type="date" id="fromDate" class="form-control">
+        <input type="date" id="fromDate" class="form-control" [(ngModel)]="fromDate">
       </div>
     </div>
-     <!-- To Date -->
-      <div class="row">
-        <label for="toDate">To Date</label>
-
+    
+    <!-- To Date -->
+    <div class="row">
+      <label for="toDate">To Date</label>
       <div class="col-md-12">
-        <input type="date" id="toDate" class="form-control" >
+        <input type="date" id="toDate" class="form-control" [(ngModel)]="toDate">
       </div>
-      </div>
-      <!-- Total Rent Amount -->
-      <div class="row">
-        <label for="totalRentAmount">Total Rent Amount</label>
-
+    </div>
+    
+    <!-- Total Rent Amount -->
+    <div class="row">
+      <label for="totalRentAmount">Total Rent Amount</label>
       <div class="col-md-12">
-        <input type="number" id="totalRentAmount" class="form-control" >
+        <input id="totalRentAmount" class="form-control" [(ngModel)]="rentAmnt">
       </div>
     </div>
 
     <!-- Buttons -->
     <div class="d-flex mt-3">
-      <button class="btn btn-secondary mr-2" (click)="cancelRentDetails()">Cancel</button> &nbsp;
-      <button class="btn btn-primary" >Submit</button>
+      <button class="btn btn-secondary mr-2" (click)="cancelRentDetails()">Cancel</button>
+      <button class="btn btn-primary" (click)="btnSaveRentPopupData()">Submit</button>
     </div>
   </div>
 </div>
