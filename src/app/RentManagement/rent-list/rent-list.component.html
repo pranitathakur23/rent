@@ -26,6 +26,11 @@
             <td>{{ item.email }}</td>
             <td>{{ item.mobile }}</td>
             <td>{{ item.deposit }}</td>
+            <td class="d-flex justify-content-around" >
+              <button class="btn btn-warning btn-sm" (click)="onEdit(item)">
+                <i class="fa fa-edit"></i>
+              </button>
+
             <td (click)="deletedata()">
               <button class="btn btn-danger btn-sm">
                 <i class="fa fa-trash"></i>
