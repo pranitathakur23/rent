@@ -1,0 +1,9 @@
+.modal-header {
+    display: flex;
+    align-items: center; /* Vertically center items */
+  }
+  
+  .modal-header .close {
+    margin-left: auto; /* Pushes the close button to the right */
+  }
+  
