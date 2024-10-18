@@ -14,12 +14,15 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrls: ['./create-rent.component.css']
 })
 export class CreateRentComponent {
-  constructor(private sanitizer: DomSanitizer,private http: HttpClient,private router: Router) { }
 
-  showCreateRentAgreement = true; // Flag for the create rent agreement form
+  constructor(private sanitizer: DomSanitizer,private http: HttpClient,private router: Router) { }
+  
+  rentData: any[] = []; // Initialize rentData as an empty array
+  ID :number=0;
+   showCreateRentAgreement = true; // Flag for the create rent agreement form
   showRentDetails = false;
   closeBranch= false;
-  fileName: string = '';
+   fileName: string = '';
   file: File | null = null;
   fromDate: string | undefined; 
   toDate: string | undefined;  
@@ -27,7 +30,7 @@ export class CreateRentComponent {
   errorMessage: string = '';
   fileURL: SafeResourceUrl | null = null;  // Use SafeResourceUrl type
 
-  // Define form fields with default values
+// Define form fields with default values
   formFields: { [key: string]: string } = {
     bank: '',
     state: '',
@@ -44,6 +47,32 @@ export class CreateRentComponent {
     depositDate: '',
     remark: ''
   };
+ 
+  ngOnInit(): void { 
+    this.getRentAgreementPopupdataList(); // Fetch rent agreements on component initialization
+  }
+   
+  getRentAgreementPopupdataList(): void {
+    const apiUrl = '/api/rent/GetRentDetails';  // Note the relative path
+    const body = { id: 1 };
+    this.http.post<any>(apiUrl, body).subscribe(
+      (response: any) => {
+        if (response.status==true) {
+          this.rentData = response.data;
+               } else {
+          console.error('Failed to fetch rent agreement list:', response.message);
+        }
+      }, error => {
+        console.error('Error fetching rent agreement list:', error);
+      });
+  }
+
+
+ 
+
+ 
+
+  
 
   onAdd(): void {
     this.router.navigate(['/layout/create-rent']);
@@ -113,6 +142,20 @@ export class CreateRentComponent {
 
   closeBranchfun(): void {
     this.closeBranch = false;
+  }
+  savebranchstatus(): void {
+    const apiUrl = '/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
+    const body = { branch: 1 ,closingDate:'2024-10-18'};
+    this.http.post<any>(apiUrl, body).subscribe(
+      (response: any) => {
+        if (response.status==true) {
+          this.closeBranch = false;
+               } else {
+          console.error('Failed to fetch rent agreement list:', response.message);
+        }
+      }, error => {
+        console.error('Error fetching rent agreement list:', error);
+      });
   }
   closeBranchs(): void{
     this.closeBranch = true;

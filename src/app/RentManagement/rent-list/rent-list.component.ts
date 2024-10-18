@@ -83,6 +83,23 @@ export class RentListComponent implements OnInit { // Implement OnInit
   onCancel(): void {
     this.showCreateRentAgreement = false;
   }
+   deletedata(): void {
+    if(window.confirm('Are sure you want to delete this item ?')){
+      const apiUrl = '/api/rent/Delete';  // Note the relative path
+      const body = { id: 1 };
+      this.http.post<any>(apiUrl, body).subscribe(
+        (response: any) => {
+          if (response.status==true) {
+            location.reload();
+                 } else {
+            console.error('Failed to fetch rent agreement list:', response.message);
+          }
+        }, error => {
+          console.error('Error fetching rent agreement list:', error);
+        });
+     }
+  }
+
 
   onAttach(): void {
     console.log('Attach button clicked');
