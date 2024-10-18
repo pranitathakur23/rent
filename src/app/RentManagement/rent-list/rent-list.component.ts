@@ -50,13 +50,15 @@ export class RentListComponent implements OnInit { // Implement OnInit
     this.http.get<{ status: boolean; data: any[]; message: string }>('/api/RentAgreeMent/GetRentAgreeMentList')
       .subscribe(response => {
         if (response.status) {
-          this.rentData = response.data.map(item => ({
-            branch: item.Branch, // Replace with actual branch name if needed
-            landlordName: item.landLordName,
-            email: item.landLordEmail,
-            mobile: item.landLordMobileNo,
-            deposit: item.depositeAmnt,
-          }));
+          this.rentData = response.data;
+          // .map(item => ({
+            // branch: item.Branch, // Replace with actual branch name if needed
+            // landlordName: item.landLordName,
+            // email: item.landLordEmail,
+            // mobile: item.landLordMobileNo,
+            // deposit: item.depositeAmnt,
+          // }
+        // ));
           console.log('Rent Data:', this.rentData);
 
         } else {

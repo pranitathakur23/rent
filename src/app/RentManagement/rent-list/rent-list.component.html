@@ -11,25 +11,31 @@
       <table id="rentTable" class="table table-bordered table-striped">
         <thead>
           <tr>
+            <th>SrNo</th>
             <th>Branch</th>
+            <th>State</th>
             <th>Landlord Name</th>
             <th>Landlord Email</th>
             <th>Landlord Mobile</th>
             <th>Deposit Amount</th>
+            <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of rentData">
-            <td>{{ item.branch }}</td>
-            <td>{{ item.landlordName }}</td>
-            <td>{{ item.email }}</td>
-            <td>{{ item.mobile }}</td>
-            <td>{{ item.deposit }}</td>
-            <td class="d-flex justify-content-around" >
+            <td>{{ item.srno}}</td>
+            <td>{{ item.Branch }}</td>
+            <td>{{ item.stateName}}</td>
+            <td>{{ item.landLordName }}</td>
+            <td>{{ item.landLordEmail }}</td>
+            <td>{{ item.landLordMobileNo }}</td>
+            <td>{{ item.depositeAmnt }}</td>
+            <td>{{ item.rentstatus }}</td>
+            <!-- <td class="d-flex justify-content-around" >
               <button class="btn btn-warning btn-sm" (click)="onEdit(item)">
                 <i class="fa fa-edit"></i>
-              </button>
+              </button> -->
 
             <td (click)="deletedata()">
               <button class="btn btn-danger btn-sm">
