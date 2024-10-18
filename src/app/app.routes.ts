@@ -12,7 +12,10 @@ import { BranchStatementComponent } from './BranchStatement/branch-statement/bra
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
-
+  {
+    path: 'layout/create-rent/:id', // Accepts an ID
+    component: CreateRentComponent 
+  },
   // Layout route with child dashboard
   {
     path: 'layout',
@@ -26,14 +29,11 @@ export const routes: Routes = [
       { path: 'monthly-rent-report', component: MonthlyRentReportComponent },
       { path: 'branch-actions', component: BranchActionsComponent },
       { path: 'branch-statement', component: BranchStatementComponent }
-
-
     ]
   },
-
   // Redirect default route to login
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-
   // Redirect unknown routes to login
   { path: '**', redirectTo: '/login' }
 ];
+

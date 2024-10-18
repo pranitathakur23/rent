@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
 import { Observable } from 'rxjs';
-
+import { RentService } from '../rent.service';
 @Component({
   selector: 'app-rent-list',
   standalone: true,
@@ -33,11 +33,18 @@ export class RentListComponent implements OnInit { // Implement OnInit
     remark: ''
   };
 
-  constructor(private router: Router, private http: HttpClient) { } // Inject HttpClient
+  constructor(private router: Router, private http: HttpClient, private rentservice:RentService) { } // Inject HttpClient
 
   ngOnInit(): void {
     this.getRentAgreementList(); // Fetch rent agreements on component initialization
-  }
+
+      // Listen for refresh trigger from the service
+      this.rentservice.refreshList$.subscribe(() => {
+        this.getRentAgreementList();  // Refresh rent agreements
+      });
+      
+    }
+  
 
   getRentAgreementList(): void {
     this.http.get<{ status: boolean; data: any[]; message: string }>('/api/RentAgreeMent/GetRentAgreeMentList')
@@ -50,6 +57,8 @@ export class RentListComponent implements OnInit { // Implement OnInit
             mobile: item.landLordMobileNo,
             deposit: item.depositeAmnt,
           }));
+          console.log('Rent Data:', this.rentData);
+
         } else {
           console.error('Failed to fetch rent agreement list:', response.message);
         }
@@ -83,7 +92,12 @@ export class RentListComponent implements OnInit { // Implement OnInit
   onCancel(): void {
     this.showCreateRentAgreement = false;
   }
-
+  onEdit(rentItem: any) {
+    const randomId = Math.floor(Math.random() * 15) + 1; // Generates a number from 1 to 15
+    const id = randomId.toString(); 
+        this.router.navigate(['layout/create-rent', id]); // Adjust the route path as needed
+   
+}
   onAttach(): void {
     console.log('Attach button clicked');
   }
