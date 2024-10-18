@@ -1,10 +1,12 @@
 declare var bootstrap: any;
+import { OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RentService } from '../rent.service';
 import { RentListComponent } from '../rent-list/rent-list.component';
 import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { Component, Inject, PLATFORM_ID,OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -19,7 +21,9 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 
 
+
   export class CreateRentComponent implements OnInit {
+
 
   constructor(private sanitizer: DomSanitizer, private http: HttpClient, private router: Router,private rentservice:RentService,  private route: ActivatedRoute) { }  
  
@@ -178,6 +182,7 @@ onCreate(): void {
         console.error('Error fetching areas:', error);
       });
   }
+
 /** Fetch branches from the API */
   fetchBranches(areaCode: number): void {
   this.http.post('/api/RentAgreeMent/GetDropDownData', { Mode: 4, ID: areaCode }) // Use areaCode instead of hardcoded value
@@ -210,6 +215,7 @@ onCreate(): void {
   }
 
   /** Handle file selection */
+
   onFileChange(event: any): void {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
