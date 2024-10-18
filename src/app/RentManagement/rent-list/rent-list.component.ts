@@ -74,7 +74,7 @@ export class RentListComponent implements OnInit {
         } else {
           console.error('Failed to fetch rent agreement list:', response.message);
         }
-      );
+  });
   }
 
   // Filter rent data based on search term
