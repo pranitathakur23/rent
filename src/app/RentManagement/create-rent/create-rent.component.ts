@@ -1,12 +1,10 @@
 declare var bootstrap: any;
-import { OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RentService } from '../rent.service';
 import { RentListComponent } from '../rent-list/rent-list.component';
 import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { Component, Inject, PLATFORM_ID,OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -41,6 +39,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   fromDate: string | undefined; 
   toDate: string | undefined;  
   isButtonVisible = false;
+  isButtonVisiblecreate = true;
   rentAmnt: string = '';
   errorMessage: string = '';
   fileURL: SafeResourceUrl | null = null;  // Use SafeResourceUrl type
@@ -114,22 +113,23 @@ onCreate(): void {
     makerid: 'AB203'
   };
 
-  // this.http.post('/api/RentAgreeMent/SaveRentData', requestData)
-  //   .subscribe(
-  //     (response: any) => {
-  //       if (response.status) {
-  //         console.log('API call successful:', response);
-  //         this.rentservice.triggerRefresh(); // Trigger refresh here
-  //         this.router.navigate(['/layout/rent-list']);
-  //         this.isButtonVisible = true;
-  //       } else {
-  //         console.error('API call failed:', response.message);
-  //       }
-  //     },
-  //     error => {
-  //       console.error('Error making API call:', error);
-  //     }
-  //   );
+  this.http.post('/api/RentAgreeMent/SaveRentData', requestData)
+    .subscribe(
+      (response: any) => {
+        if (response.status==true) {
+          // console.log('API call successful:', response);
+          // this.rentservice.triggerRefresh(); // Trigger refresh here
+          // this.router.navigate(['/layout/rent-list']);
+          this.isButtonVisible = true;
+          this.isButtonVisiblecreate = false;
+        } else {
+          console.error('API call failed:', response.message);
+        }
+      },
+      error => {
+        console.error('Error making API call:', error);
+      }
+    );
 }
 
   /** Fetch bank data from the API */
@@ -283,7 +283,7 @@ onCreate(): void {
 
   savebranchstatus(): void {
     const apiUrl = '/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
-    const body = { branch: 1 ,closingDate:'2024-10-18'};
+    const body = { branch: 1 ,closingDate:'2024-10-20'};
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
         if (response.status==true) {
