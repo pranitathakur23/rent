@@ -103,6 +103,7 @@ export class LoginComponent implements OnInit {
         if (response.status === true) {
           const userName = response.data[0].userName;
           sessionStorage.setItem('userName', userName); // Store userName in sessionStorage
+
           this.router.navigate(['/layout/dashboard']);
         } else {
           this.errorMessage = response.message; // Set error message for incorrect username/password
