@@ -13,7 +13,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="bank" style="font-weight: bold">Bank *</label>
-          <select id="bank" class="form-control" [(ngModel)]="formFields['bank']" (change)="onDropdownChange('bank', formFields['bank'])">
+          <select id="bank" class="form-control" [(ngModel)]="formFields['bank']" (change)="onDropdownChange('bank', formFields['bank']) " required>
             <option value="">Select Bank</option>
             <option *ngFor="let bank of banks" [value]="bank.BankCode">{{ bank.BankName }}</option>
         </select>
@@ -22,7 +22,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="state" style="font-weight: bold">State *</label>
-          <select id="state" class="form-control" [(ngModel)]="formFields['state']" (change)="onStateChange($event)">
+          <select id="state" class="form-control" [(ngModel)]="formFields['state']" (change)="onStateChange($event)" required>
             <option value="">Select State</option>
             <option *ngFor="let state of states" [value]="state.stateCode">{{ state.stateName }}</option>
           </select>
@@ -31,7 +31,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="district" style="font-weight: bold">District *</label>
-          <select id="area" class="form-control" [(ngModel)]="formFields['district']" (change)="onAreaChange($event)">
+          <select id="area" class="form-control" [(ngModel)]="formFields['district']" (change)="onAreaChange($event)" required>
             <option value="">Select Area</option>
             <option *ngFor="let area of areas" [value]="area.areaCode">{{ area.areaName }}</option>
           </select>
@@ -40,7 +40,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="branch" style="font-weight: bold">Branch *</label>
-          <select id="branch" class="form-control" [(ngModel)]="formFields['branch']">
+          <select id="branch" class="form-control" [(ngModel)]="formFields['branch']" required>
             <option value="">Select Branch</option>
             <option *ngFor="let branch of branches" [value]="branch.branchCode">{{ branch.branchName }}</option>
           </select>
@@ -53,26 +53,26 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="landlordName" style="font-weight: bold">Landlord Name *</label>
-          <input type="text" id="landlordName" class="form-control" [(ngModel)]="formFields['landlordName']" />
+          <input type="text" id="landlordName" class="form-control" [(ngModel)]="formFields['landlordName']" required />
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="landlordEmail" style="font-weight: bold">Landlord Email *</label>
-          <input type="email" id="landlordEmail" class="form-control" [(ngModel)]="formFields['landlordEmail']" />
+          <input type="email" id="landlordEmail" class="form-control" [(ngModel)]="formFields['landlordEmail']" required />
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="accountNo" style="font-weight: bold">Landlord Account No *</label>
-          <input type="text" id="accountNo" class="form-control" [(ngModel)]="formFields['accountNo']" />
+          <input type="text" id="accountNo" class="form-control" [(ngModel)]="formFields['accountNo']" required />
         </div>
       </div>
 
       <div class="col-md-3">
         <div class="form-group">
           <label for="confirmAccountNo" style="font-weight: bold">Confirm Account No *</label>
-          <input type="text" id="confirmAccountNo" class="form-control" [(ngModel)]="formFields['confirmAccountNo']" />
+          <input type="text" id="confirmAccountNo" class="form-control" [(ngModel)]="formFields['confirmAccountNo']" required />
         </div>
       </div>
     </div>
@@ -82,27 +82,27 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="landlordMobile" style="font-weight: bold">Landlord Mobile No *</label>
-          <input type="tel" id="landlordMobile" class="form-control" [(ngModel)]="formFields['landlordMobile']" />
+          <input type="tel" id="landlordMobile" class="form-control" [(ngModel)]="formFields['landlordMobile']" required/>
         </div>
       </div>
 
       <div class="col-md-3">
         <div class="form-group">
           <label for="ifscCode" style="font-weight: bold">Landlord IFSC Code *</label>
-          <input type="text" id="ifscCode" class="form-control" [(ngModel)]="formFields['ifscCode']" />
+          <input type="text" id="ifscCode" class="form-control" [(ngModel)]="formFields['ifscCode']" required />
         </div>
       </div>
 
       <div class="col-md-3">
         <div class="form-group">
           <label for="depositAmount" style="font-weight: bold">Deposit Amount *</label>
-          <input type="text" id="depositAmount" class="form-control" [(ngModel)]="formFields['depositAmount']" />
+          <input type="text" id="depositAmount" class="form-control" [(ngModel)]="formFields['depositAmount']" required/>
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="utrReferenceNo" style="font-weight: bold">Deposit Amt UTR Reference No *</label>
-          <input type="text" id="utrReferenceNo" class="form-control" [(ngModel)]="formFields['utrReferenceNo']" />
+          <input type="text" id="utrReferenceNo" class="form-control" [(ngModel)]="formFields['utrReferenceNo']" required />
         </div>
       </div>
     </div>
@@ -110,14 +110,14 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="depositDate" style="font-weight: bold">Deposit Date *</label>
-          <input type="date" id="depositDate" class="form-control" [(ngModel)]="formFields['depositDate']" />
+          <input type="date" id="depositDate" class="form-control" [(ngModel)]="formFields['depositDate']" required />
         </div>
       </div>
 
       <div class="col-md-9">
         <div class="form-group">
           <label for="remark" style="font-weight: bold">Remark</label>
-          <textarea id="remark" class="form-control" [(ngModel)]="formFields['remark']"></textarea>
+          <textarea id="remark" class="form-control" [(ngModel)]="formFields['remark']" required></textarea>
         </div>
       </div>
     </div>
@@ -126,7 +126,7 @@
 <!-- File Upload -->
 <div class="d-flex align-items-center">
   <!-- Allow multiple file selection by adding 'multiple' attribute -->
-  <input type="file" id="fileUpload" (change)="onFileChange($event)" class="form-control" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;" multiple />
+  <input type="file" id="fileUpload" (change)="onFileChange($event)" class="form-control" [(ngModel)]="formFields['filepath']" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;" multiple />
 
   <div *ngIf="fileNames.length > 0" class="d-flex flex-column align-items-start mt-2">
     <!-- Loop through fileNames and display each one with a preview link and remove button -->
@@ -136,7 +136,6 @@
       </a>
       <span (click)="removeFile(i)" class="remove-file-icon" aria-label="Remove file" style="cursor: pointer;">&#10006;</span>
     </div>
-  </div>
 </div>
 
       <div class="d-flex justify-content-end">
@@ -251,7 +250,7 @@
       <label for="fromDate">Closing Date</label>
 
       <div class="col-md-12">
-        <input type="date" id="closingdate" class="form-control" ng-model="ClosingDate">
+        <input type="date" id="closingDate" class="form-control" ng-model="ClosingDate">
       </div>
     </div>
     
