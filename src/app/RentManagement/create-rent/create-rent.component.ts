@@ -46,7 +46,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   rentAmnt: string = '';
   errorMessage: string = '';
   fileURL: SafeResourceUrl | null = null;  // Use SafeResourceUrl type
+
+  files: File[] = [];  // To hold the selected files
+  fileNames: string[] = [];
+
   employeecode: string |undefined ;
+
 
 // Define form fields with default values
   formFields: { [key: string]: string } = {
@@ -102,75 +107,126 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 }
 
 onCreate(): void {
+
+  const formData = new FormData();
+  formData.append('MobileNo', this.formFields['landlordMobile']);
+  for (let i = 0; i < this.files.length; i++) {
+    formData.append('files', this.files[i]); 
+  }
+  this.http.post('/api/rent/SaveRentAgreementFiles', formData)
+      .subscribe(
+          (response: any) => {
+              if (response.status == true) {
+                this.SaveRentDetails();
+              } else {
+                  console.error('API call failed:', response.message);
+              }
+          },
+          error => {
+              console.error('Error making API call:', error);
+          }
+      );
+}
+
+
+SaveRentDetails(): void {
+//   const requestData = {
+//   bank: Number(this.formFields['bank']),
+//   State: Number(this.formFields['state']),
+//   area: Number(this.formFields['district']),
+//   Branch: Number(this.formFields['branch']),
+//   landLordName: this.formFields['landlordName'],
+//   landLordEmail: this.formFields['landlordEmail'],
+//   landLordMobileNo: this.formFields['landlordMobile'],
+//   landLordAccNo: this.formFields['accountNo'],
+//   depositeAmnt: this.formFields['depositAmount'],
+//   depositeAmntRefernceid: this.formFields['utrReferenceNo'],
+//   depositeDate: this.formFields['depositDate'],
+//   remark: this.formFields['remark'],
+//   LandLordIFSC: this.formFields['ifscCode'],
+//   filepath: 's3bucket',
+//   makerid: 'AB203'
+// };
+
+// this.http.post('/api/RentAgreeMent/SaveRentData', requestData)
+//   .subscribe(
+//     (response: any) => {
+//       if (response.status==true) {
+//         // console.log('API call successful:', response);
+//         // this.rentservice.triggerRefresh(); // Trigger refresh here
+//         // this.router.navigate(['/layout/rent-list']);
+//         this.isButtonVisible = true;
+//         this.isButtonVisiblecreate = false;
+
   if (!this.formFields['bank']) {
     alert('Please select a Bank');
-    this.focusField('bankField');
+    this.focusField('bank'); 
     return;
   }
   if (!this.formFields['state']) {
     alert('Please select a State');
-    this.focusField('stateField');
+    this.focusField('state');
     return;
   }
   if (!this.formFields['district']) {
     alert('Please select a District');
-    this.focusField('districtField');
+    this.focusField('area');
     return;
   }
   if (!this.formFields['branch']) {
     alert('Please select a Branch');
-    this.focusField('branchField');
+    this.focusField('branch');
     return;
   }
   if (!this.formFields['landlordName']) {
     alert('Please enter Landlord Name');
-    this.focusField('landlordNameField');
+    this.focusField('landlordName');
     return;
   }
   if (!this.formFields['landlordEmail']) {
     alert('Please enter Landlord Email');
-    this.focusField('landlordEmailField');
+    this.focusField('landlordEmail');
     return;
   }
   
   if (!this.formFields['accountNo']) {
     alert('Please enter Landlord Account No');
-    this.focusField('accountNoField');
+    this.focusField('accountNo');
     return;
   }
   if (!this.formFields['confirmAccountNo']) {
     alert('Please enter Confirm Account No');
-    this.focusField('confirmAccountNoField');
+    this.focusField('confirmAccountNo');
     return;
   }
   if (this.formFields['accountNo'] !== this.formFields['confirmAccountNo']) {
     alert('Landlord Account No and Confirm Account No do not match');
-    this.focusField('accountNoField');
+    this.focusField('accountNo');
     return;
   }
   if (!this.formFields['landlordMobile']) {
     alert('Please enter Landlord Mobile No');
-    this.focusField('landlordMobileField');
+    this.focusField('landlordMobile');
     return;
   }
   if (!this.formFields['ifscCode']) {
     alert('Please enter IFSC Code');
-    this.focusField('ifscCodeField');
+    this.focusField('ifscCode');
     return;
   }
   if (!this.formFields['depositAmount']) {
     alert('Please enter Deposit Amount');
-    this.focusField('depositAmountField');
+    this.focusField('depositAmount');
     return;
   }
   if (!this.formFields['utrReferenceNo']) {
     alert('Please enter Deposit Amt UTR Reference No');
-    this.focusField('utrReferenceNoField');
+    this.focusField('utrReferenceNo');
     return;
   }
   if (!this.formFields['depositDate']) {
     alert('Please select Deposit Date');
-    this.focusField('depositDateField');
+    this.focusField('depositDate');
     return;
   }
   if (!this.formFields['filepath']) {
@@ -210,6 +266,7 @@ onCreate(): void {
         this.isButtonVisible = true;
         this.isButtonVisiblecreate = false;
 
+
       } else {
         console.error('API call failed:', response.message);
       }
@@ -218,6 +275,7 @@ onCreate(): void {
       console.error('Error making API call:', error);
     }
   );
+
 }
 
 // Function to focus on a specific field after alert is dismissed
@@ -228,6 +286,7 @@ focusField(fieldId: string): void {
       field.focus();
     }
   }, 0); // Ensure it runs after the alert is dismissed
+
 }
 
 
@@ -316,36 +375,50 @@ focusField(fieldId: string): void {
   /** Handle file selection */
 
   onFileChange(event: any): void {
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
-      this.file = selectedFile;
-      this.fileName = selectedFile.name;
+    // Clear previous selections
+    this.fileNames = [];
+    this.files = [];
+  
+    const selectedFiles = event.target.files;
+    if (selectedFiles && selectedFiles.length > 0) {
+      // Store file names and file objects for further processing
+      for (let i = 0; i < selectedFiles.length; i++) {
+        this.fileNames.push(selectedFiles[i].name);
+        this.files.push(selectedFiles[i]);
+      }
     }
   }
-
   /** Upload file and log the filename */
   uploadFile(): void {
     console.log('File uploaded:', this.fileName);
   }
 
-  removeFile(): void {
-    this.file = null; 
-    this.fileName = ''; 
-    const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
-    if (fileInput !== null && fileInput.value !== '') {
-      fileInput.value = ''; 
+  removeFile(index: number): void {
+    // Remove the file and the name from the arrays
+    this.fileNames.splice(index, 1);
+    this.files.splice(index, 1);
+  
+    // Check if there are no more files remaining
+    if (this.fileNames.length == 0) {
+      // Reset the file input only when no files are left
+      const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
+      if (fileInput !== null && fileInput.value !== '') {
+        fileInput.value = ''; 
+      }
     }
   }
+  
 
-  previewFile(event: Event): void {
+  previewFile(index: number, event: Event): void {
     event.preventDefault();
-    if (this.file) {
+    
+    const file = this.files[index];
+    if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        // Use sanitizer to create a safe resource URL
         const unsafeUrl = reader.result as string;
         this.fileURL = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeUrl);
-        
+  
         // Show modal
         const modalElement = document.getElementById('filePreviewModal');
         if (modalElement) {
@@ -353,7 +426,7 @@ focusField(fieldId: string): void {
           modal.show();
         }
       };
-      reader.readAsDataURL(this.file);  // Read the file as a data URL (Base64)
+      reader.readAsDataURL(file);  // Read the selected file
     }
   }
   
@@ -381,13 +454,11 @@ focusField(fieldId: string): void {
   }
 
   savebranchstatus(): void {
-   
     if (!this.formFields['closingDate']) {
       alert('Please select a closing date.');
-      this.focusField('depositDateField');
+      this.focusField('closingDate');
       return;
     }
-  
     const apiUrl = '/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
     const body = { branch: 1 ,closingDate:'2024-10-20'};
     this.http.post<any>(apiUrl, body).subscribe(
