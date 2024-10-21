@@ -124,8 +124,9 @@
     <!-- Attach Button at the top-right corner and other buttons -->
     <div class="d-flex justify-content-between mt-4">
 <!-- File Upload -->
-<div class="d-flex align-items-center">
-  <!-- Allow multiple file selection by adding 'multiple' attribute -->
+<div class=" row d-flex align-items-center">
+  <div class="col-md-6">
+    <!-- Allow multiple file selection by adding 'multiple' attribute -->
   <input type="file" id="fileUpload" (change)="onFileChange($event)" class="form-control" [(ngModel)]="formFields['filepath']" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;" multiple />
 
   <div *ngIf="fileNames.length > 0" class="d-flex flex-column align-items-start mt-2">
@@ -137,15 +138,26 @@
       <span (click)="removeFile(i)" class="remove-file-icon" aria-label="Remove file" style="cursor: pointer;">&#10006;</span>
     </div>
 </div>
+  </div>
 
-      <div class="d-flex justify-content-end">
-        <button class="btn btn-primary" (click)="onCreate()" style="margin-right: 10px;" *ngIf="this.isButtonVisiblecreate">Create</button>
-        <button class="btn btn-primary" *ngIf="this.isButtonVisible">
-          Update
-        </button>&nbsp;
-        <button class="btn" style="background-color: rgb(246, 43, 43);color: white;"  (click)="closeBranchs()" *ngIf="this.isButtonVisiblecreate">Close Branch</button>
-      </div>
-    </div>
+<div class=" col-md-6" style="    margin-left: 175%; margin-top: -7%;">
+  <button class="btn btn-primary" (click)="onCreate()" *ngIf="isButtonVisiblecreate">
+    Create
+  </button>
+  &nbsp;
+  <button class="btn btn-primary" *ngIf="isButtonVisible">
+    Update
+  </button>
+  
+  <button 
+    class="btn " 
+    style="background-color: rgb(246, 43, 43); color: white;" 
+    (click)="closeBranchs()" 
+    *ngIf="isButtonVisiblecreate"
+  >
+    Close Branch
+  </button>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" aria-labelledby="filePreviewLabel" aria-hidden="true" >
