@@ -51,6 +51,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   fileNames: string[] = [];
 
   employeecode: string |undefined ;
+  rentid:number=0;
 
 
 // Define form fields with default values
@@ -82,7 +83,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
    
   getRentAgreementPopupdataList(): void {
     const apiUrl = '/api/rent/GetRentDetails';  // Note the relative path
-    const body = { id: 1 };
+    const body = { id: this.rentid };
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
         if (response.status==true) {
@@ -265,9 +266,9 @@ SaveRentDetails(): void {
       if (response.status) {
         this.isButtonVisible = true;
         this.isButtonVisiblecreate = false;
-
-
-      } else {
+        this.rentid=response.data[0].id;
+        this.showRentDetails = true;
+            } else {
         console.error('API call failed:', response.message);
       }
     },
