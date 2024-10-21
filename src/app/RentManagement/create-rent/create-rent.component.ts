@@ -107,57 +107,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 }
 
 onCreate(): void {
-
-  const formData = new FormData();
-  formData.append('MobileNo', this.formFields['landlordMobile']);
-  for (let i = 0; i < this.files.length; i++) {
-    formData.append('files', this.files[i]); 
-  }
-  this.http.post('/api/rent/SaveRentAgreementFiles', formData)
-      .subscribe(
-          (response: any) => {
-              if (response.status == true) {
-                this.SaveRentDetails();
-              } else {
-                  console.error('API call failed:', response.message);
-              }
-          },
-          error => {
-              console.error('Error making API call:', error);
-          }
-      );
-}
-
-
-SaveRentDetails(): void {
-//   const requestData = {
-//   bank: Number(this.formFields['bank']),
-//   State: Number(this.formFields['state']),
-//   area: Number(this.formFields['district']),
-//   Branch: Number(this.formFields['branch']),
-//   landLordName: this.formFields['landlordName'],
-//   landLordEmail: this.formFields['landlordEmail'],
-//   landLordMobileNo: this.formFields['landlordMobile'],
-//   landLordAccNo: this.formFields['accountNo'],
-//   depositeAmnt: this.formFields['depositAmount'],
-//   depositeAmntRefernceid: this.formFields['utrReferenceNo'],
-//   depositeDate: this.formFields['depositDate'],
-//   remark: this.formFields['remark'],
-//   LandLordIFSC: this.formFields['ifscCode'],
-//   filepath: 's3bucket',
-//   makerid: 'AB203'
-// };
-
-// this.http.post('/api/RentAgreeMent/SaveRentData', requestData)
-//   .subscribe(
-//     (response: any) => {
-//       if (response.status==true) {
-//         // console.log('API call successful:', response);
-//         // this.rentservice.triggerRefresh(); // Trigger refresh here
-//         // this.router.navigate(['/layout/rent-list']);
-//         this.isButtonVisible = true;
-//         this.isButtonVisiblecreate = false;
-
   if (!this.formFields['bank']) {
     alert('Please select a Bank');
     this.focusField('bank'); 
@@ -234,6 +183,57 @@ SaveRentDetails(): void {
     this.focusField('fileUpload');
     return;
   }
+  const formData = new FormData();
+  formData.append('MobileNo', this.formFields['landlordMobile']);
+  for (let i = 0; i < this.files.length; i++) {
+    formData.append('files', this.files[i]); 
+  }
+  this.http.post('/api/rent/SaveRentAgreementFiles', formData)
+      .subscribe(
+          (response: any) => {
+              if (response.status == true) {
+                this.SaveRentDetails();
+              } else {
+                  console.error('API call failed:', response.message);
+              }
+          },
+          error => {
+              console.error('Error making API call:', error);
+          }
+      );
+}
+
+
+SaveRentDetails(): void {
+//   const requestData = {
+//   bank: Number(this.formFields['bank']),
+//   State: Number(this.formFields['state']),
+//   area: Number(this.formFields['district']),
+//   Branch: Number(this.formFields['branch']),
+//   landLordName: this.formFields['landlordName'],
+//   landLordEmail: this.formFields['landlordEmail'],
+//   landLordMobileNo: this.formFields['landlordMobile'],
+//   landLordAccNo: this.formFields['accountNo'],
+//   depositeAmnt: this.formFields['depositAmount'],
+//   depositeAmntRefernceid: this.formFields['utrReferenceNo'],
+//   depositeDate: this.formFields['depositDate'],
+//   remark: this.formFields['remark'],
+//   LandLordIFSC: this.formFields['ifscCode'],
+//   filepath: 's3bucket',
+//   makerid: 'AB203'
+// };
+
+// this.http.post('/api/RentAgreeMent/SaveRentData', requestData)
+//   .subscribe(
+//     (response: any) => {
+//       if (response.status==true) {
+//         // console.log('API call successful:', response);
+//         // this.rentservice.triggerRefresh(); // Trigger refresh here
+//         // this.router.navigate(['/layout/rent-list']);
+//         this.isButtonVisible = true;
+//         this.isButtonVisiblecreate = false;
+
+
 
   // Prepare request data
   const requestData = {
