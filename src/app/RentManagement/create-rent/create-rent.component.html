@@ -125,13 +125,17 @@
     <div class="d-flex justify-content-between mt-4">
 <!-- File Upload -->
 <div class="d-flex align-items-center">
-  <input type="file" id="fileUpload" (change)="onFileChange($event)" class="form-control" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;" />
-  
-  <div *ngIf="fileName" class="d-flex align-items-center">
-    <a href="#" (click)="previewFile($event)" style="color: rgb(1, 1, 1); text-decoration: underline; margin-left: 10px;">
-      {{ fileName }}
-    </a>
-    <span (click)="removeFile()" class="remove-file-icon" aria-label="Remove file">&#10006;</span>
+  <!-- Allow multiple file selection by adding 'multiple' attribute -->
+  <input type="file" id="fileUpload" (change)="onFileChange($event)" class="form-control" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;" multiple />
+
+  <div *ngIf="fileNames.length > 0" class="d-flex flex-column align-items-start mt-2">
+    <!-- Loop through fileNames and display each one with a preview link and remove button -->
+    <div *ngFor="let fileName of fileNames; let i = index" class="d-flex align-items-center">
+      <a href="#" (click)="previewFile(i, $event)" style="color: rgb(1, 1, 1); text-decoration: underline; margin-right: 10px;">
+        {{ fileName }}
+      </a>
+      <span (click)="removeFile(i)" class="remove-file-icon" aria-label="Remove file" style="cursor: pointer;">&#10006;</span>
+    </div>
   </div>
 </div>
 
