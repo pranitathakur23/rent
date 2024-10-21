@@ -497,19 +497,21 @@ focusField(fieldId: string): void {
       this.focusField('toDate');
       return;
     }
-    if (!this.formFields['totalRentAmount']) {
+    if (!this.formFields['rentAmnt']) {
       alert('Please select a totalRentAmount');
-      this.focusField('totalRentAmount');
+      this.focusField('rentAmnt');
       return;
     }
     this.errorMessage = ''; 
+    
     const apiUrl = '/api/RentAgreeMent/SaveRentPopupData'; 
-    const body = { rentID: 3, fromDate: this.fromDate, toDate: this.toDate, rentAmnt: this.rentAmnt };
+    const body = { rentID: this.rentid, fromDate: this.formFields['fromDate'], toDate: this.formFields['toDate'], rentAmnt:this.formFields['rentAmnt']};
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
         console.log('Response:', response); 
         if (response.status === true) {
-          this.router.navigate(['/layout/dashboard']);
+          this.showRentDetails = false;
+          this.getRentAgreementPopupdataList()
         } else {
           this.errorMessage = response.message; 
         }

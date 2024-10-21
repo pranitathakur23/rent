@@ -223,7 +223,7 @@
       <!-- From Date -->
       <label for="fromDate">From Date</label>
       <div class="col-md-12">
-        <input type="date" id="fromDate" class="form-control" [(ngModel)]="fromDate">
+               <input type="date" id="fromDate" class="form-control" [(ngModel)]="formFields['fromDate']" required />
       </div>
     </div>
     
@@ -231,7 +231,7 @@
     <div class="row">
       <label for="toDate">To Date</label>
       <div class="col-md-12">
-        <input type="date" id="toDate" class="form-control" [(ngModel)]="toDate">
+        <input type="date" id="toDate" class="form-control" [(ngModel)]="formFields['toDate']" required />
       </div>
     </div>
     
@@ -239,7 +239,7 @@
     <div class="row">
       <label for="totalRentAmount">Total Rent Amount</label>
       <div class="col-md-12">
-        <input id="totalRentAmount" class="form-control" [(ngModel)]="rentAmnt">
+          <input type="text" id="rentAmnt" class="form-control" [(ngModel)]="formFields['rentAmnt']" required />
       </div>
     </div>
 
@@ -259,7 +259,7 @@
   <div class="card-body">
     <div class="row">
       <!-- From Date -->
-      <label for="fromDate">Closing Date</label>
+      <label for="closingDate">Closing Date</label>
 
       <div class="col-md-12">
         <input type="date" id="closingDate" class="form-control" ng-model="ClosingDate">
