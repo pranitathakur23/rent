@@ -104,73 +104,73 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 onCreate(): void {
   if (!this.formFields['bank']) {
     alert('Please select a Bank');
-    this.focusField('bankField');
+    this.focusField('bank'); 
     return;
   }
   if (!this.formFields['state']) {
     alert('Please select a State');
-    this.focusField('stateField');
+    this.focusField('state');
     return;
   }
   if (!this.formFields['district']) {
     alert('Please select a District');
-    this.focusField('districtField');
+    this.focusField('area');
     return;
   }
   if (!this.formFields['branch']) {
     alert('Please select a Branch');
-    this.focusField('branchField');
+    this.focusField('branch');
     return;
   }
   if (!this.formFields['landlordName']) {
     alert('Please enter Landlord Name');
-    this.focusField('landlordNameField');
+    this.focusField('landlordName');
     return;
   }
   if (!this.formFields['landlordEmail']) {
     alert('Please enter Landlord Email');
-    this.focusField('landlordEmailField');
+    this.focusField('landlordEmail');
     return;
   }
   
   if (!this.formFields['accountNo']) {
     alert('Please enter Landlord Account No');
-    this.focusField('accountNoField');
+    this.focusField('accountNo');
     return;
   }
   if (!this.formFields['confirmAccountNo']) {
     alert('Please enter Confirm Account No');
-    this.focusField('confirmAccountNoField');
+    this.focusField('confirmAccountNo');
     return;
   }
   if (this.formFields['accountNo'] !== this.formFields['confirmAccountNo']) {
     alert('Landlord Account No and Confirm Account No do not match');
-    this.focusField('accountNoField');
+    this.focusField('accountNo');
     return;
   }
   if (!this.formFields['landlordMobile']) {
     alert('Please enter Landlord Mobile No');
-    this.focusField('landlordMobileField');
+    this.focusField('landlordMobile');
     return;
   }
   if (!this.formFields['ifscCode']) {
     alert('Please enter IFSC Code');
-    this.focusField('ifscCodeField');
+    this.focusField('ifscCode');
     return;
   }
   if (!this.formFields['depositAmount']) {
     alert('Please enter Deposit Amount');
-    this.focusField('depositAmountField');
+    this.focusField('depositAmount');
     return;
   }
   if (!this.formFields['utrReferenceNo']) {
     alert('Please enter Deposit Amt UTR Reference No');
-    this.focusField('utrReferenceNoField');
+    this.focusField('utrReferenceNo');
     return;
   }
   if (!this.formFields['depositDate']) {
     alert('Please select Deposit Date');
-    this.focusField('depositDateField');
+    this.focusField('depositDate');
     return;
   }
   if (!this.formFields['filepath']) {
@@ -381,13 +381,11 @@ focusField(fieldId: string): void {
   }
 
   savebranchstatus(): void {
-   
     if (!this.formFields['closingDate']) {
       alert('Please select a closing date.');
-      this.focusField('depositDateField');
+      this.focusField('closingDate');
       return;
     }
-  
     const apiUrl = '/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
     const body = { branch: 1 ,closingDate:'2024-10-20'};
     this.http.post<any>(apiUrl, body).subscribe(
