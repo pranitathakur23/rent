@@ -130,33 +130,33 @@ onCreate(): void {
 
 
 SaveRentDetails(): void {
-  const requestData = {
-  bank: Number(this.formFields['bank']),
-  State: Number(this.formFields['state']),
-  area: Number(this.formFields['district']),
-  Branch: Number(this.formFields['branch']),
-  landLordName: this.formFields['landlordName'],
-  landLordEmail: this.formFields['landlordEmail'],
-  landLordMobileNo: this.formFields['landlordMobile'],
-  landLordAccNo: this.formFields['accountNo'],
-  depositeAmnt: this.formFields['depositAmount'],
-  depositeAmntRefernceid: this.formFields['utrReferenceNo'],
-  depositeDate: this.formFields['depositDate'],
-  remark: this.formFields['remark'],
-  LandLordIFSC: this.formFields['ifscCode'],
-  filepath: 's3bucket',
-  makerid: 'AB203'
-};
+//   const requestData = {
+//   bank: Number(this.formFields['bank']),
+//   State: Number(this.formFields['state']),
+//   area: Number(this.formFields['district']),
+//   Branch: Number(this.formFields['branch']),
+//   landLordName: this.formFields['landlordName'],
+//   landLordEmail: this.formFields['landlordEmail'],
+//   landLordMobileNo: this.formFields['landlordMobile'],
+//   landLordAccNo: this.formFields['accountNo'],
+//   depositeAmnt: this.formFields['depositAmount'],
+//   depositeAmntRefernceid: this.formFields['utrReferenceNo'],
+//   depositeDate: this.formFields['depositDate'],
+//   remark: this.formFields['remark'],
+//   LandLordIFSC: this.formFields['ifscCode'],
+//   filepath: 's3bucket',
+//   makerid: 'AB203'
+// };
 
-this.http.post('/api/RentAgreeMent/SaveRentData', requestData)
-  .subscribe(
-    (response: any) => {
-      if (response.status==true) {
-        // console.log('API call successful:', response);
-        // this.rentservice.triggerRefresh(); // Trigger refresh here
-        // this.router.navigate(['/layout/rent-list']);
-        this.isButtonVisible = true;
-        this.isButtonVisiblecreate = false;
+// this.http.post('/api/RentAgreeMent/SaveRentData', requestData)
+//   .subscribe(
+//     (response: any) => {
+//       if (response.status==true) {
+//         // console.log('API call successful:', response);
+//         // this.rentservice.triggerRefresh(); // Trigger refresh here
+//         // this.router.navigate(['/layout/rent-list']);
+//         this.isButtonVisible = true;
+//         this.isButtonVisiblecreate = false;
 
   if (!this.formFields['bank']) {
     alert('Please select a Bank');
