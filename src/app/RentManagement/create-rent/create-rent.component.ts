@@ -23,6 +23,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   export class CreateRentComponent implements OnInit {
     @ViewChild('dateInput', { static: false }) dateInput!: ElementRef;
     @ViewChild('datedeposite', { static: false }) datedeposite!: ElementRef;
+    @ViewChild('fdate', { static: false }) fdate!: ElementRef;
+    @ViewChild('tdate', { static: false }) tdate!: ElementRef;
 
 
   constructor(private sanitizer: DomSanitizer, private http: HttpClient, private router: Router,private rentservice:RentService,  private route: ActivatedRoute) { }  
@@ -505,12 +507,12 @@ focusField(fieldId: string): void {
   btnSaveRentPopupData(): void {
     if (!this.formFields['fromDate']) {
       alert('Please select a fromDate');
-      this.focusField('fromDate');
+      this.fdate.nativeElement.focus();
       return;
     }
     if (!this.formFields['toDate']) {
       alert('Please select a toDate');
-      this.focusField('toDate');
+      this.tdate.nativeElement.focus();
       return;
     }
     if (!this.formFields['rentAmnt']) {
