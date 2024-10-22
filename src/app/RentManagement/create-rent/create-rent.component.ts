@@ -22,6 +22,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
   export class CreateRentComponent implements OnInit {
     @ViewChild('dateInput', { static: false }) dateInput!: ElementRef;
+    @ViewChild('datedeposite', { static: false }) datedeposite!: ElementRef;
 
 
   constructor(private sanitizer: DomSanitizer, private http: HttpClient, private router: Router,private rentservice:RentService,  private route: ActivatedRoute) { }  
@@ -110,7 +111,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 }
 
 onCreate(): void {
-  if (!this.formFields['bank']) {
+    if (!this.formFields['bank']) {
     alert('Please select a Bank');
     this.focusField('bank'); 
     return;
@@ -178,7 +179,7 @@ onCreate(): void {
   }
   if (!this.formFields['depositDate']) {
     alert('Please select Deposit Date');
-    this.focusField('depositDate');
+    this.datedeposite.nativeElement.focus();
     return;
   }
   if (!this.formFields['filepath']) {

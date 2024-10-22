@@ -110,7 +110,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="depositDate" style="font-weight: bold">Deposit Date *</label>
-          <input type="date" id="depositDate" class="form-control" [(ngModel)]="formFields['depositDate']" required />
+          <input #datedeposite type="date" id="depositDate" class="form-control" [(ngModel)]="formFields['depositDate']" required />
         </div>
       </div>
 
@@ -270,7 +270,6 @@ width: auto;
     <div class="row">
       <!-- From Date -->
       <label for="closingDate">Closing Date</label>
-
       <div class="col-md-12">
         <input #dateInput type="date" class="form-control" id="closingDate" [(ngModel)]="formFields['closingDate']"/>
 
