@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { RentService } from '../rent.service';
 import { RentListComponent } from '../rent-list/rent-list.component';
 import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
-import { Component, Inject, PLATFORM_ID,OnInit } from '@angular/core';
+import { Component, Inject, PLATFORM_ID,OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -21,6 +21,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
   export class CreateRentComponent implements OnInit {
+    @ViewChild('dateInput', { static: false }) dateInput!: ElementRef;
 
 
   constructor(private sanitizer: DomSanitizer, private http: HttpClient, private router: Router,private rentservice:RentService,  private route: ActivatedRoute) { }  
@@ -69,7 +70,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     depositAmount: '',
     utrReferenceNo: '',
     depositDate: '',
-    remark: ''
+    remark: '',
+    closingDate:''
   };
  
   ngOnInit(): void { 
@@ -235,6 +237,7 @@ SaveRentDetails(): void {
 //         this.isButtonVisiblecreate = false;
 
 
+ 
 
   // Prepare request data
   const requestData = {
@@ -268,6 +271,7 @@ SaveRentDetails(): void {
         this.isButtonVisiblecreate = false;
         this.rentid=response.data[0].id;
         this.showRentDetails = true;
+
             } else {
         console.error('API call failed:', response.message);
       }
@@ -454,14 +458,25 @@ focusField(fieldId: string): void {
     this.closeBranch = false;
   }
 
-  savebranchstatus(): void {
+
+
+
+  savebranchstatus(branch: number,closingDate: string): void {
     if (!this.formFields['closingDate']) {
-      alert('Please select a closing date.');
-      this.focusField('closingDate');
+      alert('Please select a closingDate');
+      this.dateInput.nativeElement.focus();
       return;
     }
+    const Test = {
+      Branch: Number(this.formFields['branch']),
+      closingDate: this.formFields['closingDate']
+    };
+
+    
     const apiUrl = '/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
-    const body = { branch: 1 ,closingDate:'2024-10-20'};
+    const body = { branch: branch ,closingDate:closingDate};
+    console.log('Request Body for UpdateBranchStatus:', Test);
+
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
         if (response.status==true) {
