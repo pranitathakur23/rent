@@ -127,11 +127,11 @@ export class RentListComponent implements OnInit {
    
 }
 
-   deletedata(): void {
+   deletedata(deleteid: number) {
     if(window.confirm('Are sure you want to delete this item ?')){
       const apiUrl = '/api/rent/Delete';  // Note the relative path
-      const body = { id: 2 };
-      this.http.post<any>(apiUrl, body).subscribe(
+      const body = { id: deleteid };
+       this.http.post<any>(apiUrl, body).subscribe(
         (response: any) => {
           if (response.status==true) {
             location.reload();

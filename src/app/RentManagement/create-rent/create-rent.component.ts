@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { RentService } from '../rent.service';
 import { RentListComponent } from '../rent-list/rent-list.component';
 import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
-import { Component, Inject, PLATFORM_ID,OnInit } from '@angular/core';
+import { Component, Inject, PLATFORM_ID,OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -21,6 +21,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
   export class CreateRentComponent implements OnInit {
+    @ViewChild('dateInput', { static: false }) dateInput!: ElementRef;
+    @ViewChild('datedeposite', { static: false }) datedeposite!: ElementRef;
 
 
   constructor(private sanitizer: DomSanitizer, private http: HttpClient, private router: Router,private rentservice:RentService,  private route: ActivatedRoute) { }  
@@ -51,6 +53,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   fileNames: string[] = [];
 
   employeecode: string |undefined ;
+  rentid:number=0;
 
 
 // Define form fields with default values
@@ -68,7 +71,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     depositAmount: '',
     utrReferenceNo: '',
     depositDate: '',
-    remark: ''
+    remark: '',
+    closingDate:''
   };
  
   ngOnInit(): void { 
@@ -82,7 +86,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
    
   getRentAgreementPopupdataList(): void {
     const apiUrl = '/api/rent/GetRentDetails';  // Note the relative path
-    const body = { id: 1 };
+    const body = { id: this.rentid };
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
         if (response.status==true) {
@@ -107,7 +111,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 }
 
 onCreate(): void {
-  if (!this.formFields['bank']) {
+    if (!this.formFields['bank']) {
     alert('Please select a Bank');
     this.focusField('bank'); 
     return;
@@ -175,7 +179,7 @@ onCreate(): void {
   }
   if (!this.formFields['depositDate']) {
     alert('Please select Deposit Date');
-    this.focusField('depositDate');
+    this.datedeposite.nativeElement.focus();
     return;
   }
   if (!this.formFields['filepath']) {
@@ -234,6 +238,7 @@ SaveRentDetails(): void {
 //         this.isButtonVisiblecreate = false;
 
 
+ 
 
   // Prepare request data
   const requestData = {
@@ -265,9 +270,10 @@ SaveRentDetails(): void {
       if (response.status) {
         this.isButtonVisible = true;
         this.isButtonVisiblecreate = false;
+        this.rentid=response.data[0].id;
+        this.showRentDetails = true;
 
-
-      } else {
+            } else {
         console.error('API call failed:', response.message);
       }
     },
@@ -453,15 +459,26 @@ focusField(fieldId: string): void {
     this.closeBranch = false;
   }
 
+
+
+
   savebranchstatus(): void {
     if (!this.formFields['closingDate']) {
-      alert('Please select a closing date.');
-      this.focusField('closingDate');
+      alert('Please select a closingDate');
+      this.dateInput.nativeElement.focus();
       return;
     }
+    if (!this.formFields['branch']) {
+      alert('Please select a Branch');
+      this.focusField('branch');
+      return;
+    }
+    const Test = {
+      Branch: Number(this.formFields['branch']),
+      closingDate: this.formFields['closingDate']
+    };
     const apiUrl = '/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
-    const body = { branch: 1 ,closingDate:'2024-10-20'};
-    this.http.post<any>(apiUrl, body).subscribe(
+        this.http.post<any>(apiUrl, Test).subscribe(
       (response: any) => {
         if (response.status==true) {
           this.closeBranch = false;
@@ -496,19 +513,21 @@ focusField(fieldId: string): void {
       this.focusField('toDate');
       return;
     }
-    if (!this.formFields['totalRentAmount']) {
+    if (!this.formFields['rentAmnt']) {
       alert('Please select a totalRentAmount');
-      this.focusField('totalRentAmount');
+      this.focusField('rentAmnt');
       return;
     }
     this.errorMessage = ''; 
+    
     const apiUrl = '/api/RentAgreeMent/SaveRentPopupData'; 
-    const body = { rentID: 3, fromDate: this.fromDate, toDate: this.toDate, rentAmnt: this.rentAmnt };
+    const body = { rentID: this.rentid, fromDate: this.formFields['fromDate'], toDate: this.formFields['toDate'], rentAmnt:this.formFields['rentAmnt']};
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
         console.log('Response:', response); 
         if (response.status === true) {
-          this.router.navigate(['/layout/dashboard']);
+          this.showRentDetails = false;
+          this.getRentAgreementPopupdataList()
         } else {
           this.errorMessage = response.message; 
         }
