@@ -461,23 +461,23 @@ focusField(fieldId: string): void {
 
 
 
-  savebranchstatus(branch: number,closingDate: string): void {
+  savebranchstatus(): void {
     if (!this.formFields['closingDate']) {
       alert('Please select a closingDate');
       this.dateInput.nativeElement.focus();
+      return;
+    }
+    if (!this.formFields['branch']) {
+      alert('Please select a Branch');
+      this.focusField('branch');
       return;
     }
     const Test = {
       Branch: Number(this.formFields['branch']),
       closingDate: this.formFields['closingDate']
     };
-
-    
     const apiUrl = '/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
-    const body = { branch: branch ,closingDate:closingDate};
-    console.log('Request Body for UpdateBranchStatus:', Test);
-
-    this.http.post<any>(apiUrl, body).subscribe(
+        this.http.post<any>(apiUrl, Test).subscribe(
       (response: any) => {
         if (response.status==true) {
           this.closeBranch = false;
