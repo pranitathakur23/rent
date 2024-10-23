@@ -57,7 +57,7 @@
             <td>{{ item.landLordMobileNo }}</td>
             <td>{{ item.depositeAmnt }}</td>
             <td>{{ item.rentstatus }}</td>
-            <td (click)="deletedata()">
+            <td (click)="deletedata(item.ID)">
               <button class="btn btn-danger btn-sm">
                 <i class="fa fa-trash"></i>
               </button>

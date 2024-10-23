@@ -7,7 +7,6 @@
       <i class="fas fa-times" style="color: white;"></i>
     </button>  -->
    </div>
-
   <div class="card-body">
     <div class="row">
       <div class="col-md-3">
@@ -110,7 +109,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="depositDate" style="font-weight: bold">Deposit Date *</label>
-          <input type="date" id="depositDate" class="form-control" [(ngModel)]="formFields['depositDate']" required />
+          <input #datedeposite type="date" id="depositDate" class="form-control" [(ngModel)]="formFields['depositDate']" required />
         </div>
       </div>
 
@@ -155,7 +154,6 @@
     </button>
   </div>
 </div>
-
 <!-- Modal -->
 <div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" aria-labelledby="filePreviewLabel" aria-hidden="true" >
   <div class="modal-dialog modal-lg" role="document">
@@ -173,10 +171,6 @@
     </div>
   </div>
 </div>
-
-
-
-    
   </div>
   <hr *ngIf="this.isButtonVisible"/>
       <!-- Buttons row for Add and Update Rent Details -->
@@ -226,7 +220,7 @@ width: auto;">
       <!-- From Date -->
       <label for="fromDate">From Date</label>
       <div class="col-md-12">
-               <input type="date" id="fromDate" class="form-control" [(ngModel)]="formFields['fromDate']" required />
+      <input #fdate type="date" id="fromDate" class="form-control" [(ngModel)]="formFields['fromDate']" required />
       </div>
     </div>
     
@@ -234,7 +228,7 @@ width: auto;">
     <div class="row">
       <label for="toDate">To Date</label>
       <div class="col-md-12">
-        <input type="date" id="toDate" class="form-control" [(ngModel)]="formFields['toDate']" required />
+        <input #tdate type="date" id="toDate" class="form-control" [(ngModel)]="formFields['toDate']" required />
       </div>
     </div>
     
@@ -270,19 +264,16 @@ width: auto;
     <div class="row">
       <!-- From Date -->
       <label for="closingDate">Closing Date</label>
-
       <div class="col-md-12">
         <input #dateInput type="date" class="form-control" id="closingDate" [(ngModel)]="formFields['closingDate']"/>
 
       </div>
     </div>
-    
-
     <!-- Buttons -->
     <div class="d-flex mt-3">
       <button class="btn btn-secondary mr-2" (click)="closeBranchfun()">Cancel</button> &nbsp;
      
-<button class="btn btn-primary" (click)="SaveRentDetails()">Submit Rent Details</button>
+<button class="btn btn-primary" (click)="savebranchstatus()">Submit Rent Details</button>
           </div>
   </div>
 </div>

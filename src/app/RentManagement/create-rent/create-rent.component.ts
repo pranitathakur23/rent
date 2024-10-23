@@ -8,8 +8,6 @@ import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
 import { Component, Inject, PLATFORM_ID,OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-
-
 @Component({
   selector: 'app-create-rent', 
   standalone: true,
@@ -17,15 +15,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './create-rent.component.html',
   styleUrls: ['./create-rent.component.css']
 })
-
-
-
-  export class CreateRentComponent implements OnInit {
+export class CreateRentComponent implements OnInit {
     @ViewChild('dateInput', { static: false }) dateInput!: ElementRef;
-
-
+    @ViewChild('datedeposite', { static: false }) datedeposite!: ElementRef;
+    @ViewChild('fdate', { static: false }) fdate!: ElementRef;
+    @ViewChild('tdate', { static: false }) tdate!: ElementRef;
   constructor(private sanitizer: DomSanitizer, private http: HttpClient, private router: Router,private rentservice:RentService,  private route: ActivatedRoute) { }  
- 
   banks: { BankCode: number; BankName: string }[] = [];
   states: { stateCode: number; stateName: string }[] = [];
   areas: { areaCode: number; areaName: string }[] = [];
@@ -47,14 +42,10 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   rentAmnt: string = '';
   errorMessage: string = '';
   fileURL: SafeResourceUrl | null = null;  // Use SafeResourceUrl type
-
   files: File[] = [];  // To hold the selected files
   fileNames: string[] = [];
-
   employeecode: string |undefined ;
   rentid:number=0;
-
-
 // Define form fields with default values
   formFields: { [key: string]: string } = {
     bank: '',
@@ -73,14 +64,11 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     remark: '',
     closingDate:''
   };
- 
-  ngOnInit(): void { 
+   ngOnInit(): void { 
     this.getRentAgreementPopupdataList(); // Fetch rent agreements on component initialization
     this.loadInitialData();
     const id = this.route.snapshot.paramMap.get('id'); // Retrieve the ID from the route
-
     this.employeecode = sessionStorage.getItem('userName') || ''; // Default to 'Guest' if not found
-
   }
    
   getRentAgreementPopupdataList(): void {
@@ -103,14 +91,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     this.fetchBankData();
     this.fetchStates();
   }
-
  /** Handle dropdown change event to log selected value */
  onDropdownChange(fieldName: string, selectedValue: string): void {
   console.log(`${fieldName} selected:`, selectedValue);
 }
-
 onCreate(): void {
-  if (!this.formFields['bank']) {
+    if (!this.formFields['bank']) {
     alert('Please select a Bank');
     this.focusField('bank'); 
     return;
@@ -178,7 +164,7 @@ onCreate(): void {
   }
   if (!this.formFields['depositDate']) {
     alert('Please select Deposit Date');
-    this.focusField('depositDate');
+    this.datedeposite.nativeElement.focus();
     return;
   }
   if (!this.formFields['filepath']) {
@@ -206,40 +192,8 @@ onCreate(): void {
       );
 }
 
-
 SaveRentDetails(): void {
-//   const requestData = {
-//   bank: Number(this.formFields['bank']),
-//   State: Number(this.formFields['state']),
-//   area: Number(this.formFields['district']),
-//   Branch: Number(this.formFields['branch']),
-//   landLordName: this.formFields['landlordName'],
-//   landLordEmail: this.formFields['landlordEmail'],
-//   landLordMobileNo: this.formFields['landlordMobile'],
-//   landLordAccNo: this.formFields['accountNo'],
-//   depositeAmnt: this.formFields['depositAmount'],
-//   depositeAmntRefernceid: this.formFields['utrReferenceNo'],
-//   depositeDate: this.formFields['depositDate'],
-//   remark: this.formFields['remark'],
-//   LandLordIFSC: this.formFields['ifscCode'],
-//   filepath: 's3bucket',
-//   makerid: 'AB203'
-// };
-
-// this.http.post('/api/RentAgreeMent/SaveRentData', requestData)
-//   .subscribe(
-//     (response: any) => {
-//       if (response.status==true) {
-//         // console.log('API call successful:', response);
-//         // this.rentservice.triggerRefresh(); // Trigger refresh here
-//         // this.router.navigate(['/layout/rent-list']);
-//         this.isButtonVisible = true;
-//         this.isButtonVisiblecreate = false;
-
-
- 
-
-  // Prepare request data
+// Prepare request data
   const requestData = {
     bank: Number(this.formFields['bank']),
     State: Number(this.formFields['state']),
@@ -256,10 +210,7 @@ SaveRentDetails(): void {
     LandLordIFSC: this.formFields['ifscCode'],
     filepath: this.formFields['filepath'],
     makerid: this.employeecode,
-    
-
-
-  };
+    };
 
   console.log('Request Data:', requestData);
 
@@ -280,7 +231,6 @@ SaveRentDetails(): void {
       console.error('Error making API call:', error);
     }
   );
-
 }
 
 // Function to focus on a specific field after alert is dismissed
@@ -291,10 +241,7 @@ focusField(fieldId: string): void {
       field.focus();
     }
   }, 0); // Ensure it runs after the alert is dismissed
-
 }
-
-
   /** Fetch bank data from the API */
   fetchBankData(): void {
     this.http.post('/api/RentAgreeMent/GetDropDownData', { Mode: 1 })
@@ -458,26 +405,23 @@ focusField(fieldId: string): void {
     this.closeBranch = false;
   }
 
-
-
-
-  savebranchstatus(branch: number,closingDate: string): void {
+  savebranchstatus(): void {
     if (!this.formFields['closingDate']) {
       alert('Please select a closingDate');
       this.dateInput.nativeElement.focus();
+      return;
+    }
+    if (!this.formFields['branch']) {
+      alert('Please select a Branch');
+      this.focusField('branch');
       return;
     }
     const Test = {
       Branch: Number(this.formFields['branch']),
       closingDate: this.formFields['closingDate']
     };
-
-    
     const apiUrl = '/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
-    const body = { branch: branch ,closingDate:closingDate};
-    console.log('Request Body for UpdateBranchStatus:', Test);
-
-    this.http.post<any>(apiUrl, body).subscribe(
+        this.http.post<any>(apiUrl, Test).subscribe(
       (response: any) => {
         if (response.status==true) {
           this.closeBranch = false;
@@ -499,17 +443,21 @@ focusField(fieldId: string): void {
 
   onAddRentDetails(): void {
     this.showRentDetails = true;
+    this.formFields['fromDate']='';
+    this.formFields['toDate']='';
+    this.formFields['rentAmnt']='';
+
   }
 
   btnSaveRentPopupData(): void {
     if (!this.formFields['fromDate']) {
       alert('Please select a fromDate');
-      this.focusField('fromDate');
+      this.fdate.nativeElement.focus();
       return;
     }
     if (!this.formFields['toDate']) {
       alert('Please select a toDate');
-      this.focusField('toDate');
+      this.tdate.nativeElement.focus();
       return;
     }
     if (!this.formFields['rentAmnt']) {
