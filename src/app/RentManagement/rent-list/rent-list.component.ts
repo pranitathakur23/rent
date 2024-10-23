@@ -144,8 +144,12 @@ export class RentListComponent implements OnInit {
      }
   }
 
-
   onAttach(): void {
     console.log('Attach button clicked');
+  }
+
+  handleRowClick(id: number) {
+    this.router.navigate(['/layout/create-rent', id]);
+    debugger
   }
 }

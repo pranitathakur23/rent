@@ -9,12 +9,13 @@ import { Component, Inject, PLATFORM_ID,OnInit, ViewChild, ElementRef } from '@a
 import { Router, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
-  selector: 'app-create-rent', 
+  selector: 'app-create-rent',
   standalone: true,
   imports: [CommonModule, FormsModule,RouterModule], // Ensure CommonModule is here
   templateUrl: './create-rent.component.html',
   styleUrls: ['./create-rent.component.css']
 })
+
 export class CreateRentComponent implements OnInit {
     @ViewChild('dateInput', { static: false }) dateInput!: ElementRef;
     @ViewChild('datedeposite', { static: false }) datedeposite!: ElementRef;
@@ -32,9 +33,9 @@ export class CreateRentComponent implements OnInit {
   rentData: any[] = []; // Initialize rentData as an empty array
   ID :number=0;
   file: File | null = null;
-  fromDate: string | undefined; 
+  fromDate: string | undefined;
   closingDate: string | undefined;
-  toDate: string | undefined;  
+  toDate: string | undefined;
   isButtonVisible = false;
   isButtonVisiblecreate = true;
   iscloseButton = false;
@@ -42,11 +43,13 @@ export class CreateRentComponent implements OnInit {
   rentAmnt: string = '';
   errorMessage: string = '';
   fileURL: SafeResourceUrl | null = null;  // Use SafeResourceUrl type
+  rentpopupID: number = 0;
   files: File[] = [];  // To hold the selected files
   fileNames: string[] = [];
-  employeecode: string |undefined ;
-  rentid:number=0;
-// Define form fields with default values
+  employeecode: string | undefined;
+  rentid: number = 0;
+  isUpdate: boolean = false;
+
   formFields: { [key: string]: string } = {
     bank: '',
     state: '',
@@ -64,13 +67,19 @@ export class CreateRentComponent implements OnInit {
     remark: '',
     closingDate:''
   };
+
    ngOnInit(): void { 
+    this.rentid = Number(this.route.snapshot.paramMap.get('id'));
+    if(this.rentid !=0){
+      this.isButtonVisible = true;
+      this.isButtonVisiblecreate = false;
+    }
+
     this.getRentAgreementPopupdataList(); // Fetch rent agreements on component initialization
     this.loadInitialData();
-    const id = this.route.snapshot.paramMap.get('id'); // Retrieve the ID from the route
     this.employeecode = sessionStorage.getItem('userName') || ''; // Default to 'Guest' if not found
   }
-   
+
   getRentAgreementPopupdataList(): void {
     const apiUrl = '/api/rent/GetRentDetails';  // Note the relative path
     const body = { id: this.rentid };
@@ -78,7 +87,7 @@ export class CreateRentComponent implements OnInit {
       (response: any) => {
         if (response.status==true) {
           this.rentData = response.data;
-               } else {
+        } else {
           console.error('Failed to fetch rent agreement list:', response.message);
         }
       }, error => {
@@ -91,109 +100,109 @@ export class CreateRentComponent implements OnInit {
     this.fetchBankData();
     this.fetchStates();
   }
- /** Handle dropdown change event to log selected value */
+
  onDropdownChange(fieldName: string, selectedValue: string): void {
   console.log(`${fieldName} selected:`, selectedValue);
 }
+
 onCreate(): void {
     if (!this.formFields['bank']) {
-    alert('Please select a Bank');
-    this.focusField('bank'); 
-    return;
-  }
-  if (!this.formFields['state']) {
-    alert('Please select a State');
-    this.focusField('state');
-    return;
-  }
-  if (!this.formFields['district']) {
-    alert('Please select a District');
-    this.focusField('area');
-    return;
-  }
-  if (!this.formFields['branch']) {
-    alert('Please select a Branch');
-    this.focusField('branch');
-    return;
-  }
-  if (!this.formFields['landlordName']) {
-    alert('Please enter Landlord Name');
-    this.focusField('landlordName');
-    return;
-  }
-  if (!this.formFields['landlordEmail']) {
-    alert('Please enter Landlord Email');
-    this.focusField('landlordEmail');
-    return;
-  }
-  
-  if (!this.formFields['accountNo']) {
-    alert('Please enter Landlord Account No');
-    this.focusField('accountNo');
-    return;
-  }
-  if (!this.formFields['confirmAccountNo']) {
-    alert('Please enter Confirm Account No');
-    this.focusField('confirmAccountNo');
-    return;
-  }
-  if (this.formFields['accountNo'] !== this.formFields['confirmAccountNo']) {
-    alert('Landlord Account No and Confirm Account No do not match');
-    this.focusField('accountNo');
-    return;
-  }
-  if (!this.formFields['landlordMobile']) {
-    alert('Please enter Landlord Mobile No');
-    this.focusField('landlordMobile');
-    return;
-  }
-  if (!this.formFields['ifscCode']) {
-    alert('Please enter IFSC Code');
-    this.focusField('ifscCode');
-    return;
-  }
-  if (!this.formFields['depositAmount']) {
-    alert('Please enter Deposit Amount');
-    this.focusField('depositAmount');
-    return;
-  }
-  if (!this.formFields['utrReferenceNo']) {
-    alert('Please enter Deposit Amt UTR Reference No');
-    this.focusField('utrReferenceNo');
-    return;
-  }
-  if (!this.formFields['depositDate']) {
-    alert('Please select Deposit Date');
-    this.datedeposite.nativeElement.focus();
-    return;
-  }
-  if (!this.formFields['filepath']) {
-    alert('Please upload a file');
-    this.focusField('fileUpload');
-    return;
-  }
-  const formData = new FormData();
-  formData.append('MobileNo', this.formFields['landlordMobile']);
-  for (let i = 0; i < this.files.length; i++) {
-    formData.append('files', this.files[i]); 
-  }
-  this.http.post('/api/rent/SaveRentAgreementFiles', formData)
+      alert('Please select a Bank');
+      this.focusField('bank');
+      return;
+    }
+    if (!this.formFields['state']) {
+      alert('Please select a State');
+      this.focusField('state');
+      return;
+    }
+    if (!this.formFields['district']) {
+      alert('Please select a District');
+      this.focusField('area');
+      return;
+    }
+    if (!this.formFields['branch']) {
+      alert('Please select a Branch');
+      this.focusField('branch');
+      return;
+    }
+    if (!this.formFields['landlordName']) {
+      alert('Please enter Landlord Name');
+      this.focusField('landlordName');
+      return;
+    }
+    if (!this.formFields['landlordEmail']) {
+      alert('Please enter Landlord Email');
+      this.focusField('landlordEmail');
+      return;
+    }
+    if (!this.formFields['accountNo']) {
+      alert('Please enter Landlord Account No');
+      this.focusField('accountNo');
+      return;
+    }
+    if (!this.formFields['confirmAccountNo']) {
+      alert('Please enter Confirm Account No');
+      this.focusField('confirmAccountNo');
+      return;
+    }
+    if (this.formFields['accountNo'] !== this.formFields['confirmAccountNo']) {
+      alert('Landlord Account No and Confirm Account No do not match');
+      this.focusField('accountNo');
+      return;
+    }
+    if (!this.formFields['landlordMobile']) {
+      alert('Please enter Landlord Mobile No');
+      this.focusField('landlordMobile');
+      return;
+    }
+    if (!this.formFields['ifscCode']) {
+      alert('Please enter IFSC Code');
+      this.focusField('ifscCode');
+      return;
+    }
+    if (!this.formFields['depositAmount']) {
+      alert('Please enter Deposit Amount');
+      this.focusField('depositAmount');
+      return;
+    }
+    if (!this.formFields['utrReferenceNo']) {
+      alert('Please enter Deposit Amt UTR Reference No');
+      this.focusField('utrReferenceNo');
+      return;
+    }
+    if (!this.formFields['depositDate']) {
+      alert('Please select Deposit Date');
+      this.datedeposite.nativeElement.focus();
+      return;
+    }
+    if (!this.formFields['filepath']) {
+      alert('Please upload a file');
+      this.focusField('fileUpload');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('rentMasterID', this.rentid.toString());
+    for (let i = 0; i < this.files.length; i++) {
+      formData.append('files', this.files[i]);
+    }
+    debugger
+    this.http.post('/api/rent/SaveRentAgreementFiles', formData)
       .subscribe(
-          (response: any) => {
-              if (response.status == true) {
-                this.SaveRentDetails();
-              } else {
-                  console.error('API call failed:', response.message);
-              }
-          },
-          error => {
-              console.error('Error making API call:', error);
+        (response: any) => {
+          if (response.status == true) {
+            this.SaveRentDetails();
+          } else {
+            console.error('API call failed:', response.message);
           }
+        },
+        error => {
+          console.error('Error making API call:', error);
+        }
       );
-}
+  }
 
 SaveRentDetails(): void {
-// Prepare request data
   const requestData = {
     bank: Number(this.formFields['bank']),
     State: Number(this.formFields['state']),
@@ -208,40 +217,93 @@ SaveRentDetails(): void {
     depositeDate: this.formFields['depositDate'],
     remark: this.formFields['remark'],
     LandLordIFSC: this.formFields['ifscCode'],
-    filepath: this.formFields['filepath'],
     makerid: this.employeecode,
     };
-
-  console.log('Request Data:', requestData);
-
-  // API call
-  this.http.post('/api/RentAgreeMent/SaveRentData', requestData).subscribe(
-    (response: any) => {
-      if (response.status) {
-        this.isButtonVisible = true;
-        this.isButtonVisiblecreate = false;
-        this.rentid=response.data[0].id;
-        this.showRentDetails = true;
-
-            } else {
-        console.error('API call failed:', response.message);
+    console.log('Request Data:', requestData);
+    this.http.post('/api/RentAgreeMent/SaveRentData', requestData).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.isButtonVisible = true;
+          this.isButtonVisiblecreate = false;
+          this.rentid=response.data[0].id;
+          this.showRentDetails = true;
+          this.files = [];
+        } else {
+          console.error('API call failed:', response.message);
+        }
+      },
+      error => {
+        console.error('Error making API call:', error);
       }
-    },
-    error => {
-      console.error('Error making API call:', error);
-    }
-  );
-}
+    );
+  }
 
-// Function to focus on a specific field after alert is dismissed
-focusField(fieldId: string): void {
-  setTimeout(() => {
-    const field = document.getElementById(fieldId);
-    if (field) {
-      field.focus();
+  onUpdate(): void {
+    const formData = new FormData();
+    formData.append('rentMasterID', this.rentid.toString());
+    for (let i = 0; i < this.files.length; i++) {
+      formData.append('files', this.files[i]);
     }
-  }, 0); // Ensure it runs after the alert is dismissed
-}
+    this.http.post('/api/rent/SaveRentAgreementFiles', formData)
+      .subscribe(
+        (response: any) => {
+          if (response.status == true) {
+            this.UpdateRentDetails();
+          } else {
+            console.error('API call failed:', response.message);
+          }
+        },
+        error => {
+          console.error('Error making API call:', error);
+        }
+      );
+  }
+
+  UpdateRentDetails(): void {
+    const requestData = {
+      id: this.rentid,
+      bank: Number(this.formFields['bank']),
+      State: Number(this.formFields['state']),
+      area: Number(this.formFields['district']),
+      Branch: Number(this.formFields['branch']),
+      landLordName: this.formFields['landlordName'],
+      landLordEmail: this.formFields['landlordEmail'],
+      landLordMobileNo: this.formFields['landlordMobile'],
+      landLordAccNo: this.formFields['accountNo'],
+      depositeAmnt: this.formFields['depositAmount'],
+      depositeAmntRefernceid: this.formFields['utrReferenceNo'],
+      depositeDate: this.formFields['depositDate'],
+      remark: this.formFields['remark'],
+      LandLordIFSC: this.formFields['ifscCode'],
+      makerid: this.employeecode,
+    };
+    console.log('Request Data:', requestData);
+    this.http.post('/api/rent/UpdateRentMasterDetailsForMaker', requestData).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.isButtonVisible = true;
+          this.isButtonVisiblecreate = false;
+          this.showRentDetails = true;
+          this.files = []; 
+        } else {
+          console.error('API call failed:', response.message);
+        }
+      },
+      error => {
+        console.error('Error making API call:', error);
+      }
+    );
+  }
+
+  focusField(fieldId: string): void {
+    setTimeout(() => {
+      const field = document.getElementById(fieldId);
+      if (field) {
+        field.focus();
+      }
+    }, 0);
+  }
+
   /** Fetch bank data from the API */
   fetchBankData(): void {
     this.http.post('/api/RentAgreeMent/GetDropDownData', { Mode: 1 })
@@ -296,24 +358,26 @@ focusField(fieldId: string): void {
 /** Fetch branches from the API */
   fetchBranches(areaCode: number): void {
   this.http.post('/api/RentAgreeMent/GetDropDownData', { Mode: 4, ID: areaCode }) // Use areaCode instead of hardcoded value
-    .subscribe((response: any) => {
-      if (response.status) {
+      .subscribe((response: any) => {
+        if (response.status) {
         this.branches = response.data; // Store the branch data
-      } else {
-        console.error('Failed to fetch branches:', response.message);
-      }
-    }, error => {
-      console.error('Error fetching branches:', error);
-    });
+        } else {
+          console.error('Failed to fetch branches:', response.message);
+        }
+      }, error => {
+        console.error('Error fetching branches:', error);
+      });
   }
+
  /** Handle area change event to fetch branches */
   onAreaChange(event: Event): void {
-  const selectElement = event.target as HTMLSelectElement;
-  if (selectElement) {
-    const areaCode = Number(selectElement.value);
+    const selectElement = event.target as HTMLSelectElement;
+    if (selectElement) {
+      const areaCode = Number(selectElement.value);
     this.fetchBranches(areaCode); // Fetch branches based on the selected area code
+    }
   }
-  }
+
   /** Navigate to create rent page */
   onAdd(): void {
     this.router.navigate(['/layout/create-rent']);
@@ -325,7 +389,6 @@ focusField(fieldId: string): void {
   }
 
   /** Handle file selection */
-
   onFileChange(event: any): void {
     // Clear previous selections
     this.fileNames = [];
@@ -340,6 +403,7 @@ focusField(fieldId: string): void {
       }
     }
   }
+
   /** Upload file and log the filename */
   uploadFile(): void {
     console.log('File uploaded:', this.fileName);
@@ -355,22 +419,19 @@ focusField(fieldId: string): void {
       // Reset the file input only when no files are left
       const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
       if (fileInput !== null && fileInput.value !== '') {
-        fileInput.value = ''; 
+        fileInput.value = '';
       }
     }
   }
   
-
   previewFile(index: number, event: Event): void {
     event.preventDefault();
-    
     const file = this.files[index];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
         const unsafeUrl = reader.result as string;
         this.fileURL = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeUrl);
-  
         // Show modal
         const modalElement = document.getElementById('filePreviewModal');
         if (modalElement) {
@@ -381,7 +442,7 @@ focusField(fieldId: string): void {
       reader.readAsDataURL(file);  // Read the selected file
     }
   }
-  
+
   closeModal(): void {
     const modalElement = document.getElementById('filePreviewModal');
     if (modalElement) {
@@ -400,7 +461,7 @@ focusField(fieldId: string): void {
   onAttach(): void {
     console.log('Attach button clicked');
   }
-  /** Close the branch dropdown */
+
   closeBranchfun(): void {
     this.closeBranch = false;
   }
@@ -421,11 +482,11 @@ focusField(fieldId: string): void {
       closingDate: this.formFields['closingDate']
     };
     const apiUrl = '/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
-        this.http.post<any>(apiUrl, Test).subscribe(
+    this.http.post<any>(apiUrl, Test).subscribe(
       (response: any) => {
         if (response.status==true) {
           this.closeBranch = false;
-               } else {
+        } else {
           console.error('Failed to fetch rent agreement list:', response.message);
         }
       }, error => {
@@ -435,18 +496,29 @@ focusField(fieldId: string): void {
 
   closeBranchs(): void {
     this.closeBranch = true;
-  }
+    this.formFields['closingDate'] = '';
 
-  onUpdate(rentDetail: any): void {
-    console.log('Edit Rent Detail:', rentDetail);
   }
 
   onAddRentDetails(): void {
-    this.showRentDetails = true;
-    this.formFields['fromDate']='';
+    this.isUpdate = false;
+    this.formFields['fromDate'] = '';
     this.formFields['toDate']='';
     this.formFields['rentAmnt']='';
+    this.showRentDetails = true;
+  }
 
+  onUpdateRentDetails(item: any): void {
+    this.showRentDetails = true;
+    this.isUpdate = true;
+    const formatDate = (dateString: string) => {
+      const [day, month, year] = dateString.split('.');
+      return `${year}-${month}-${day}`;
+    };
+    this.formFields['fromDate'] = formatDate(item.FromDate);
+    this.formFields['toDate'] = formatDate(item.ToDate);
+    this.formFields['rentAmnt'] = item.rentAmnt;
+    this.rentpopupID = item.id;
   }
 
   btnSaveRentPopupData(): void {
@@ -465,27 +537,28 @@ focusField(fieldId: string): void {
       this.focusField('rentAmnt');
       return;
     }
-    this.errorMessage = ''; 
-    
-    const apiUrl = '/api/RentAgreeMent/SaveRentPopupData'; 
-    const body = { rentID: this.rentid, fromDate: this.formFields['fromDate'], toDate: this.formFields['toDate'], rentAmnt:this.formFields['rentAmnt']};
+    const apiUrl = '/api/RentAgreeMent/SaveRentPopupData';
+    const body = {
+      rentID: this.rentid,
+      rentpopupID: this.isUpdate ? this.rentpopupID : 0,
+      fromDate: this.formFields['fromDate'],
+      toDate: this.formFields['toDate'],
+      rentAmnt: this.formFields['rentAmnt']
+    };
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
-        console.log('Response:', response); 
         if (response.status === true) {
           this.showRentDetails = false;
-          this.getRentAgreementPopupdataList()
+          this.getRentAgreementPopupdataList();
         } else {
-          this.errorMessage = response.message; 
+          this.errorMessage = response.message;
         }
       },
       (error: any) => {
-        console.error('Error fetching user data:', error);
-        if (error.error) {
-          console.error('Error body:', error.error);
-        }
+        console.error('Error:', error);
         this.errorMessage = 'An error occurred. Please try again.';
       }
     );
   }
+
 }
