@@ -69,9 +69,14 @@ export class CreateRentComponent implements OnInit {
   };
 
    ngOnInit(): void { 
+    this.rentid = Number(this.route.snapshot.paramMap.get('id'));
+    if(this.rentid !=0){
+      this.isButtonVisible = true;
+      this.isButtonVisiblecreate = false;
+    }
+
     this.getRentAgreementPopupdataList(); // Fetch rent agreements on component initialization
     this.loadInitialData();
-    const id = this.route.snapshot.paramMap.get('id'); // Retrieve the ID from the route
     this.employeecode = sessionStorage.getItem('userName') || ''; // Default to 'Guest' if not found
   }
 
@@ -131,7 +136,6 @@ onCreate(): void {
       this.focusField('landlordEmail');
       return;
     }
-
     if (!this.formFields['accountNo']) {
       alert('Please enter Landlord Account No');
       this.focusField('accountNo');
@@ -178,10 +182,11 @@ onCreate(): void {
       return;
     }
     const formData = new FormData();
-    formData.append('MobileNo', this.formFields['landlordMobile']);
+    formData.append('rentMasterID', this.rentid.toString());
     for (let i = 0; i < this.files.length; i++) {
       formData.append('files', this.files[i]);
     }
+    debugger
     this.http.post('/api/rent/SaveRentAgreementFiles', formData)
       .subscribe(
         (response: any) => {
@@ -212,7 +217,6 @@ SaveRentDetails(): void {
     depositeDate: this.formFields['depositDate'],
     remark: this.formFields['remark'],
     LandLordIFSC: this.formFields['ifscCode'],
-    filepath: this.formFields['filepath'],
     makerid: this.employeecode,
     };
     console.log('Request Data:', requestData);
@@ -221,8 +225,9 @@ SaveRentDetails(): void {
         if (response.status) {
           this.isButtonVisible = true;
           this.isButtonVisiblecreate = false;
-        this.rentid=response.data[0].id;
+          this.rentid=response.data[0].id;
           this.showRentDetails = true;
+          this.files = [];
         } else {
           console.error('API call failed:', response.message);
         }
@@ -235,7 +240,7 @@ SaveRentDetails(): void {
 
   onUpdate(): void {
     const formData = new FormData();
-    formData.append('MobileNo', this.formFields['landlordMobile']);
+    formData.append('rentMasterID', this.rentid.toString());
     for (let i = 0; i < this.files.length; i++) {
       formData.append('files', this.files[i]);
     }
@@ -270,7 +275,6 @@ SaveRentDetails(): void {
       depositeDate: this.formFields['depositDate'],
       remark: this.formFields['remark'],
       LandLordIFSC: this.formFields['ifscCode'],
-      filepath: this.formFields['filepath'],
       makerid: this.employeecode,
     };
     console.log('Request Data:', requestData);
@@ -279,8 +283,8 @@ SaveRentDetails(): void {
         if (response.status) {
           this.isButtonVisible = true;
           this.isButtonVisiblecreate = false;
-          this.rentid = response.data[0].id;
           this.showRentDetails = true;
+          this.files = []; 
         } else {
           console.error('API call failed:', response.message);
         }
@@ -492,15 +496,20 @@ SaveRentDetails(): void {
 
   closeBranchs(): void {
     this.closeBranch = true;
+    this.formFields['closingDate'] = '';
+
   }
 
   onAddRentDetails(): void {
     this.isUpdate = false;
-    this.formFields = { fromDate: '', toDate: '', rentAmnt: '' };
+    this.formFields['fromDate'] = '';
+    this.formFields['toDate']='';
+    this.formFields['rentAmnt']='';
     this.showRentDetails = true;
   }
 
   onUpdateRentDetails(item: any): void {
+    this.showRentDetails = true;
     this.isUpdate = true;
     const formatDate = (dateString: string) => {
       const [day, month, year] = dateString.split('.');
@@ -510,11 +519,6 @@ SaveRentDetails(): void {
     this.formFields['toDate'] = formatDate(item.ToDate);
     this.formFields['rentAmnt'] = item.rentAmnt;
     this.rentpopupID = item.id;
-
-    this.showRentDetails = true;
-    this.formFields['fromDate']='';
-    this.formFields['toDate']='';
-    this.formFields['rentAmnt']='';
   }
 
   btnSaveRentPopupData(): void {
@@ -556,4 +560,5 @@ SaveRentDetails(): void {
       }
     );
   }
+
 }
