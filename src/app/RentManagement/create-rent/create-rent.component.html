@@ -141,7 +141,7 @@
     <button class="btn btn-primary" (click)="onCreate()" *ngIf="isButtonVisiblecreate">
       Create
     </button>
-    <button class="btn btn-primary" *ngIf="isButtonVisible">
+    <button class="btn btn-primary" (click)="onUpdate()" *ngIf="isButtonVisible">
       Update
     </button>
     &nbsp;
@@ -202,7 +202,7 @@
             <td>{{ item.FromDate }}</td>
             <td>{{ item.ToDate }}</td>
             <td>{{ item.rentAmnt }}</td>
-            <td><button class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></button></td>
+            <td><button class="btn btn-sm btn-primary" (click)="onUpdateRentDetails(item)"><i class="fas fa-pen"></i></button></td>
           </tr>
          
         </tbody>
