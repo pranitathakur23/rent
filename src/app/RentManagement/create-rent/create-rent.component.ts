@@ -73,6 +73,7 @@ export class CreateRentComponent implements OnInit {
     if(this.rentid !=0){
       this.isButtonVisible = true;
       this.isButtonVisiblecreate = false;
+      this.getRentAgreementEditData();
     }
 
     this.getRentAgreementPopupdataList(); // Fetch rent agreements on component initialization
@@ -86,7 +87,33 @@ export class CreateRentComponent implements OnInit {
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
         if (response.status==true) {
-          this.rentData = response.data;
+           this.rentData = response.data;
+             } else {
+          console.error('Failed to fetch rent agreement list:', response.message);
+        }
+      }, error => {
+        console.error('Error fetching rent agreement list:', error);
+      });
+  }
+
+  getRentAgreementEditData(): void {
+    const apiUrl = '/api/RentAgreeMent/GetRenatMasterDataID';  // Note the relative path
+    const body = { id: this.rentid };
+    this.http.post<any>(apiUrl, body).subscribe(
+      (response: any) => {
+        if (response.status==true) {
+          this.formFields['bank'] = response.data[0].bank;
+          this.formFields['state'] = response.data[0].state;
+          this.formFields['district'] = response.data[0].area;
+          this.formFields['branch'] = response.data[0].branch;
+          this.formFields['landlordEmail'] = response.data[0].landlordemail;
+          this.formFields['landlordMobile'] = response.data[0].landLordMobileNo;
+          this.formFields['depositAmount'] = response.data[0].depositeAmnt;
+          this.formFields['utrReferenceNo'] = response.data[0].depositeAmntRefernceid;
+          this.formFields['depositDate']=   response.data[0].depositeDate;
+          this.formFields['remark'] = response.data[0].remark;
+          this.fetchAreas(response.data[0].state);
+          this.fetchBranches(response.data[0].area);
         } else {
           console.error('Failed to fetch rent agreement list:', response.message);
         }
