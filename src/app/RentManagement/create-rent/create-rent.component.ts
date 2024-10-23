@@ -8,8 +8,6 @@ import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
 import { Component, Inject, PLATFORM_ID,OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-
-
 @Component({
   selector: 'app-create-rent',
   standalone: true,
@@ -18,15 +16,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrls: ['./create-rent.component.css']
 })
 
-
-
 export class CreateRentComponent implements OnInit {
-  @ViewChild('dateInput', { static: false }) dateInput!: ElementRef;
-  @ViewChild('datedeposite', { static: false }) datedeposite!: ElementRef;
-
-
+    @ViewChild('dateInput', { static: false }) dateInput!: ElementRef;
+    @ViewChild('datedeposite', { static: false }) datedeposite!: ElementRef;
+    @ViewChild('fdate', { static: false }) fdate!: ElementRef;
+    @ViewChild('tdate', { static: false }) tdate!: ElementRef;
   constructor(private sanitizer: DomSanitizer, private http: HttpClient, private router: Router,private rentservice:RentService,  private route: ActivatedRoute) { }  
-
   banks: { BankCode: number; BankName: string }[] = [];
   states: { stateCode: number; stateName: string }[] = [];
   areas: { areaCode: number; areaName: string }[] = [];
@@ -73,13 +68,11 @@ export class CreateRentComponent implements OnInit {
     closingDate:''
   };
 
-  ngOnInit(): void {
+   ngOnInit(): void { 
     this.getRentAgreementPopupdataList(); // Fetch rent agreements on component initialization
     this.loadInitialData();
     const id = this.route.snapshot.paramMap.get('id'); // Retrieve the ID from the route
-
     this.employeecode = sessionStorage.getItem('userName') || ''; // Default to 'Guest' if not found
-
   }
 
   getRentAgreementPopupdataList(): void {
@@ -103,12 +96,11 @@ export class CreateRentComponent implements OnInit {
     this.fetchStates();
   }
 
- /** Handle dropdown change event to log selected value */
-  onDropdownChange(fieldName: string, selectedValue: string): void {
-    console.log(`${fieldName} selected:`, selectedValue);
-  }
+ onDropdownChange(fieldName: string, selectedValue: string): void {
+  console.log(`${fieldName} selected:`, selectedValue);
+}
 
-  onCreate(): void {
+onCreate(): void {
     if (!this.formFields['bank']) {
       alert('Please select a Bank');
       this.focusField('bank');
@@ -205,64 +197,25 @@ export class CreateRentComponent implements OnInit {
       );
   }
 
-
-  SaveRentDetails(): void {
-//   const requestData = {
-//   bank: Number(this.formFields['bank']),
-//   State: Number(this.formFields['state']),
-//   area: Number(this.formFields['district']),
-//   Branch: Number(this.formFields['branch']),
-//   landLordName: this.formFields['landlordName'],
-//   landLordEmail: this.formFields['landlordEmail'],
-//   landLordMobileNo: this.formFields['landlordMobile'],
-//   landLordAccNo: this.formFields['accountNo'],
-//   depositeAmnt: this.formFields['depositAmount'],
-//   depositeAmntRefernceid: this.formFields['utrReferenceNo'],
-//   depositeDate: this.formFields['depositDate'],
-//   remark: this.formFields['remark'],
-//   LandLordIFSC: this.formFields['ifscCode'],
-//   filepath: 's3bucket',
-//   makerid: 'AB203'
-// };
-
-// this.http.post('/api/RentAgreeMent/SaveRentData', requestData)
-//   .subscribe(
-//     (response: any) => {
-//       if (response.status==true) {
-//         // console.log('API call successful:', response);
-//         // this.rentservice.triggerRefresh(); // Trigger refresh here
-//         // this.router.navigate(['/layout/rent-list']);
-//         this.isButtonVisible = true;
-//         this.isButtonVisiblecreate = false;
-
-
- 
-
-  // Prepare request data
-    const requestData = {
-      bank: Number(this.formFields['bank']),
-      State: Number(this.formFields['state']),
-      area: Number(this.formFields['district']),
-      Branch: Number(this.formFields['branch']),
-      landLordName: this.formFields['landlordName'],
-      landLordEmail: this.formFields['landlordEmail'],
-      landLordMobileNo: this.formFields['landlordMobile'],
-      landLordAccNo: this.formFields['accountNo'],
-      depositeAmnt: this.formFields['depositAmount'],
-      depositeAmntRefernceid: this.formFields['utrReferenceNo'],
-      depositeDate: this.formFields['depositDate'],
-      remark: this.formFields['remark'],
-      LandLordIFSC: this.formFields['ifscCode'],
-      filepath: this.formFields['filepath'],
-      makerid: this.employeecode,
-    
-
-
+SaveRentDetails(): void {
+  const requestData = {
+    bank: Number(this.formFields['bank']),
+    State: Number(this.formFields['state']),
+    area: Number(this.formFields['district']),
+    Branch: Number(this.formFields['branch']),
+    landLordName: this.formFields['landlordName'],
+    landLordEmail: this.formFields['landlordEmail'],
+    landLordMobileNo: this.formFields['landlordMobile'],
+    landLordAccNo: this.formFields['accountNo'],
+    depositeAmnt: this.formFields['depositAmount'],
+    depositeAmntRefernceid: this.formFields['utrReferenceNo'],
+    depositeDate: this.formFields['depositDate'],
+    remark: this.formFields['remark'],
+    LandLordIFSC: this.formFields['ifscCode'],
+    filepath: this.formFields['filepath'],
+    makerid: this.employeecode,
     };
-
     console.log('Request Data:', requestData);
-
-  // API call
     this.http.post('/api/RentAgreeMent/SaveRentData', requestData).subscribe(
       (response: any) => {
         if (response.status) {
@@ -347,7 +300,6 @@ export class CreateRentComponent implements OnInit {
     }, 0);
   }
 
-
   /** Fetch bank data from the API */
   fetchBankData(): void {
     this.http.post('/api/RentAgreeMent/GetDropDownData', { Mode: 1 })
@@ -412,6 +364,7 @@ export class CreateRentComponent implements OnInit {
         console.error('Error fetching branches:', error);
       });
   }
+
  /** Handle area change event to fetch branches */
   onAreaChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
@@ -420,6 +373,7 @@ export class CreateRentComponent implements OnInit {
     this.fetchBranches(areaCode); // Fetch branches based on the selected area code
     }
   }
+
   /** Navigate to create rent page */
   onAdd(): void {
     this.router.navigate(['/layout/create-rent']);
@@ -431,7 +385,6 @@ export class CreateRentComponent implements OnInit {
   }
 
   /** Handle file selection */
-
   onFileChange(event: any): void {
     // Clear previous selections
     this.fileNames = [];
@@ -446,6 +399,7 @@ export class CreateRentComponent implements OnInit {
       }
     }
   }
+
   /** Upload file and log the filename */
   uploadFile(): void {
     console.log('File uploaded:', this.fileName);
@@ -466,17 +420,14 @@ export class CreateRentComponent implements OnInit {
     }
   }
   
-
   previewFile(index: number, event: Event): void {
     event.preventDefault();
-    
     const file = this.files[index];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
         const unsafeUrl = reader.result as string;
         this.fileURL = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeUrl);
-  
         // Show modal
         const modalElement = document.getElementById('filePreviewModal');
         if (modalElement) {
@@ -506,13 +457,10 @@ export class CreateRentComponent implements OnInit {
   onAttach(): void {
     console.log('Attach button clicked');
   }
-  /** Close the branch dropdown */
+
   closeBranchfun(): void {
     this.closeBranch = false;
   }
-
-
-
 
   savebranchstatus(): void {
     if (!this.formFields['closingDate']) {
@@ -564,17 +512,20 @@ export class CreateRentComponent implements OnInit {
     this.rentpopupID = item.id;
 
     this.showRentDetails = true;
+    this.formFields['fromDate']='';
+    this.formFields['toDate']='';
+    this.formFields['rentAmnt']='';
   }
 
   btnSaveRentPopupData(): void {
     if (!this.formFields['fromDate']) {
       alert('Please select a fromDate');
-      this.focusField('fromDate');
+      this.fdate.nativeElement.focus();
       return;
     }
     if (!this.formFields['toDate']) {
       alert('Please select a toDate');
-      this.focusField('toDate');
+      this.tdate.nativeElement.focus();
       return;
     }
     if (!this.formFields['rentAmnt']) {
@@ -605,5 +556,4 @@ export class CreateRentComponent implements OnInit {
       }
     );
   }
-
 }
