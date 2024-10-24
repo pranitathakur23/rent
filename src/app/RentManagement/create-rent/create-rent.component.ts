@@ -37,6 +37,7 @@ export class CreateRentComponent implements OnInit {
   closingDate: string | undefined;
   toDate: string | undefined;
   isButtonVisible = false;
+  isButtonVisibleAddrent = false;
   isButtonVisiblecreate = true;
   iscloseButton = false;
   totalRentAmount: string = '';
@@ -82,7 +83,7 @@ export class CreateRentComponent implements OnInit {
     this.getRentAgreementPopupdataList(); // Fetch rent agreements on component initialization
     this.loadInitialData();
     this.employeecode = sessionStorage.getItem('userName') || ''; // Default to 'Guest' if not found
-  }
+     }
 
   getRentAgreementPopupdataList(): void {
     const apiUrl = '/api/rent/GetRentDetails';  // Note the relative path
@@ -106,6 +107,12 @@ export class CreateRentComponent implements OnInit {
       (response: any) => {
         if (response.status == true) {
           this.rentMasterData = response.data[0];
+          if (this.rentMasterData.makerid != this.employeecode) {
+            this.isButtonVisibleAddrent = false;
+          }
+          else {
+            this.isButtonVisibleAddrent = true;
+          }
           this.formFields['bank'] = response.data[0].bank;
           this.formFields['state'] = response.data[0].state;
           this.formFields['district'] = response.data[0].area;
@@ -333,7 +340,7 @@ export class CreateRentComponent implements OnInit {
       }
     } else {
       this.status = 'Pending';
-      this.employeecode=this.rentMasterData.makerid;
+      this.employeecode = this.rentMasterData.makerid;
     }
 
     const requestData = {
