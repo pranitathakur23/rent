@@ -261,6 +261,7 @@ export class CreateRentComponent implements OnInit {
       (response: any) => {
         if (response.status) {
           this.isButtonVisible = true;
+          this.isButtonVisibleAddrent=true;
           this.isButtonVisiblecreate = false;
           this.rentid = response.data[0].id;
           this.showRentDetails = true;
