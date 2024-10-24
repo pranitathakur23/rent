@@ -16,7 +16,6 @@
         type="text"
         class="form-control"
         [(ngModel)]="searchTerm"
-        (input)="filterRentData()"
         placeholder="Search by Name, Email, or Mobile..." style="    width: 30% !important;"
       />
 
@@ -55,7 +54,7 @@
             <td>{{ item.stateName}}</td>
             <td>{{ item.landLordName }}</td>
             <td>{{ item.landLordEmail }}</td>
-            <td>{{ item.landLordMobileNo }}</td>
+            <td>{{ item.landLordMobileNo }}</td> 
             <td>{{ item.depositeAmnt }}</td>
             <td>{{ item.rentstatus }}</td>
             <td (click)="deletedata(item.ID)">
@@ -74,138 +73,4 @@
     ></pagination-controls>
   </div>
 </div>
-<div *ngIf="showCreateRentAgreement" class="overlay"></div>
-<div *ngIf="showCreateRentAgreement" class="card col-md-6 create-rent-card" style="margin: auto;">
-  <div class="card-header d-flex justify-content-between align-items-center" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
-    <h5>Create Rent Agreement</h5>
-    <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-  </div>
-  <div class="card-body">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="bank">Bank *</label>
-          <select id="bank" class="form-control">
-            <option value="">Select Bank</option>
-            <option value="SBI">SBI</option>
-            <option value="HDFC">HDFC</option>
-            <option value="ICICI">ICICI</option>
-            <option value="Axis Bank">Axis Bank</option>
-            <option value="PNB">PNB</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="state">State *</label>
-          <select id="state" class="form-control">
-            <option value="">Select State</option>
-            <option value="Maharashtra">Maharashtra</option>
-            <option value="Delhi">Delhi</option>
-            <option value="Karnataka">Karnataka</option>
-            <option value="Tamil Nadu">Tamil Nadu</option>
-            <option value="Uttar Pradesh">Uttar Pradesh</option>
-          </select>
-        </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="district">District *</label>
-          <select id="district" class="form-control">
-            <!-- Options for districts -->
-          </select>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="branch">Branch *</label>
-          <select id="branch" class="form-control">
-            <!-- Options for branches -->
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="landlordName">Landlord Name *</label>
-          <input type="text" id="landlordName" class="form-control" />
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="landlordEmail">Landlord Email *</label>
-          <input type="email" id="landlordEmail" class="form-control" />
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="accountNo">Landlord Account No *</label>
-          <input type="text" id="accountNo" class="form-control" />
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="confirmAccountNo">Confirm Account No *</label>
-          <input type="text" id="confirmAccountNo" class="form-control" />
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="landlordMobile">Landlord Mobile No *</label>
-          <input type="tel" id="landlordMobile" class="form-control" />
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="ifscCode">Landlord IFSC Code *</label>
-          <input type="text" id="ifscCode" class="form-control" />
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="depositAmount">Deposit Amount *</label>
-          <input type="number" id="depositAmount" class="form-control" />
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="utrReferenceNo">UTR Reference No *</label>
-          <input type="text" id="utrReferenceNo" class="form-control" />
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="depositDate">Deposit Date *</label>
-          <input type="date" id="depositDate" class="form-control" />
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="remark">Remark *</label>
-          <input type="text" id="remark" class="form-control" />
-        </div>
-      </div>
-    </div>
-
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-primary" (click)="onCreate()">Create</button>
-    </div>
-  </div>
-</div>
