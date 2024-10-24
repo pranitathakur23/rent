@@ -124,16 +124,40 @@
 
     <div class="row d-flex align-items-center mt-3">
       <div class="col-md-6">
-        <input type="file" id="fileUpload" (change)="onFileChange($event)" class="form-control" [(ngModel)]="formFields['filepath']" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;" multiple />
-        <div *ngIf="fileNames.length > 0" class="d-flex flex-column align-items-start mt-2">
-          <div *ngFor="let fileName of fileNames; let i = index" class="d-flex align-items-center">
-            <a href="#" (click)="previewFile(i, $event)" style="color: rgb(1, 1, 1); text-decoration: underline; margin-right: 10px;">
-              {{ fileName }}
-            </a>
-            <span (click)="removeFile(i)" class="remove-file-icon" aria-label="Remove file" style="cursor: pointer;">&#10006;</span>
+        <div class="d-flex align-items-center gap-3">
+          <input 
+            type="file" 
+            id="fileUpload" 
+            (change)="onFileChange($event)" 
+            class="form-control" 
+            [(ngModel)]="formFields['filepath']" 
+            style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;" 
+            multiple 
+          />
+          
+          <div *ngIf="fileNames.length > 0" class="d-flex flex-column align-items-start mt-2 w-100">
+            <div *ngFor="let fileName of fileNames; let i = index" class="file-entry">
+              <a 
+                href="#" 
+                (click)="previewFile(i, $event)" 
+                class="file-name" 
+                title="{{ fileName }}" 
+              >
+                {{ fileName }}
+              </a>
+              <span 
+                (click)="removeFile(i)" 
+                class="remove-file-icon" 
+                aria-label="Remove file"
+              >
+                &#10006;
+              </span>
+            </div>
           </div>
         </div>
       </div>
+      
+      
 
 <div class="col-md-6 text-right">
   <div class="btn-group" style="margin-left: auto;">
@@ -242,7 +266,7 @@ width: auto;">
 
     <!-- Buttons -->
     <div class="d-flex mt-3">
-      <button class="btn btn-secondary mr-2" (click)="cancelRentDetails()">Cancel</button>
+      <button class="btn btn-secondary mr-2" (click)="cancelRentDetails()">Cancel</button> &nbsp;
       <button class="btn btn-primary" (click)="btnSaveRentPopupData()">Submit</button>
     </div>
   </div>
