@@ -5,23 +5,23 @@ import { HttpClient } from '@angular/common/http';
 import { RentService } from '../rent.service';
 import { RentListComponent } from '../rent-list/rent-list.component';
 import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
-import { Component, Inject, PLATFORM_ID,OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-create-rent',
   standalone: true,
-  imports: [CommonModule, FormsModule,RouterModule], // Ensure CommonModule is here
+  imports: [CommonModule, FormsModule, RouterModule], // Ensure CommonModule is here
   templateUrl: './create-rent.component.html',
   styleUrls: ['./create-rent.component.css']
 })
 
 export class CreateRentComponent implements OnInit {
-    @ViewChild('dateInput', { static: false }) dateInput!: ElementRef;
-    @ViewChild('datedeposite', { static: false }) datedeposite!: ElementRef;
-    @ViewChild('fdate', { static: false }) fdate!: ElementRef;
-    @ViewChild('tdate', { static: false }) tdate!: ElementRef;
-  constructor(private sanitizer: DomSanitizer, private http: HttpClient, private router: Router,private rentservice:RentService,  private route: ActivatedRoute) { }  
+  @ViewChild('dateInput', { static: false }) dateInput!: ElementRef;
+  @ViewChild('datedeposite', { static: false }) datedeposite!: ElementRef;
+  @ViewChild('fdate', { static: false }) fdate!: ElementRef;
+  @ViewChild('tdate', { static: false }) tdate!: ElementRef;
+  constructor(private sanitizer: DomSanitizer, private http: HttpClient, private router: Router, private rentservice: RentService, private route: ActivatedRoute) { }
   banks: { BankCode: number; BankName: string }[] = [];
   states: { stateCode: number; stateName: string }[] = [];
   areas: { areaCode: number; areaName: string }[] = [];
@@ -31,7 +31,7 @@ export class CreateRentComponent implements OnInit {
   closeBranch = false;
   fileName: string = '';
   rentData: any[] = []; // Initialize rentData as an empty array
-  ID :number=0;
+  ID: number = 0;
   file: File | null = null;
   fromDate: string | undefined;
   closingDate: string | undefined;
@@ -39,7 +39,7 @@ export class CreateRentComponent implements OnInit {
   isButtonVisible = false;
   isButtonVisiblecreate = true;
   iscloseButton = false;
-  totalRentAmount:string='';
+  totalRentAmount: string = '';
   rentAmnt: string = '';
   errorMessage: string = '';
   fileURL: SafeResourceUrl | null = null;  // Use SafeResourceUrl type
@@ -49,6 +49,9 @@ export class CreateRentComponent implements OnInit {
   employeecode: string | undefined;
   rentid: number = 0;
   isUpdate: boolean = false;
+  rentMasterData: any = {};
+  status: string | undefined;
+
 
   formFields: { [key: string]: string } = {
     bank: '',
@@ -65,12 +68,12 @@ export class CreateRentComponent implements OnInit {
     utrReferenceNo: '',
     depositDate: '',
     remark: '',
-    closingDate:''
+    closingDate: ''
   };
 
-   ngOnInit(): void { 
+  ngOnInit(): void {
     this.rentid = Number(this.route.snapshot.paramMap.get('id'));
-    if(this.rentid !=0){
+    if (this.rentid != 0) {
       this.isButtonVisible = true;
       this.isButtonVisiblecreate = false;
       this.getRentAgreementEditData();
@@ -86,9 +89,9 @@ export class CreateRentComponent implements OnInit {
     const body = { id: this.rentid };
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
-        if (response.status==true) {
-           this.rentData = response.data;
-             } else {
+        if (response.status == true) {
+          this.rentData = response.data;
+        } else {
           console.error('Failed to fetch rent agreement list:', response.message);
         }
       }, error => {
@@ -101,7 +104,8 @@ export class CreateRentComponent implements OnInit {
     const body = { id: this.rentid };
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
-        if (response.status==true) {
+        if (response.status == true) {
+          this.rentMasterData = response.data[0];
           this.formFields['bank'] = response.data[0].bank;
           this.formFields['state'] = response.data[0].state;
           this.formFields['district'] = response.data[0].area;
@@ -110,7 +114,7 @@ export class CreateRentComponent implements OnInit {
           this.formFields['landlordMobile'] = response.data[0].landLordMobileNo;
           this.formFields['depositAmount'] = response.data[0].depositeAmnt;
           this.formFields['utrReferenceNo'] = response.data[0].depositeAmntRefernceid;
-          this.formFields['depositDate']=   response.data[0].depositeDate;
+          this.formFields['depositDate'] = response.data[0].depositeDate;
           this.formFields['remark'] = response.data[0].remark;
           this.fetchAreas(response.data[0].state);
           this.fetchBranches(response.data[0].area);
@@ -128,11 +132,11 @@ export class CreateRentComponent implements OnInit {
     this.fetchStates();
   }
 
- onDropdownChange(fieldName: string, selectedValue: string): void {
-  console.log(`${fieldName} selected:`, selectedValue);
-}
+  onDropdownChange(fieldName: string, selectedValue: string): void {
+    console.log(`${fieldName} selected:`, selectedValue);
+  }
 
-onCreate(): void {
+  onCreate(): void {
     if (!this.formFields['bank']) {
       alert('Please select a Bank');
       this.focusField('bank');
@@ -213,7 +217,6 @@ onCreate(): void {
     for (let i = 0; i < this.files.length; i++) {
       formData.append('files', this.files[i]);
     }
-    debugger
     this.http.post('/api/rent/SaveRentAgreementFiles', formData)
       .subscribe(
         (response: any) => {
@@ -229,66 +232,8 @@ onCreate(): void {
       );
   }
 
-SaveRentDetails(): void {
-  const requestData = {
-    bank: Number(this.formFields['bank']),
-    State: Number(this.formFields['state']),
-    area: Number(this.formFields['district']),
-    Branch: Number(this.formFields['branch']),
-    landLordName: this.formFields['landlordName'],
-    landLordEmail: this.formFields['landlordEmail'],
-    landLordMobileNo: this.formFields['landlordMobile'],
-    landLordAccNo: this.formFields['accountNo'],
-    depositeAmnt: this.formFields['depositAmount'],
-    depositeAmntRefernceid: this.formFields['utrReferenceNo'],
-    depositeDate: this.formFields['depositDate'],
-    remark: this.formFields['remark'],
-    LandLordIFSC: this.formFields['ifscCode'],
-    makerid: this.employeecode,
-    };
-    console.log('Request Data:', requestData);
-    this.http.post('/api/RentAgreeMent/SaveRentData', requestData).subscribe(
-      (response: any) => {
-        if (response.status) {
-          this.isButtonVisible = true;
-          this.isButtonVisiblecreate = false;
-          this.rentid=response.data[0].id;
-          this.showRentDetails = true;
-          this.files = [];
-        } else {
-          console.error('API call failed:', response.message);
-        }
-      },
-      error => {
-        console.error('Error making API call:', error);
-      }
-    );
-  }
-
-  onUpdate(): void {
-    const formData = new FormData();
-    formData.append('rentMasterID', this.rentid.toString());
-    for (let i = 0; i < this.files.length; i++) {
-      formData.append('files', this.files[i]);
-    }
-    this.http.post('/api/rent/SaveRentAgreementFiles', formData)
-      .subscribe(
-        (response: any) => {
-          if (response.status == true) {
-            this.UpdateRentDetails();
-          } else {
-            console.error('API call failed:', response.message);
-          }
-        },
-        error => {
-          console.error('Error making API call:', error);
-        }
-      );
-  }
-
-  UpdateRentDetails(): void {
+  SaveRentDetails(): void {
     const requestData = {
-      id: this.rentid,
       bank: Number(this.formFields['bank']),
       State: Number(this.formFields['state']),
       area: Number(this.formFields['district']),
@@ -305,13 +250,118 @@ SaveRentDetails(): void {
       makerid: this.employeecode,
     };
     console.log('Request Data:', requestData);
+    this.http.post('/api/RentAgreeMent/SaveRentData', requestData).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.isButtonVisible = true;
+          this.isButtonVisiblecreate = false;
+          this.rentid = response.data[0].id;
+          this.showRentDetails = true;
+          this.files = [];
+        } else {
+          console.error('API call failed:', response.message);
+        }
+      },
+      error => {
+        console.error('Error making API call:', error);
+      }
+    );
+  }
+
+  onUpdate(): void {
+    if (this.files.length > 0) {
+      const formData = new FormData();
+      formData.append('rentMasterID', this.rentid.toString());
+      for (let i = 0; i < this.files.length; i++) {
+        formData.append('files', this.files[i]);
+      }
+      this.http.post('/api/rent/SaveRentAgreementFiles', formData)
+        .subscribe(
+          (response: any) => {
+            if (response.status == true) {
+              this.UpdateRentDetails();
+            } else {
+              console.error('API call failed:', response.message);
+            }
+          },
+          error => {
+            console.error('Error making API call:', error);
+          }
+        );
+    } else {
+      this.UpdateRentDetails();
+    }
+  }
+
+  UpdateRentDetails(): void {
+    if (this.rentMasterData.makerid != this.employeecode) {
+      if (!this.formFields['landlordName']) {
+        alert('Please enter Landlord Name');
+        this.focusField('landlordName');
+        return;
+      }
+
+      if (!this.formFields['accountNo']) {
+        alert('Please enter Landlord Account No');
+        this.focusField('accountNo');
+        return;
+      }
+      if (!this.formFields['confirmAccountNo']) {
+        alert('Please enter Confirm Account No');
+        this.focusField('confirmAccountNo');
+        return;
+      }
+      if (this.formFields['accountNo'] !== this.formFields['confirmAccountNo']) {
+        alert('Landlord Account No and Confirm Account No do not match');
+        this.focusField('accountNo');
+        return;
+      }
+      if (!this.formFields['ifscCode']) {
+        alert('Please enter IFSC Code');
+        this.focusField('ifscCode');
+        return;
+      }
+
+      if (
+        this.rentMasterData.landLordName == this.formFields['landlordName'] &&
+        this.rentMasterData.landLordAccNo == this.formFields['accountNo'] &&
+        this.rentMasterData.LandLordIFSC == this.formFields['ifscCode']
+      ) {
+        this.status = 'Completed';
+      } else {
+        this.status = 'Rejected';
+      }
+    } else {
+      this.status = 'Pending';
+      this.employeecode=this.rentMasterData.makerid;
+    }
+
+    const requestData = {
+      id: this.rentid,
+      bank: Number(this.formFields['bank']),
+      State: Number(this.formFields['state']),
+      area: Number(this.formFields['district']),
+      Branch: Number(this.formFields['branch']),
+      landLordName: this.formFields['landlordName'],
+      landLordEmail: this.formFields['landlordEmail'],
+      landLordMobileNo: this.formFields['landlordMobile'],
+      landLordAccNo: this.formFields['accountNo'],
+      depositeAmnt: this.formFields['depositAmount'],
+      depositeAmntRefernceid: this.formFields['utrReferenceNo'],
+      depositeDate: this.formFields['depositDate'],
+      remark: this.formFields['remark'],
+      LandLordIFSC: this.formFields['ifscCode'],
+      checkerid: this.employeecode,
+      status: this.status
+    };
+    console.log('Request Data:', requestData);
     this.http.post('/api/rent/UpdateRentMasterDetailsForMaker', requestData).subscribe(
       (response: any) => {
         if (response.status) {
           this.isButtonVisible = true;
           this.isButtonVisiblecreate = false;
           this.showRentDetails = true;
-          this.files = []; 
+          this.files = [];
         } else {
           console.error('API call failed:', response.message);
         }
@@ -382,12 +432,12 @@ SaveRentDetails(): void {
       });
   }
 
-/** Fetch branches from the API */
+  /** Fetch branches from the API */
   fetchBranches(areaCode: number): void {
-  this.http.post('/api/RentAgreeMent/GetDropDownData', { Mode: 4, ID: areaCode }) // Use areaCode instead of hardcoded value
+    this.http.post('/api/RentAgreeMent/GetDropDownData', { Mode: 4, ID: areaCode }) // Use areaCode instead of hardcoded value
       .subscribe((response: any) => {
         if (response.status) {
-        this.branches = response.data; // Store the branch data
+          this.branches = response.data; // Store the branch data
         } else {
           console.error('Failed to fetch branches:', response.message);
         }
@@ -396,12 +446,12 @@ SaveRentDetails(): void {
       });
   }
 
- /** Handle area change event to fetch branches */
+  /** Handle area change event to fetch branches */
   onAreaChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     if (selectElement) {
       const areaCode = Number(selectElement.value);
-    this.fetchBranches(areaCode); // Fetch branches based on the selected area code
+      this.fetchBranches(areaCode); // Fetch branches based on the selected area code
     }
   }
 
@@ -420,7 +470,7 @@ SaveRentDetails(): void {
     // Clear previous selections
     this.fileNames = [];
     this.files = [];
-  
+
     const selectedFiles = event.target.files;
     if (selectedFiles && selectedFiles.length > 0) {
       // Store file names and file objects for further processing
@@ -440,7 +490,7 @@ SaveRentDetails(): void {
     // Remove the file and the name from the arrays
     this.fileNames.splice(index, 1);
     this.files.splice(index, 1);
-  
+
     // Check if there are no more files remaining
     if (this.fileNames.length == 0) {
       // Reset the file input only when no files are left
@@ -450,7 +500,7 @@ SaveRentDetails(): void {
       }
     }
   }
-  
+
   previewFile(index: number, event: Event): void {
     event.preventDefault();
     const file = this.files[index];
@@ -511,7 +561,7 @@ SaveRentDetails(): void {
     const apiUrl = '/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
     this.http.post<any>(apiUrl, Test).subscribe(
       (response: any) => {
-        if (response.status==true) {
+        if (response.status == true) {
           this.closeBranch = false;
         } else {
           console.error('Failed to fetch rent agreement list:', response.message);
@@ -530,8 +580,8 @@ SaveRentDetails(): void {
   onAddRentDetails(): void {
     this.isUpdate = false;
     this.formFields['fromDate'] = '';
-    this.formFields['toDate']='';
-    this.formFields['rentAmnt']='';
+    this.formFields['toDate'] = '';
+    this.formFields['rentAmnt'] = '';
     this.showRentDetails = true;
   }
 
