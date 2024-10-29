@@ -1,6 +1,6 @@
 declare var bootstrap: any;
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RentService } from '../rent.service';
 import { RentListComponent } from '../rent-list/rent-list.component';
@@ -18,9 +18,23 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 export class CreateRentComponent implements OnInit {
   @ViewChild('dateInput', { static: false }) dateInput!: ElementRef;
-  @ViewChild('datedeposite', { static: false }) datedeposite!: ElementRef;
   @ViewChild('fdate', { static: false }) fdate!: ElementRef;
   @ViewChild('tdate', { static: false }) tdate!: ElementRef;
+  @ViewChild('bankField', { static: false }) bankField!: ElementRef;
+  @ViewChild('stateField', { static: false }) stateField!: ElementRef;
+  @ViewChild('areaField', { static: false }) areaField!: ElementRef;
+  @ViewChild('branchField', { static: false }) branchField!: ElementRef;
+  @ViewChild('landLoardNameField', { static: false }) landLoardNameField!: ElementRef;
+  @ViewChild('landLordEmailField', { static: false }) landLordEmailField!: ElementRef;
+  @ViewChild('accountNoField', { static: false }) accountNoField!: ElementRef;
+  @ViewChild('cnfAccountNoField', { static: false }) cnfAccountNoField!: ElementRef;
+  @ViewChild('landLoardMobileNoField', { static: false }) landLoardMobileNoField!: ElementRef;
+  @ViewChild('ifscCodeField', { static: false }) ifscCodeField!: ElementRef;
+  @ViewChild('depositeAmntField', { static: false }) depositeAmntField!: ElementRef;
+  @ViewChild('utrNoField', { static: false }) utrNoField!: ElementRef;
+  @ViewChild('datedeposite', { static: false }) datedeposite!: ElementRef;
+  @ViewChild('remarkField', { static: false }) remarkField!: ElementRef;
+
   constructor(private sanitizer: DomSanitizer, private http: HttpClient, private router: Router, private rentservice: RentService, private route: ActivatedRoute) { }
   banks: { BankCode: number; BankName: string }[] = [];
   states: { stateCode: number; stateName: string }[] = [];
@@ -52,7 +66,7 @@ export class CreateRentComponent implements OnInit {
   isUpdate: boolean = false;
   rentMasterData: any = {};
   status: string | undefined;
-
+  isDisabled: boolean = false;
 
   formFields: { [key: string]: string } = {
     bank: '',
@@ -78,12 +92,86 @@ export class CreateRentComponent implements OnInit {
       this.isButtonVisible = true;
       this.isButtonVisiblecreate = false;
       this.getRentAgreementEditData();
+      if (this.rentMasterData.makerid != this.employeecode) {
+        this.isButtonVisibleAddrent = false;
+      }
+      else {
+        this.isButtonVisibleAddrent = true;
+      }
     }
-
-    this.getRentAgreementPopupdataList(); // Fetch rent agreements on component initialization
+    this.getRentAgreementPopupdataList();
     this.loadInitialData();
-    this.employeecode = sessionStorage.getItem('userName') || ''; // Default to 'Guest' if not found
-     }
+    this.employeecode = sessionStorage.getItem('userName') || '';
+  }
+
+  checkFormFieldsState(): void {
+    if (this.rentMasterData.makerid != this.employeecode) {
+      if (this.rentMasterData.rentstatus == 'Pending') {
+        this.bankField.nativeElement.disabled = true;
+        this.stateField.nativeElement.disabled = true;
+        this.areaField.nativeElement.disabled = true;
+        this.branchField.nativeElement.disabled = true;
+        this.landLoardNameField.nativeElement.disabled = false;
+        this.landLordEmailField.nativeElement.disabled = true;
+        this.accountNoField.nativeElement.disabled = false;
+        this.cnfAccountNoField.nativeElement.disabled = false;
+        this.landLoardMobileNoField.nativeElement.disabled = true;
+        this.ifscCodeField.nativeElement.disabled = false;
+        this.depositeAmntField.nativeElement.disabled = true;
+        this.utrNoField.nativeElement.disabled = true;
+        this.datedeposite.nativeElement.disabled = true;
+        this.remarkField.nativeElement.disabled = true;
+      } else {
+        this.bankField.nativeElement.disabled = true;
+        this.stateField.nativeElement.disabled = true;
+        this.areaField.nativeElement.disabled = true;
+        this.branchField.nativeElement.disabled = true;
+        this.landLoardNameField.nativeElement.disabled = true;
+        this.landLordEmailField.nativeElement.disabled = true;
+        this.accountNoField.nativeElement.disabled = true;
+        this.cnfAccountNoField.nativeElement.disabled = true;
+        this.landLoardMobileNoField.nativeElement.disabled = true;
+        this.ifscCodeField.nativeElement.disabled = true;
+        this.depositeAmntField.nativeElement.disabled = true;
+        this.utrNoField.nativeElement.disabled = true;
+        this.datedeposite.nativeElement.disabled = true;
+        this.remarkField.nativeElement.disabled = true;
+      }
+    } else {
+      if (this.rentMasterData.rentstatus == 'Rejected') {
+        this.bankField.nativeElement.disabled = false;
+        this.stateField.nativeElement.disabled = false;
+        this.areaField.nativeElement.disabled = false;
+        this.branchField.nativeElement.disabled = false;
+        this.landLoardNameField.nativeElement.disabled = false;
+        this.landLordEmailField.nativeElement.disabled = false;
+        this.accountNoField.nativeElement.disabled = false;
+        this.cnfAccountNoField.nativeElement.disabled = false;
+        this.landLoardMobileNoField.nativeElement.disabled = false;
+        this.ifscCodeField.nativeElement.disabled = false;
+        this.depositeAmntField.nativeElement.disabled = false;
+        this.utrNoField.nativeElement.disabled = false;
+        this.datedeposite.nativeElement.disabled = false;
+        this.remarkField.nativeElement.disabled = false;
+      } else {
+        this.bankField.nativeElement.disabled = true;
+        this.stateField.nativeElement.disabled = true;
+        this.areaField.nativeElement.disabled = true;
+        this.branchField.nativeElement.disabled = true;
+        this.landLoardNameField.nativeElement.disabled = true;
+        this.landLordEmailField.nativeElement.disabled = true;
+        this.accountNoField.nativeElement.disabled = true;
+        this.cnfAccountNoField.nativeElement.disabled = true;
+        this.landLoardMobileNoField.nativeElement.disabled = true;
+        this.ifscCodeField.nativeElement.disabled = true;
+        this.depositeAmntField.nativeElement.disabled = true;
+        this.utrNoField.nativeElement.disabled = true;
+        this.datedeposite.nativeElement.disabled = true;
+        this.remarkField.nativeElement.disabled = true;
+      }
+    }
+  }
+
 
   getRentAgreementPopupdataList(): void {
     const apiUrl = '/api/rent/GetRentDetails';  // Note the relative path
@@ -101,12 +189,13 @@ export class CreateRentComponent implements OnInit {
   }
 
   getRentAgreementEditData(): void {
-    const apiUrl = '/api/RentAgreeMent/GetRenatMasterDataID';  // Note the relative path
+    const apiUrl = '/api/RentAgreeMent/GetRenatMasterDataID';
     const body = { id: this.rentid };
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
         if (response.status == true) {
           this.rentMasterData = response.data[0];
+          this.checkFormFieldsState();
           if (this.rentMasterData.makerid != this.employeecode) {
             this.isButtonVisibleAddrent = false;
           }
@@ -341,9 +430,8 @@ export class CreateRentComponent implements OnInit {
       }
     } else {
       this.status = 'Pending';
-      this.employeecode = this.rentMasterData.makerid;
+      this.employeecode = '';
     }
-
     const requestData = {
       id: this.rentid,
       bank: Number(this.formFields['bank']),
