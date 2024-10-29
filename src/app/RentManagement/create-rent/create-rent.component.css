@@ -6,4 +6,42 @@
   .modal-header .close {
     margin-left: auto; /* Pushes the close button to the right */
   }
- 
+/* Ensure the filename and close icon align properly */
+/* Ensure the filename and close icon are aligned properly */
+.file-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Push filename and icon to opposite ends */
+  width: 100%; 
+  margin-bottom: 5px;
+  gap: 10px;
+}
+
+/* Handle long filenames gracefully with ellipsis */
+.file-name {
+  flex-grow: 1;           /* Allow filename to use available space */
+  white-space: nowrap;    /* Prevent wrapping */
+  overflow: hidden;       /* Hide overflow */
+  text-overflow: ellipsis; /* Show ellipsis when text overflows */
+  color: black;
+  text-decoration: underline;
+}
+
+/* Ensure the close icon is aligned and doesn't shrink */
+.remove-file-icon {
+  cursor: pointer;
+  font-size: 18px; /* Adjust size if needed */
+  color: red;
+  flex-shrink: 0;  /* Prevent the icon from shrinking */
+}
+
+/* Responsive styling for small screens */
+@media (max-width: 576px) {
+  .file-entry {
+    flex-direction: column; /* Stack filename and icon */
+    align-items: flex-start;
+  }
+  .remove-file-icon {
+    align-self: flex-end; /* Align the icon to the right */
+  }
+}

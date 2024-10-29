@@ -13,27 +13,22 @@ import { BranchStatementComponent } from './BranchStatement/branch-statement/bra
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
-    path: 'layout/create-rent/:id', // Accepts an ID
-    component: CreateRentComponent 
-  },
-  // Layout route with child dashboard
-  {
     path: 'layout',
     component: LayoutComponent,
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'rent-list', component: RentListComponent },
       { path: 'utr-upload', component: UtrUploadComponent },
-      { path: 'create-rent', component: CreateRentComponent },
+      { path: 'create-rent/:id', component: CreateRentComponent }, // Route with ID
+      { path: 'create-rent', component: CreateRentComponent }, // Route without ID
       { path: 'rent-details', component: RentDetailsComponent },
       { path: 'monthly-rent-report', component: MonthlyRentReportComponent },
       { path: 'branch-actions', component: BranchActionsComponent },
       { path: 'branch-statement', component: BranchStatementComponent }
     ]
   },
-  // Redirect default route to login
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  // Redirect unknown routes to login
   { path: '**', redirectTo: '/login' }
 ];
+
 

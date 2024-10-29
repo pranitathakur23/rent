@@ -54,27 +54,34 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="landlordName" style="font-weight: bold">Landlord Name *</label>
-          <input #landLoardNameField type="text" autocomplete="off" id="landlordName" class="form-control" [(ngModel)]="formFields['landlordName']" [disabled]="isDisabled" [disabled]="isDisabled" required />
+
+          <input #landLoardNameField type="text" placeholder="Enter Landlord Name" autocomplete="off" id="landlordName" class="form-control" [(ngModel)]="formFields['landlordName']" [disabled]="isDisabled" [disabled]="isDisabled" required />
+
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="landlordEmail" style="font-weight: bold">Landlord Email *</label>
-          <input #landLordEmailField type="email" autocomplete="off" id="landlordEmail" class="form-control" [(ngModel)]="formFields['landlordEmail']"
+          <input #landLordEmailField type="email" placeholder="Enter Landlord Email " autocomplete="off" id="landlordEmail" class="form-control" [(ngModel)]="formFields['landlordEmail']"
           [disabled]="isDisabled" required />
+
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="accountNo" style="font-weight: bold">Landlord Account No *</label>
-          <input #accountNoField type="text" autocomplete="off" id="accountNo" class="form-control" [(ngModel)]="formFields['accountNo']" [disabled]="isDisabled" required />
+
+          <input #accountNoField type="text" placeholder="Enter Landlord Account No " autocomplete="off" id="accountNo" class="form-control" [(ngModel)]="formFields['accountNo']" [disabled]="isDisabled" required />
+
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="confirmAccountNo" style="font-weight: bold">Confirm Account No *</label>
-          <input #cnfAccountNoField type="text" autocomplete="off" id="confirmAccountNo" class="form-control" [(ngModel)]="formFields['confirmAccountNo']"
+
+          <input #cnfAccountNoField type="text" placeholder="Enter Confirm Account No" autocomplete="off" id="confirmAccountNo" class="form-control" [(ngModel)]="formFields['confirmAccountNo']"
           [disabled]="isDisabled" required />
+
         </div>
       </div>
     </div>
@@ -82,28 +89,36 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="landlordMobile" style="font-weight: bold">Landlord Mobile No *</label>
-          <input #landLoardMobileNoField type="tel" autocomplete="off" id="landlordMobile" class="form-control" [(ngModel)]="formFields['landlordMobile']"
+
+          <input #landLoardMobileNoField type="tel"   placeholder="Enter Landlord Mobile No" autocomplete="off" id="landlordMobile" class="form-control" [(ngModel)]="formFields['landlordMobile']"
           [disabled]="isDisabled" required />
+
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="ifscCode" style="font-weight: bold">Landlord IFSC Code *</label>
-          <input #ifscCodeField type="text" autocomplete="off" id="ifscCode" class="form-control" [(ngModel)]="formFields['ifscCode']" [disabled]="isDisabled" required />
+
+          <input #ifscCodeField type="text" autocomplete="off" placeholder="Enter IFSC Code" id="ifscCode" class="form-control" [(ngModel)]="formFields['ifscCode']" [disabled]="isDisabled" required />
+
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="depositAmount" style="font-weight: bold">Deposit Amount *</label>
-          <input #depositeAmntField type="text" autocomplete="off" id="depositAmount" class="form-control" [(ngModel)]="formFields['depositAmount']"
+
+          <input #depositeAmntField type="text" placeholder="Enter Deposit Amount" autocomplete="off" id="depositAmount" class="form-control" [(ngModel)]="formFields['depositAmount']"
           [disabled]="isDisabled" required />
+
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="utrReferenceNo" style="font-weight: bold">Deposit Amt UTR Reference No *</label>
-          <input #utrNoField type="text" autocomplete="off" autocomplete="off" id="utrReferenceNo" class="form-control" [(ngModel)]="formFields['utrReferenceNo']"
+
+          <input #utrNoField type="text" autocomplete="off" placeholder="Enter Deposit Amt UTR Reference No" autocomplete="off" id="utrReferenceNo" class="form-control" [(ngModel)]="formFields['utrReferenceNo']"
           [disabled]="isDisabled" required />
+
         </div>
       </div>
     </div>
@@ -111,19 +126,24 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="depositDate" style="font-weight: bold">Deposit Date *</label>
-          <input #datedeposite type="date" autocomplete="off" id="depositDate" class="form-control" [(ngModel)]="formFields['depositDate']"
+
+          <input #datedeposite type="date" autocomplete="off" placeholder="Enter Deposit Date" id="depositDate" class="form-control" [(ngModel)]="formFields['depositDate']"
           [disabled]="isDisabled" required />
+
         </div>
       </div>
       <div class="col-md-9">
         <div class="form-group">
           <label for="remark" style="font-weight: bold">Remark</label>
-          <textarea #remarkField id="remark" autocomplete="off" class="form-control" [(ngModel)]="formFields['remark']" [disabled]="isDisabled" required></textarea>
+
+          <textarea #remarkField id="remark" placeholder="Enter Remark" autocomplete="off" class="form-control" [(ngModel)]="formFields['remark']" [disabled]="isDisabled" required></textarea>
+
         </div>
       </div>
     </div>
     <div class="row d-flex align-items-center mt-3">
       <div class="col-md-6">
+
         <input type="file" id="fileUpload" (change)="onFileChange($event)" class="form-control"
           [(ngModel)]="formFields['filepath']"
           style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;" multiple />
@@ -150,6 +170,7 @@
           <button class="btn" style="background-color: rgb(246, 43, 43); color: white;" (click)="closeBranchs()"
             *ngIf="isButtonVisiblecreate">
             Close Branch
+
           </button>
         </div>
       </div>
@@ -210,9 +231,19 @@ top: 3%;
 left: 39%;
 transform: translateX(-50%);
 width: auto;">
-    <div class="card-header d-flex justify-content-between align-items-center"
-      style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
-      <h5>Rent Details</h5>
+
+  <div class="card-header d-flex justify-content-between align-items-center" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
+    <h5>Rent Details</h5>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <!-- From Date -->
+      <label for="fromDate">From Date</label>
+      <div class="col-md-12">
+      <input #fdate type="date" id="fromDate" class="form-control"  [(ngModel)]="formFields['fromDate']" required />
+      </div>
+
     </div>
     <div class="card-body">
       <div class="row">
@@ -241,6 +272,14 @@ width: auto;">
         <button class="btn btn-secondary mr-2" (click)="cancelRentDetails()">Cancel</button>
         <button class="btn btn-primary" (click)="btnSaveRentPopupData()">Submit</button>
       </div>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex mt-3">
+      <button class="btn btn-secondary mr-2" (click)="cancelRentDetails()">Cancel</button> &nbsp;
+      <button class="btn btn-primary" (click)="btnSaveRentPopupData()">Submit</button>
+
     </div>
   </div>
   <!-- Rent Details Section -->
