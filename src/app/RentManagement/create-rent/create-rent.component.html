@@ -52,26 +52,26 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="landlordName" style="font-weight: bold">Landlord Name *</label>
-          <input type="text" id="landlordName" class="form-control" [(ngModel)]="formFields['landlordName']" required />
+          <input type="text" id="landlordName" placeholder="Enter Landlord Name" class="form-control" [(ngModel)]="formFields['landlordName']" required />
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="landlordEmail" style="font-weight: bold">Landlord Email *</label>
-          <input type="email" id="landlordEmail" class="form-control" [(ngModel)]="formFields['landlordEmail']" required />
+          <input type="email" id="landlordEmail" placeholder="Enter Landlord Email " class="form-control" [(ngModel)]="formFields['landlordEmail']" required />
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="accountNo" style="font-weight: bold">Landlord Account No *</label>
-          <input type="text" id="accountNo" class="form-control" [(ngModel)]="formFields['accountNo']" required />
+          <input type="text" id="accountNo" placeholder="Enter Landlord Account No " class="form-control" [(ngModel)]="formFields['accountNo']" required />
         </div>
       </div>
 
       <div class="col-md-3">
         <div class="form-group">
           <label for="confirmAccountNo" style="font-weight: bold">Confirm Account No *</label>
-          <input type="text" id="confirmAccountNo" class="form-control" [(ngModel)]="formFields['confirmAccountNo']" required />
+          <input type="text" id="confirmAccountNo" class="form-control" placeholder="Enter Confirm Account No" [(ngModel)]="formFields['confirmAccountNo']" required />
         </div>
       </div>
     </div>
@@ -81,27 +81,27 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="landlordMobile" style="font-weight: bold">Landlord Mobile No *</label>
-          <input type="tel" id="landlordMobile" class="form-control" [(ngModel)]="formFields['landlordMobile']" required/>
+          <input type="tel" id="landlordMobile" class="form-control"  placeholder="Enter Landlord Mobile No" [(ngModel)]="formFields['landlordMobile']" required/>
         </div>
       </div>
 
       <div class="col-md-3">
         <div class="form-group">
           <label for="ifscCode" style="font-weight: bold">Landlord IFSC Code *</label>
-          <input type="text" id="ifscCode" class="form-control" [(ngModel)]="formFields['ifscCode']" required />
+          <input type="text" id="ifscCode" class="form-control" placeholder="Enter IFSC Code" [(ngModel)]="formFields['ifscCode']" required />
         </div>
       </div>
 
       <div class="col-md-3">
         <div class="form-group">
           <label for="depositAmount" style="font-weight: bold">Deposit Amount *</label>
-          <input type="text" id="depositAmount" class="form-control" [(ngModel)]="formFields['depositAmount']" required/>
+          <input type="text" id="depositAmount" class="form-control" placeholder="Enter Deposit Amount" [(ngModel)]="formFields['depositAmount']" required/>
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="utrReferenceNo" style="font-weight: bold">Deposit Amt UTR Reference No *</label>
-          <input type="text" id="utrReferenceNo" class="form-control" [(ngModel)]="formFields['utrReferenceNo']" required />
+          <input type="text" id="utrReferenceNo" class="form-control"  placeholder="Enter Deposit Amt UTR Reference No" [(ngModel)]="formFields['utrReferenceNo']" required />
         </div>
       </div>
     </div>
@@ -109,14 +109,14 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="depositDate" style="font-weight: bold">Deposit Date *</label>
-          <input #datedeposite type="date" id="depositDate" class="form-control" [(ngModel)]="formFields['depositDate']" required />
+          <input #datedeposite type="date" id="depositDate" placeholder="Enter Deposit Date" class="form-control" [(ngModel)]="formFields['depositDate']" required />
         </div>
       </div>
 
       <div class="col-md-9">
         <div class="form-group">
           <label for="remark" style="font-weight: bold">Remark</label>
-          <textarea id="remark" class="form-control" [(ngModel)]="formFields['remark']" required></textarea>
+          <textarea id="remark" class="form-control" placeholder="Enter Remark" [(ngModel)]="formFields['remark']" required></textarea>
         </div>
       </div>
     </div>
@@ -244,7 +244,7 @@ width: auto;">
       <!-- From Date -->
       <label for="fromDate">From Date</label>
       <div class="col-md-12">
-      <input #fdate type="date" id="fromDate" class="form-control" [(ngModel)]="formFields['fromDate']" required />
+      <input #fdate type="date" id="fromDate" class="form-control"  [(ngModel)]="formFields['fromDate']" required />
       </div>
     </div>
     
