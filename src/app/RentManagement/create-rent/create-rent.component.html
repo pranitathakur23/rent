@@ -55,7 +55,7 @@
         <div class="form-group">
           <label for="landlordName" style="font-weight: bold">Landlord Name *</label>
 
-          <input #landLoardNameField type="text" placeholder="Enter Landlord Name" autocomplete="off" id="landlordName" class="form-control" [(ngModel)]="formFields['landlordName']" [disabled]="isDisabled" [disabled]="isDisabled" required />
+          <input #landLoardNameField type="text" placeholder="Enter Landlord Name" autocomplete="off" id="landlordName" class="form-control" [(ngModel)]="formFields['landlordName']" [disabled]="isDisabled" required />
 
         </div>
       </div>
@@ -280,8 +280,8 @@ width: auto;">
       <button class="btn btn-secondary mr-2" (click)="cancelRentDetails()">Cancel</button> &nbsp;
       <button class="btn btn-primary" (click)="btnSaveRentPopupData()">Submit</button>
 
-    </div>
   </div>
+</div>
   <!-- Rent Details Section -->
   <div *ngIf="closeBranch" class="card col-md-8 create-rent-card" style="    margin: auto;
 padding: 20px;
