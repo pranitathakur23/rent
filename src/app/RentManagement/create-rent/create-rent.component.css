@@ -1,3 +1,4 @@
+
 .modal-header {
     display: flex;
     align-items: center; /* Vertically center items */
@@ -16,7 +17,21 @@
   margin-bottom: 5px;
   gap: 10px;
 }
+.custom-radio {
+  width: 20px; /* Increase the size of the radio button */
+  height: 20px;
+  accent-color: #007bff; /* Change the color when checked */
+}
 
+.form-check-label {
+  font-weight: 600; /* Make the label text bolder */
+  font-size: 16px; /* Increase the font size */
+  margin-left: 10px; /* Add space between radio and label */
+}
+
+.form-check {
+  margin-bottom: 15px; /* Add space between the radio buttons */
+}
 /* Handle long filenames gracefully with ellipsis */
 .file-name {
   flex-grow: 1;           /* Allow filename to use available space */
