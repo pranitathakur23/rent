@@ -42,8 +42,9 @@ export class CreateRentComponent implements OnInit {
   branches: { branchCode: number; branchName: string }[] = []; // Adjusted to number for branchCode
   showCreateRentAgreement = true;
   showRentDetails = false;
-  closeBranch = false;
-  
+
+  closeBranch: boolean = false;
+
   fileName: string = '';
   rentData: any[] = []; // Initialize rentData as an empty array
   ID: number = 0;
@@ -124,49 +125,19 @@ export class CreateRentComponent implements OnInit {
         this.stateField.nativeElement.disabled = true;
         this.areaField.nativeElement.disabled = true;
         this.branchField.nativeElement.disabled = true;
-        this.landLoardNameField.nativeElement.disabled = false;
         this.landLordEmailField.nativeElement.disabled = true;
-        this.accountNoField.nativeElement.disabled = false;
-        this.cnfAccountNoField.nativeElement.disabled = false;
         this.landLoardMobileNoField.nativeElement.disabled = true;
-        this.ifscCodeField.nativeElement.disabled = false;
         this.depositeAmntField.nativeElement.disabled = true;
         this.utrNoField.nativeElement.disabled = true;
         this.datedeposite.nativeElement.disabled = true;
         this.remarkField.nativeElement.disabled = true;
       } else {
-        this.bankField.nativeElement.disabled = true;
-        this.stateField.nativeElement.disabled = true;
-        this.areaField.nativeElement.disabled = true;
-        this.branchField.nativeElement.disabled = true;
-        this.landLoardNameField.nativeElement.disabled = true;
-        this.landLordEmailField.nativeElement.disabled = true;
-        this.accountNoField.nativeElement.disabled = true;
-        this.cnfAccountNoField.nativeElement.disabled = true;
-        this.landLoardMobileNoField.nativeElement.disabled = true;
-        this.ifscCodeField.nativeElement.disabled = true;
-        this.depositeAmntField.nativeElement.disabled = true;
-        this.utrNoField.nativeElement.disabled = true;
-        this.datedeposite.nativeElement.disabled = true;
-        this.remarkField.nativeElement.disabled = true;
+        this.isDisabled = true;
       }
     } else {
       if (this.rentMasterData.rentstatus == 'Rejected') {
-        this.bankField.nativeElement.disabled = false;
-        this.stateField.nativeElement.disabled = false;
-        this.areaField.nativeElement.disabled = false;
-        this.branchField.nativeElement.disabled = false;
-        this.landLoardNameField.nativeElement.disabled = false;
-        this.landLordEmailField.nativeElement.disabled = false;
-        this.accountNoField.nativeElement.disabled = false;
-        this.cnfAccountNoField.nativeElement.disabled = false;
-        this.landLoardMobileNoField.nativeElement.disabled = false;
-        this.ifscCodeField.nativeElement.disabled = false;
-        this.depositeAmntField.nativeElement.disabled = false;
-        this.utrNoField.nativeElement.disabled = false;
-        this.datedeposite.nativeElement.disabled = false;
-        this.remarkField.nativeElement.disabled = false;
-      } else {
+        this.isDisabled = false;
+      } else if (this.rentMasterData.rentstatus == 'Completed'){
         this.bankField.nativeElement.disabled = true;
         this.stateField.nativeElement.disabled = true;
         this.areaField.nativeElement.disabled = true;
@@ -177,10 +148,10 @@ export class CreateRentComponent implements OnInit {
         this.cnfAccountNoField.nativeElement.disabled = true;
         this.landLoardMobileNoField.nativeElement.disabled = true;
         this.ifscCodeField.nativeElement.disabled = true;
-        this.depositeAmntField.nativeElement.disabled = true;
-        this.utrNoField.nativeElement.disabled = true;
         this.datedeposite.nativeElement.disabled = true;
         this.remarkField.nativeElement.disabled = true;
+      } else{
+        this.isDisabled = true;
       }
     }
   }
