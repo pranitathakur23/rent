@@ -143,37 +143,69 @@
     </div>
     <div class="row d-flex align-items-center mt-3">
       <div class="col-md-6">
-
-        <input type="file" id="fileUpload" (change)="onFileChange($event)" class="form-control"
-          [(ngModel)]="formFields['filepath']"
-          style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;" multiple />
-        <div *ngIf="fileNames.length > 0" class="d-flex flex-column align-items-start mt-2">
-          <div *ngFor="let fileName of fileNames; let i = index" class="d-flex align-items-center">
-            <a href="#" (click)="previewFile(i, $event)"
-              style="color: rgb(1, 1, 1); text-decoration: underline; margin-right: 10px;">
-              {{ fileName }}
-            </a>
-            <span (click)="removeFile(i)" class="remove-file-icon" aria-label="Remove file"
-              style="cursor: pointer;">&#10006;</span>
-          </div>
-        </div>
+        <input 
+          type="file" 
+          id="fileUpload" 
+          (change)="onFileChangetabel($event)" 
+          class="form-control" 
+          style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;" 
+          multiple 
+        />
       </div>
-      <div class="col-md-6 text-right">
-        <div class="btn-group" style="margin-left: auto;">
-          <button class="btn btn-primary" (click)="onCreate()" *ngIf="isButtonVisiblecreate">
-            Create
-          </button>
-          <button class="btn btn-primary" (click)="onUpdate()" *ngIf="isButtonVisible">
-            Update
-          </button>
-          &nbsp;
-          <button class="btn" style="background-color: rgb(246, 43, 43); color: white;" (click)="closeBranchs()"
-            *ngIf="isButtonVisiblecreate">
-            Close Branch
+    </div>
 
-          </button>
-        </div>
+    <!-- Table to Display Selected Files -->
+    <div class="row mt-4" *ngIf="filearray.length > 0">
+      <div class="col-md-8">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th style="width: 10%;">Sr.No</th>
+              <th style="width: 70%;">Filename</th>
+              <th style="width: 20%;">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let file of filearray; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td 
+              class="text-truncate" 
+              (click)="previewFile(i, $event)" 
+              style="cursor: pointer; color: blue; text-decoration: underline;"
+            >
+              {{ file.name }}
+            </td>
+                      <td>
+                <button class="btn btn-danger btn-sm" (click)="removeFiletabel(i)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+    </div>
+  </div>
+    
+  <div class="row" style="justify-content: end;">
+    <div class="col-md-6">
+      <div class="btn-group" >
+        <button class="btn btn-primary" (click)="onCreate()" *ngIf="isButtonVisiblecreate">
+          Create
+        </button>
+        <button class="btn btn-primary" (click)="onUpdate()" *ngIf="isButtonVisible">
+          Update
+        </button>
+        &nbsp;
+        <button class="btn" style="background-color: rgb(246, 43, 43); color: white;" (click)="closeBranchs()"
+          *ngIf="isButtonVisiblecreate">
+          Close Branch
+
+        </button>
+      </div>
+    </div>
+  </div>
+  </div>
       <!-- Modal -->
       <div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" aria-labelledby="filePreviewLabel"
         aria-hidden="true">
@@ -191,8 +223,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
     <hr *ngIf="this.isButtonVisible" />
     <!-- Buttons row for Add and Update Rent Details -->
     <div class="row d-flex justify-content-center" *ngIf="this.isButtonVisibleAddrent">
@@ -225,13 +255,12 @@
   </div>
   <!-- Rent Details Section -->
   <div *ngIf="showRentDetails" class="card col-md-8 create-rent-card" style="    margin: auto;
-padding: 20px;
-position: absolute;
-top: 3%;
-left: 39%;
-transform: translateX(-50%);
-width: auto;">
-
+  padding: 20px;
+  position: absolute;
+  top: 3%;
+  left: 39%;
+  transform: translateX(-50%);
+  width: auto;">
   <div class="card-header d-flex justify-content-between align-items-center" style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
     <h5>Rent Details</h5>
   </div>
@@ -272,7 +301,7 @@ width: auto;">
         <button class="btn btn-secondary mr-2" (click)="cancelRentDetails()">Cancel</button>
         <button class="btn btn-primary" (click)="btnSaveRentPopupData()">Submit</button>
       </div>
-
+</div>
     </div>
 
     <!-- Buttons -->
@@ -283,30 +312,109 @@ width: auto;">
   </div>
 </div>
   <!-- Rent Details Section -->
-  <div *ngIf="closeBranch" class="card col-md-8 create-rent-card" style="    margin: auto;
+  <!-- Rent Details Section -->
+<div *ngIf="closeBranch" class="card col-md-10 create-rent-card" style="
+margin: auto;
 padding: 20px;
 position: absolute;
-top: 33%;
-left: 36%;
-transform: translateX(-50%);
-width: auto;
+top: 40%;
+left: 50%; /* Center the card horizontally */
+transform: translate(-50%, -50%); /* Center the card vertically */
+width: 600px; /* Set a specific width */
+scroll-behavior: auto;
 ">
-    <div class="card-header d-flex justify-content-between align-items-center"
-      style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
-      <h6>Close Branch</h6>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <!-- From Date -->
-        <label for="closingDate">Closing Date</label>
-        <div class="col-md-12">
-          <input #dateInput type="date" class="form-control" id="closingDate" [(ngModel)]="formFields['closingDate']" />
-        </div>
-      </div>
-      <!-- Buttons -->
-      <div class="d-flex mt-3">
-        <button class="btn btn-secondary mr-2" (click)="closeBranchfun()">Cancel</button> &nbsp;
-        <button class="btn btn-primary" (click)="savebranchstatus()">Submit</button>
-      </div>
+<div class="card-header d-flex justify-content-between align-items-center"
+style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
+<h6>Close Branch</h6>
+</div>
+
+<div class="card-body">
+ 
+<!-- Radio Buttons -->
+<div class="row mt-3">
+  <label class="col-md-12">Recovery Status</label>
+  <div class="col-md-6">
+    <div class="form-check">
+      <input
+        class="form-check-input custom-radio"
+        type="radio"
+        name="recoveryStatus"
+        id="amountRecovered"
+        [(ngModel)]="modelfields.recoveryStatus"
+        [value]="0" 
+        (change)="onRecoveryStatusChange()"
+        checked
+      />
+      <label class="form-check-label" for="amountRecovered">Amount Recovered</label>
     </div>
   </div>
+  <div class="col-md-6">
+    <div class="form-check">
+      <input
+      class="form-check-input custom-radio"
+      type="radio"
+      name="recoveryStatus"
+      id="amountPending"
+      [(ngModel)]="modelfields.recoveryStatus"
+      [value]="1"  
+      (change)="onRecoveryStatusChange()"
+    />
+      <label class="form-check-label" for="amountPending">Amount Recovery Pending</label>
+    </div>
+  </div>
+</div>
+
+<!-- Common Closing Date Field -->
+<div class="row mt-4" *ngIf="showClosingDate">
+  <div class="col-md-12">
+    <label for="closingDateAdditional">Closing Date</label>
+    <input
+      type="date"
+      class="form-control"
+      id="closingDateAdditional"
+      [(ngModel)]="modelfields['closingDateAdditional']"
+    />
+  </div>
+</div>
+
+<!-- Recovered Fields -->
+<div class="row mt-4" *ngIf="showRecoveryFields">
+  <div class="col-md-12 mt-3">
+    <label for="amountRecoveredInput">Amount Recovered</label>
+    <input
+      type="text"
+      class="form-control"
+      id="amountRecoveredInput"
+      [(ngModel)]="modelfields['amountRecovered']"
+    />
+  </div>
+  <div class="col-md-12 mt-3">
+    <label for="transferReferenceNumber">Transfer Reference Number</label>
+    <input
+      type="text"
+      class="form-control"
+      id="transferReferenceNumber"
+      [(ngModel)]="modelfields['transferReferenceNumber']"
+    />
+  </div>
+</div>
+
+<!-- Pending Fields -->
+<div class="row mt-4" *ngIf="showPendingFields">
+  <div class="col-md-12 mt-3">
+    <label for="remarks">Remarks</label>
+    <textarea
+      class="form-control"
+      id="remarks"
+      rows="3"
+      [(ngModel)]="modelfields['remarks']"
+    ></textarea>
+  </div>
+</div>
+
+<!-- Buttons -->
+<div class="d-flex mt-3">
+  <button class="btn btn-secondary mr-2" (click)="closeBranchfun()">Cancel</button>
+  <button class="btn btn-primary" (click)="saveBranchStatus()">Submit</button>
+</div>
+</div>

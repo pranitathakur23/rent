@@ -42,7 +42,9 @@ export class CreateRentComponent implements OnInit {
   branches: { branchCode: number; branchName: string }[] = []; // Adjusted to number for branchCode
   showCreateRentAgreement = true;
   showRentDetails = false;
+
   closeBranch: boolean = false;
+
   fileName: string = '';
   rentData: any[] = []; // Initialize rentData as an empty array
   ID: number = 0;
@@ -67,7 +69,10 @@ export class CreateRentComponent implements OnInit {
   rentMasterData: any = {};
   status: string | undefined;
   isDisabled: boolean = false;
-
+  filearray: File[] = []; // Store selected files
+  showClosingDate: boolean = false;      // Controls visibility of the common Closing Date
+  showRecoveryFields: boolean = false;   // Controls visibility of recovery-related fields
+  showPendingFields: boolean = false;    // Controls visibility of pending-related fields
   formFields: { [key: string]: string } = {
     bank: '',
     state: '',
@@ -85,7 +90,14 @@ export class CreateRentComponent implements OnInit {
     remark: '',
     closingDate: ''
   };
-
+  modelfields: any = {
+    recoveryStatus: 0,  // Default to Recovered (0)
+    closingDate: null,
+    closingDateAdditional: null,
+    amountRecovered: null,
+    transferReferenceNumber: null,
+    remarks: null
+  };
   ngOnInit(): void {
     this.rentid = Number(this.route.snapshot.paramMap.get('id'));
     if (this.rentid != 0) {
@@ -102,6 +114,8 @@ export class CreateRentComponent implements OnInit {
     this.getRentAgreementPopupdataList();
     this.loadInitialData();
     this.employeecode = sessionStorage.getItem('userName') || '';
+    this.onRecoveryStatusChange();
+
   }
 
   checkFormFieldsState(): void {
@@ -569,7 +583,7 @@ export class CreateRentComponent implements OnInit {
 
   previewFile(index: number, event: Event): void {
     event.preventDefault();
-    const file = this.files[index];
+    const file = this.filearray[index];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -595,6 +609,21 @@ export class CreateRentComponent implements OnInit {
       }
     }
   }
+
+ // Handle file change event
+onFileChangetabel(event: any) {
+  const selectedFiles: FileList = event.target.files;
+  const filesArray = Array.from(selectedFiles); // Convert FileList to Array
+  // Append new files to the existing array
+  this.filearray = [...this.filearray, ...filesArray];
+  // Clear the input field to allow re-upload of the same file (optional)
+  event.target.value = '';
+}
+
+// Remove a file from the list
+removeFiletabel(index: number) {
+  this.filearray.splice(index, 1); // Remove file from the array
+}
 
   onCancel(): void {
     this.showCreateRentAgreement = false;
@@ -639,6 +668,7 @@ export class CreateRentComponent implements OnInit {
 
   closeBranchs(): void {
     this.closeBranch = true;
+    
     this.formFields['closingDate'] = '';
 
   }
@@ -703,5 +733,52 @@ export class CreateRentComponent implements OnInit {
       }
     );
   }
+  onRecoveryStatusChange() {
+    const status = this.modelfields.recoveryStatus;
 
+    // Always keep remarks empty when 'Recovered' (0) is selected
+    if (status === 0) {
+      this.modelfields.remarks = '';  
+      this.showRecoveryFields = true;  // Show recovery fields
+      this.showPendingFields = false;  // Hide pending fields
+    } else if (status === 1) {
+      this.showRecoveryFields = false; // Hide recovery fields
+      this.showPendingFields = true;   // Show pending fields
+    }
+  
+    // Closing Date is always visible
+    this.showClosingDate = true;
+  }
+  saveBranchStatus() {
+    const payload: any = {
+      rentmasterid: this.rentid,
+      IsAmntRecoverd: this.modelfields.recoveryStatus,  // 0 or 1
+      closingDate: this.modelfields.closingDate || this.modelfields.closingDateAdditional,
+    };
+  
+    // Add additional fields based on recovery status
+    if (this.modelfields.recoveryStatus === 0) {
+      payload.Amntrecoverd = this.modelfields.amountRecovered;
+      payload.TrfRefNo = this.modelfields.transferReferenceNumber;
+    } else if (this.modelfields.recoveryStatus === 1) {
+      payload.remark = this.modelfields.remarks;
+    }
+  
+    console.log('Payload:', payload);
+  
+    this.http.post('/api/RentAgreeMent/UpdateBranchStatus', payload).subscribe(
+      (response: any) => {
+        if (response.status) {
+          console.log('Branch status updated successfully:', response.message);
+          this.router.navigate(['/layout/create-rent']);
+        } else {
+          console.error('Failed to update branch status:', response.message);
+        }
+      },
+      (error) => {
+        console.error('API Error:', error);
+      }
+    );
+  }
+  
 }
