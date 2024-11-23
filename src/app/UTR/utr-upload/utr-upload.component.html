@@ -11,12 +11,18 @@
         </div>
         <div class="row mb-3 align-items-center">
           <div class="col-md-8">
-            <input type="file" id="fileUpload" (change)="onFileChange($event)" class="form-control" />
-            <small id="fileName" class="form-text text-muted">{{ fileName }}</small>
-          </div>
+            <input type="file" id="fileUpload" accept=".xlsx,.xls"  (change)="onFileChange($event)" class="form-control" />
+            <small id="fileName" class="form-text text-muted">
+              {{ fileName || 'Please select an Excel file to upload.' }}
+            </small>         
+           </div>
           <div class="col-md-4">
-            <button (click)="uploadFile()" class="btn btn-gradient">Upload</button>
-          </div>
+            <button 
+            (click)="uploadFile()" 
+            class="btn btn-gradient" 
+            [disabled]="!selectedFile">
+            Upload
+          </button>          </div>
         </div>
         <!-- <div class="table-responsive mt-4">
           <table class="table table-bordered table-striped">
