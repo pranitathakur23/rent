@@ -32,7 +32,7 @@
       
       <!-- Save Button -->
       <div class="col-md-2 text-center mt-4">
-        <button class="btn btn-primary"  (click)="onSelectionChange()">Save</button>
+        <button class="btn btn-primary"  (click)="onSave()">Save</button>
       </div>
     </div>
     
@@ -54,7 +54,7 @@
               <td>{{ option.YearMonth }}</td>
               <td>{{ option.Name }}</td>
               <td class="text-center">
-                <button (click)="deleteRentOption(option.ID)">Delete</button> <!-- Delete button passes the ID -->
+                <button class="btn btn-danger" (click)="deleteRentOption(option.ID)">Delete</button> <!-- Delete button passes the ID -->
 
                 <button class="btn btn-success btn-sm ms-2">
                   Release
