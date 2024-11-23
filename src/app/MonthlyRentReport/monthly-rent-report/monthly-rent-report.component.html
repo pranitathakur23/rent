@@ -8,36 +8,47 @@
         <!-- Row for input fields -->
         <div class="row align-items-center mb-3">
           <!-- From Date -->
-          <div class="col-md-2">
-            <label for="fromDate" class="form-label">From Date</label>
-            <input type="month" id="fromDate" class="form-control">
-          </div>
-  
-          <!-- To Date -->
-          <div class="col-md-2">
-            <label for="toDate" class="form-label">To Date</label>
-            <input type="month" id="toDate" class="form-control">
-          </div>
-  
-          <!-- State Dropdown -->
-          <div class="col-md-2">
-            <label for="state" class="form-label">State</label>
-            <select id="state" class="form-select" >
-              <option value="state1">State 1</option>
-              <option value="state2">State 2</option>
-              <option value="state3">State 3</option>
-              <option value="state4">State 4</option>
-            </select>
-          </div>
-          <div class="col-md-2">
-            <label for="state" class="form-label">Branch</label>
-            <select id="state" class="form-select" >
-              <option value="state1">State 1</option>
-              <option value="state2">State 2</option>
-              <option value="state3">State 3</option>
-              <option value="state4">State 4</option>
-            </select>
-          </div>
+      <!-- From Date -->
+<div class="col-md-2">
+  <label for="fromDate" class="form-label">From Date</label>
+  <input type="date" id="fromDate" class="form-control" [(ngModel)]="fromDate">
+</div>
+
+<!-- To Date -->
+<div class="col-md-2">
+  <label for="toDate" class="form-label">To Date</label>
+  <input type="date" id="toDate" class="form-control" [(ngModel)]="toDate">
+</div>
+
+<!-- State Dropdown -->
+<div class="col-md-2">
+  <label for="state" class="form-label">State</label>
+  <select
+    id="state"
+    class="form-select"
+    [(ngModel)]="selectedState"
+    (change)="onStateChange()"
+  >
+    <!-- Placeholder -->
+    <option [value]="null" disabled>Select State</option>
+
+    <!-- Dynamically loaded states -->
+    <option *ngFor="let state of states" [value]="state.stateCode">
+      {{ state.stateName }}
+    </option>
+  </select>
+</div>
+
+<!-- Branch Dropdown -->
+<div class="col-md-2">
+  <label for="branch" class="form-label">Branch</label>
+  <select id="branch" class="form-select" [(ngModel)]="selectedBranch">
+    <option [value]="null" disabled>Select Branch</option>
+    <option *ngFor="let branch of branches" [value]="branch.branchCode">
+      {{ branch.branchName }}
+    </option>
+  </select>
+</div>
           <div class="col-md-2">
             <label for="state" class="form-label">Branch Status</label>
             <select id="state" class="form-select" >
@@ -49,80 +60,11 @@
           </div>
           <!-- Submit and Excel Button -->
           <div class="col-md-2 mt-4">
-            <button class="btn btn-primary me-2">Submit</button>
+            <button class="btn btn-primary me-2" (click)="save()">Submit</button>
             <button class="btn btn-success">Excel</button>
           </div>
         </div>
- <!-- Custom dropdown with checkboxes -->
-<div class="row mb-3">
-    <div class="col-md-4">
-      
-      <!-- Dropdown button -->
-      <!-- <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="columnSelectDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          Report Options    
-            </button>
-        <ul class="dropdown-menu w-100 p-3" aria-labelledby="columnSelectDropdown">
-          <li>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="branch" id="branchColumn" checked>
-              <label class="form-check-label" for="branchColumn">
-                Branch
-              </label>
-            </div>
-          </li>
-          <li>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="bc" id="bcColumn" checked>
-              <label class="form-check-label" for="bcColumn">
-                BC
-              </label>
-            </div>
-          </li>
-          <li>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="landlordName" id="landlordNameColumn" checked>
-              <label class="form-check-label" for="landlordNameColumn">
-                Landlord Name
-              </label>
-            </div>
-          </li>
-          <li>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="landlordEmail" id="landlordEmailColumn" checked>
-              <label class="form-check-label" for="landlordEmailColumn">
-                Landlord Email
-              </label>
-            </div>
-          </li>
-          <li>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="landlordAccountNo" id="landlordAccountNoColumn" checked>
-              <label class="form-check-label" for="landlordAccountNoColumn">
-                Landlord Account No
-              </label>
-            </div>
-          </li>
-          <li>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="ifsc" id="ifscColumn" checked>
-              <label class="form-check-label" for="ifscColumn">
-                IFSC
-              </label>
-            </div>
-          </li>
-          <li>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="remark" id="remarkColumn" checked>
-              <label class="form-check-label" for="remarkColumn">
-                Remark
-              </label>
-            </div>
-          </li>
-        </ul>
-      </div> -->
-    </div>
-  </div>
+ 
         <!-- Row for table with checkboxes -->
         <div class="row">
           <div class="col-12">
