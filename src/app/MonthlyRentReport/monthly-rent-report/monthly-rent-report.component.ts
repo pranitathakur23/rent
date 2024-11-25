@@ -17,10 +17,13 @@ export class MonthlyRentReportComponent implements OnInit {
   selectedBranch: string | null = null;
   fromDate: string = '';
   toDate: string = '';
-
-  constructor(private http: HttpClient) {}
+  branchStatus: { ID: number; Status: string }[] = [];
+  selectedBranchStatus: number | null = null;
+  tableData: any[] = []; 
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.fetchBranchStatus();
     this.getStateDropdownData();
   }
 
@@ -66,15 +69,55 @@ export class MonthlyRentReportComponent implements OnInit {
   }
 
   save(): void {
+    if (
+      !this.fromDate ||
+      !this.toDate ||
+      !this.selectedState ||
+      !this.selectedBranch ||
+      this.selectedBranchStatus === null
+    ) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    const branchStatusValue = Number(this.selectedBranchStatus);
     const payload = {
-      fromDate: this.fromDate,
-      toDate: this.toDate,
+      fromdate: this.fromDate,
+      todate: this.toDate,
       state: this.selectedState,
-      branch: this.selectedBranch
+      branch: this.selectedBranch,
+      branchstatus: branchStatusValue == 1,
     };
+    const url = '/api/RentAgreeMent/SubmitMonthlyReport';
+    this.http.post<any>(url, payload).subscribe(
+      (response) => {
+        if (response.status == true) {
+          this.tableData = response.data;
+        } else {
+          console.error('Something went wrong');
+        }
+      },
+      (error) => {
+        console.error('Error saving data:', error);
+      }
+    );
+  }
 
-    console.log('Form Data:', payload);
+  fetchBranchStatus(): void {
+    const url = '/api/RentAgreeMent/GetDropDownData';
+    const body = { Mode: 7 };
 
-    // Add logic to send the data to the backend or process it
+    this.http.post<any>(url, body).subscribe(
+      response => {
+        if (response.status) {
+          this.branchStatus = response.data;
+
+        } else {
+          console.error('Failed to fetch rent master options');
+        }
+      },
+      error => {
+        console.error('Error fetching rent master options:', error);
+      }
+    );
   }
 }

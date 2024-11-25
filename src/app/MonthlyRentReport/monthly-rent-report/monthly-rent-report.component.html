@@ -1,101 +1,89 @@
 <div class="container mt-4">
-    <!-- Card with heading -->
-    <div class="card shadow-lg">
-      <div class="card-header " style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
-        <h3 style="font-size: 18px;">Monthly Rent Report</h3>
-      </div>
-      <div class="card-body">
-        <!-- Row for input fields -->
-        <div class="row align-items-center mb-3">
-          <!-- From Date -->
-      <!-- From Date -->
-<div class="col-md-2">
-  <label for="fromDate" class="form-label">From Date</label>
-  <input type="date" id="fromDate" class="form-control" [(ngModel)]="fromDate">
-</div>
-
-<!-- To Date -->
-<div class="col-md-2">
-  <label for="toDate" class="form-label">To Date</label>
-  <input type="date" id="toDate" class="form-control" [(ngModel)]="toDate">
-</div>
-
-<!-- State Dropdown -->
-<div class="col-md-2">
-  <label for="state" class="form-label">State</label>
-  <select
-    id="state"
-    class="form-select"
-    [(ngModel)]="selectedState"
-    (change)="onStateChange()"
-  >
-    <!-- Placeholder -->
-    <option [value]="null" disabled>Select State</option>
-
-    <!-- Dynamically loaded states -->
-    <option *ngFor="let state of states" [value]="state.stateCode">
-      {{ state.stateName }}
-    </option>
-  </select>
-</div>
-
-<!-- Branch Dropdown -->
-<div class="col-md-2">
-  <label for="branch" class="form-label">Branch</label>
-  <select id="branch" class="form-select" [(ngModel)]="selectedBranch">
-    <option [value]="null" disabled>Select Branch</option>
-    <option *ngFor="let branch of branches" [value]="branch.branchCode">
-      {{ branch.branchName }}
-    </option>
-  </select>
-</div>
-          <div class="col-md-2">
-            <label for="state" class="form-label">Branch Status</label>
-            <select id="state" class="form-select" >
-              <option value="state1">State 1</option>
-              <option value="state2">State 2</option>
-              <option value="state3">State 3</option>
-              <option value="state4">State 4</option>
-            </select>
-          </div>
-          <!-- Submit and Excel Button -->
-          <div class="col-md-2 mt-4">
-            <button class="btn btn-primary me-2" (click)="save()">Submit</button>
-            <button class="btn btn-success">Excel</button>
-          </div>
+  <!-- Card with heading -->
+  <div class="card shadow-lg">
+    <div class="card-header " style="background: linear-gradient(90deg, #001f3f, #007bff); color: white;">
+      <h3 style="font-size: 18px;">Monthly Rent Report</h3>
+    </div>
+    <div class="card-body">
+      <!-- Row for input fields -->
+      <div class="row align-items-center mb-3">
+        <!-- From Date -->
+        <div class="col-md-2">
+          <label for="fromDate" class="form-label">From Date</label>
+          <input type="date" id="fromDate" class="form-control" [(ngModel)]="fromDate">
         </div>
- 
-        <!-- Row for table with checkboxes -->
-        <div class="row">
-          <div class="col-12">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Branch</th>
-                  <th>BC</th>
-                  <th>Landlord Name</th>
-                  <th>Landlord Email</th>
-                  <th>Landlord Account No</th>
-                  <th>IFSC</th>
-                  <th>Remark</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Branch 1</td>
-                  <td>BC 1</td>
-                  <td>Landlord 1</td>
-                  <td>landlord1example.com</td>
-                  <td>1234567890</td>
-                  <td>IFSC001</td>
-                  <td>Remark 1</td>
-                </tr>
-                <!-- More rows can be added here -->
-              </tbody>
-            </table>
-          </div>
+        <!-- To Date -->
+        <div class="col-md-2">
+          <label for="toDate" class="form-label">To Date</label>
+          <input type="date" id="toDate" class="form-control" [(ngModel)]="toDate">
+        </div>
+        <!-- State Dropdown -->
+        <div class="col-md-2">
+          <label for="state" class="form-label">State</label>
+          <select id="state" class="form-select" [(ngModel)]="selectedState" (change)="onStateChange()">
+            <!-- Placeholder -->
+            <option [value]="null" disabled>Select State</option>
+            <!-- Dynamically loaded states -->
+            <option *ngFor="let state of states" [value]="state.stateCode">
+              {{ state.stateName }}
+            </option>
+          </select>
+        </div>
+        <!-- Branch Dropdown -->
+        <div class="col-md-2">
+          <label for="branch" class="form-label">Branch</label>
+          <select id="branch" class="form-select" [(ngModel)]="selectedBranch">
+            <option [value]="null" disabled>Select Branch</option>
+            <option *ngFor="let branch of branches" [value]="branch.branchCode">
+              {{ branch.branchName }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label for="branchStatus" class="form-label">Branch Status</label>
+          <select id="branchStatus" class="form-select" [(ngModel)]="selectedBranchStatus">
+            <option [value]="null" disabled>Select Status</option>
+            <option *ngFor="let status of branchStatus" [value]="status.ID">
+              {{ status.Status }}
+            </option>
+          </select>
+        </div>
+        <!-- Submit and Excel Button -->
+        <div class="col-md-2 mt-4">
+          <button class="btn btn-primary me-2" (click)="save()">Submit</button>
+          <button class="btn btn-success">Excel</button>
         </div>
       </div>
+      <!-- Row for table with checkboxes -->
+      <div class="row">
+        <div class="col-12">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Branch</th>
+                <th>BC</th>
+                <th>Landlord Name</th>
+                <th>Landlord Email</th>
+                <th>Landlord Account No</th>
+                <th>IFSC</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of tableData">
+                <td>{{ item.branchName }}</td>
+                <td>{{ item.BankName }}</td>
+                <td>{{ item.landLordName || '-' }}</td>
+                <td>{{ item.landLordEmail || '-' }}</td>
+                <td>{{ item.landLordAccNo || '-' }}</td>
+                <td>{{ item.LandLordIFSC || '-' }}</td>
+                <td>{{ item.remark || '-' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
     </div>
   </div>
-  
+</div>
