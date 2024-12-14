@@ -8,9 +8,9 @@
         <div class="col-md-2">
           <label for="rentMaster">Rent Master</label>
           <select class="form-control" id="rentMaster">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+            <option *ngFor="let option of rentMasterOptions" [value]="option.RentID">
+              {{ option.LandLordName }}
+            </option>
           </select>
         </div>
   
