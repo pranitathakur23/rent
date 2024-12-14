@@ -45,8 +45,8 @@
   
           <!-- Expiring Agreements Card -->
           <div class="col-md-2 mb-3">
-            <div class="card dashboard-card text-center" (click)="navigateToRentList()">
-              <div class="card-body" style="height: 72px;">
+            <div class="card dashboard-card text-center" (click)="navigateToRentList('type1')">
+                <div class="card-body" style="height: 72px;">
                 <h6 class="card-title dashboard-card-title">Expiring Agreements</h6>
                 <p class="card-text dashboard-card-text">{{ expiringAgreements }}</p>
               </div>
@@ -55,8 +55,8 @@
   
           <!-- Total Increments Card -->
           <div class="col-md-2 mb-3">
-            <div class="card dashboard-card text-center" (click)="navigateToRentList()">
-              <div class="card-body">
+            <div class="card dashboard-card text-center" (click)="navigateToRentList('type2')">
+                <div class="card-body">
                 <h6 class="card-title dashboard-card-title">Total Increments</h6>
                 <p class="card-text dashboard-card-text">₹ {{ totalIncrements }}</p>
               </div>

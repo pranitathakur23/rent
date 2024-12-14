@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
     this.activeTab = tab;
   }
 
-  navigateToRentList(): void {
-    this.router.navigate(['/layout/rent-list']);
+  navigateToRentList(type: string): void {
+    this.router.navigate(['/layout/rent-list'], { queryParams: { type } });
   }
 }
