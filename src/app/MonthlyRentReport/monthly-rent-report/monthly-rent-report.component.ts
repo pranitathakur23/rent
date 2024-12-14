@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
+import * as XLSX from 'xlsx';  // Import the xlsx library
 
 @Component({
   selector: 'app-monthly-rent-report',
@@ -119,5 +120,22 @@ export class MonthlyRentReportComponent implements OnInit {
         console.error('Error fetching rent master options:', error);
       }
     );
+  }
+
+   // Export to Excel function
+   exportToExcel(): void {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData.map(item => ({
+      Branch: item.branchName,
+      BC: item.BankName,
+      'Landlord Name': item.landLordName || '-',
+      'Landlord Email': item.landLordEmail || '-',
+      'Landlord Account No': item.landLordAccNo || '-',
+      IFSC: item.LandLordIFSC || '-',
+      Remark: item.remark || '-',
+    })));
+
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Monthly Rent Report');
+    XLSX.writeFile(wb, 'monthly_rent_report.xlsx');
   }
 }
