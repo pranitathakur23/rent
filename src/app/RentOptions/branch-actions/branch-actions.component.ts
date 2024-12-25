@@ -35,7 +35,6 @@ export class BranchActionsComponent implements OnInit {
     this.fetchRentMasterOptions();
     this.fetchActionOptions();
     this.fetchRentOptions();
-
   }
 
   fetchRentMasterOptions(): void {
@@ -96,7 +95,8 @@ export class BranchActionsComponent implements OnInit {
       date: this.selectedDate, // Date selected by the user
       remarkID: this.selectedRemarkID // Remark ID selected by the user
     };
-  
+    console.log('Fetc', saveData); // Log the fetched data
+
     // Call the save API
     const url = '/api/rent/SaveRentOptionDetails';
     this.http.post<any>(url, saveData).subscribe(
