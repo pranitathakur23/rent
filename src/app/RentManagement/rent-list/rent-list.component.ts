@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RentService } from '../rent.service';
@@ -23,9 +23,11 @@ export class RentListComponent implements OnInit {
   sortOrder: boolean = true; // True for ascending, False for descending
 // Expose Math to the template
 Math = Math;
+type: string | null = null;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute, // Inject ActivatedRoute
     private http: HttpClient,
     private rentService: RentService
   ) {        this.itemsPerPage = 10; // Uncomment this line if you want to set a default value.
@@ -33,6 +35,20 @@ Math = Math;
   }
 
   ngOnInit(): void {
+     // Retrieve the type parameter from the route query params
+     this.route.queryParams.subscribe((params) => {
+      this.type = params['type'] || null;
+      console.log('Card type clicked:', this.type);
+
+      // Perform filtering or logic based on the type
+      if (this.type === 'type1') {
+        console.log('Filter for Expiring Agreements');
+        this.filterExpiringAgreements();
+      } else if (this.type === 'type2') {
+        console.log('Filter for Total Increments');
+        this.filterTotalIncrements();
+      }
+    });
     this.getRentAgreementList(); // Fetch data on component load
   }
 
@@ -59,7 +75,19 @@ Math = Math;
         }
       );
   }
+ // Filter for Expiring Agreements
+ filterExpiringAgreements(): void {
+  this.filteredRentData = this.rentData.filter(
+    (item) => item.rentstatus === 'Expiring Soon' // Adjust condition as per your API data
+  );
+}
 
+// Filter for Total Increments
+filterTotalIncrements(): void {
+  this.filteredRentData = this.rentData.filter(
+    (item) => item.incrementAmount > 0 // Adjust condition as per your API data
+  );
+}
   // Navigate to create-rent page or edit a rent agreement
   onAdd(): void {
     this.router.navigate(['/layout/create-rent']);

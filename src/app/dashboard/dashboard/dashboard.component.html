@@ -3,75 +3,68 @@
       <div class="card-header dashboard-header">Dashboard</div>
       <div class="card-body">
         <div class="row justify-content-center">
-<!-- Total Rent Card -->
-<div class="col-md-2 mb-3">
-    <div class="card dashboard-card text-center">
-        <div class="card-body">
-            <h6 class="card-title dashboard-card-title">Total Rent</h6>
-            <p class="card-text dashboard-card-text">₹ 45,000</p>
-        </div>
-    </div>
-</div>
-<!-- Security Deposit Card -->
-<div class="col-md-2 mb-3">
-    <div class="card dashboard-card text-center">
-        <div class="card-body">
-            <h6 class="card-title dashboard-card-title">Security Deposit</h6>
-            <p class="card-text dashboard-card-text">₹ 1,50,000</p>
-        </div>
-    </div>
-</div>
-              <!-- Average Rent Card -->
-              <div class="col-md-2 mb-3">
-                <div class="card dashboard-card text-center">
-                    <div class="card-body">
-                        <h6 class="card-title dashboard-card-title">Average Rent</h6>
-                        <p class="card-text dashboard-card-text">₹ 30,000</p>
-                    </div>
-                </div>
+          <!-- Total Rent Card -->
+          <div class="col-md-2 mb-3">
+            <div class="card dashboard-card text-center">
+              <div class="card-body">
+                <h6 class="card-title dashboard-card-title">Total Rent</h6>
+                <p class="card-text dashboard-card-text">₹ {{ totalRent }}</p>
+              </div>
             </div>
-
-            <!-- Total Branches Card -->
-            <div class="col-md-2 mb-3">
-                <div class="card dashboard-card text-center">
-                    <div class="card-body">
-                        <h6 class="card-title dashboard-card-title">Total Branches</h6>
-                        <p class="card-text dashboard-card-text">150 branches</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Expiring Agreements Card -->
-            <div class="col-md-2 mb-3">
-                <div class="card dashboard-card text-center" (click)="navigateToRentList()">
-                    <div class="card-body" style="    height: 72px;">
-                        <h6 class="card-title dashboard-card-title">Expiring Agreements</h6>
-                        <p class="card-text dashboard-card-text">₹ 20,000</p>
-                    </div>
-                </div>
-            </div>
-
-   <!-- Total Increments Card -->
-   <div class="col-md-2 mb-3">
-    <div class="card dashboard-card text-center" (click)="navigateToRentList()">
-        <div class="card-body">
-            <h6 class="card-title dashboard-card-title">Total Increments</h6>
-            <p class="card-text dashboard-card-text">₹ 20,000</p>
-        </div>
-    </div>
-</div>
-</div>
-<!-- State-wise Data Section -->
-<h4 class="mt-4" style="font-size: 17px;">State-wise Data</h4>
-<!-- <label for="premisesType">Premises Type:</label> -->
-<!-- <select id="premisesType" class="form-select mb-3" style="width: 17%;">
-    <option value="branch">Branch</option>
-    <option value="hostel">Hostel</option>
-</select>  -->
-
-
-
+          </div>
   
-        <!-- Tabs for state-wise data -->
+          <!-- Security Deposit Card -->
+          <div class="col-md-2 mb-3">
+            <div class="card dashboard-card text-center">
+              <div class="card-body">
+                <h6 class="card-title dashboard-card-title">Security Deposit</h6>
+                <p class="card-text dashboard-card-text">₹ {{ securityDeposit }}</p>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Average Rent Card -->
+          <div class="col-md-2 mb-3">
+            <div class="card dashboard-card text-center">
+              <div class="card-body">
+                <h6 class="card-title dashboard-card-title">Average Rent</h6>
+                <p class="card-text dashboard-card-text">₹ {{ averageRent }}</p>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Total Branches Card -->
+          <div class="col-md-2 mb-3">
+            <div class="card dashboard-card text-center">
+              <div class="card-body">
+                <h6 class="card-title dashboard-card-title">Total Branches</h6>
+                <p class="card-text dashboard-card-text">{{ totalBranches }} branches</p>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Expiring Agreements Card -->
+          <div class="col-md-2 mb-3">
+            <div class="card dashboard-card text-center" (click)="navigateToRentList('type1')">
+                <div class="card-body" style="height: 72px;">
+                <h6 class="card-title dashboard-card-title">Expiring Agreements</h6>
+                <p class="card-text dashboard-card-text">{{ expiringAgreements }}</p>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Total Increments Card -->
+          <div class="col-md-2 mb-3">
+            <div class="card dashboard-card text-center" (click)="navigateToRentList('type2')">
+                <div class="card-body">
+                <h6 class="card-title dashboard-card-title">Total Increments</h6>
+                <p class="card-text dashboard-card-text">₹ {{ totalIncrements }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- State-wise Data Section -->
         <h4 class="mt-4" style="font-size: 17px;">State-wise Data</h4>
         <div class="d-flex mb-3">
           <div class="tab me-2" [ngClass]="{ active: activeTab === 1 }" (click)="setActiveTab(1)">Total Branch Rent</div>
@@ -81,9 +74,9 @@
         </div>
   
         <div class="dashboard-container">
-            <!-- Check if geoChart has been initialized and display the chart -->
-            <google-chart *ngIf="geoChart" [data]="geoChart"></google-chart>
-          </div>
+          <!-- Check if geoChart has been initialized and display the chart -->
+          <google-chart *ngIf="geoChart" [data]="geoChart"></google-chart>
+        </div>
       </div>
     </div>
   </div>
