@@ -54,11 +54,9 @@ type: string | null = null;
 
   // Fetch rent agreements from API
   getRentAgreementList(): void {
-    this.http
-      .get<{ status: boolean; data: any[]; message: string }>(
-        '/api/RentAgreeMent/GetRentAgreeMentList'
-      )
-      .subscribe(
+    const url = '/api/RentAgreeMent/GetRentAgreeMentList';
+    const body = { type: "0" };
+    this.http.post<any>(url, body).subscribe(
         (response) => {
           if (response.status) {
             this.rentData = response.data;
