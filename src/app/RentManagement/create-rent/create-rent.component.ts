@@ -137,7 +137,7 @@ export class CreateRentComponent implements OnInit {
     } else {
       if (this.rentMasterData.rentstatus == 'Rejected') {
         this.isDisabled = false;
-      } else if (this.rentMasterData.rentstatus == 'Completed'){
+      } else if (this.rentMasterData.rentstatus == 'Completed') {
         this.bankField.nativeElement.disabled = true;
         this.stateField.nativeElement.disabled = true;
         this.areaField.nativeElement.disabled = true;
@@ -150,7 +150,7 @@ export class CreateRentComponent implements OnInit {
         this.ifscCodeField.nativeElement.disabled = true;
         this.datedeposite.nativeElement.disabled = true;
         this.remarkField.nativeElement.disabled = true;
-      } else{
+      } else {
         this.isDisabled = true;
       }
     }
@@ -339,7 +339,7 @@ export class CreateRentComponent implements OnInit {
       (response: any) => {
         if (response.status) {
           this.isButtonVisible = true;
-          this.isButtonVisibleAddrent=true;
+          this.isButtonVisibleAddrent = true;
           this.isButtonVisiblecreate = false;
           this.rentid = response.data[0].id;
           this.showRentDetails = true;
@@ -445,7 +445,7 @@ export class CreateRentComponent implements OnInit {
         if (response.status) {
           this.isButtonVisible = true;
           this.isButtonVisiblecreate = false;
-          this.showRentDetails = true;
+          // this.showRentDetails = true;
           this.files = [];
         } else {
           console.error('API call failed:', response.message);
@@ -615,20 +615,20 @@ export class CreateRentComponent implements OnInit {
     }
   }
 
- // Handle file change event
-onFileChangetabel(event: any) {
-  const selectedFiles: FileList = event.target.files;
-  const filesArray = Array.from(selectedFiles); // Convert FileList to Array
-  // Append new files to the existing array
-  this.filearray = [...this.filearray, ...filesArray];
-  // Clear the input field to allow re-upload of the same file (optional)
-  event.target.value = '';
-}
+  // Handle file change event
+  onFileChangetabel(event: any) {
+    const selectedFiles: FileList = event.target.files;
+    const filesArray = Array.from(selectedFiles); // Convert FileList to Array
+    // Append new files to the existing array
+    this.filearray = [...this.filearray, ...filesArray];
+    // Clear the input field to allow re-upload of the same file (optional)
+    event.target.value = '';
+  }
 
-// Remove a file from the list
-removeFiletabel(index: number) {
-  this.filearray.splice(index, 1); // Remove file from the array
-}
+  // Remove a file from the list
+  removeFiletabel(index: number) {
+    this.filearray.splice(index, 1); // Remove file from the array
+  }
 
   onCancel(): void {
     this.showCreateRentAgreement = false;
@@ -673,7 +673,7 @@ removeFiletabel(index: number) {
 
   closeBranchs(): void {
     this.closeBranch = true;
-    
+
     this.formFields['closingDate'] = '';
 
   }
@@ -743,14 +743,14 @@ removeFiletabel(index: number) {
 
     // Always keep remarks empty when 'Recovered' (0) is selected
     if (status === 0) {
-      this.modelfields.remarks = '';  
+      this.modelfields.remarks = '';
       this.showRecoveryFields = true;  // Show recovery fields
       this.showPendingFields = false;  // Hide pending fields
     } else if (status === 1) {
       this.showRecoveryFields = false; // Hide recovery fields
       this.showPendingFields = true;   // Show pending fields
     }
-  
+
     // Closing Date is always visible
     this.showClosingDate = true;
   }
@@ -760,7 +760,7 @@ removeFiletabel(index: number) {
       IsAmntRecoverd: this.modelfields.recoveryStatus,  // 0 or 1
       closingDate: this.modelfields.closingDate || this.modelfields.closingDateAdditional,
     };
-  
+
     // Add additional fields based on recovery status
     if (this.modelfields.recoveryStatus === 0) {
       payload.Amntrecoverd = this.modelfields.amountRecovered;
@@ -768,9 +768,9 @@ removeFiletabel(index: number) {
     } else if (this.modelfields.recoveryStatus === 1) {
       payload.remark = this.modelfields.remarks;
     }
-  
+
     console.log('Payload:', payload);
-  
+
     this.http.post('/api/RentAgreeMent/UpdateBranchStatus', payload).subscribe(
       (response: any) => {
         if (response.status) {
@@ -785,5 +785,5 @@ removeFiletabel(index: number) {
       }
     );
   }
-  
+
 }
