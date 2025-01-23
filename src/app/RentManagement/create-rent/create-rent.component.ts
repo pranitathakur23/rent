@@ -287,15 +287,20 @@ export class CreateRentComponent implements OnInit {
       this.datedeposite.nativeElement.focus();
       return;
     }
-    if (!this.formFields['filepath']) {
+    // if (!this.formFields['filepath']) {
+    //   alert('Please upload a file');
+    //   this.focusField('fileUpload');
+    //   return;
+    // }
+    if (!this.filearray || this.filearray.length == 0) {
       alert('Please upload a file');
       this.focusField('fileUpload');
       return;
     }
     const formData = new FormData();
     formData.append('rentMasterID', this.rentid.toString());
-    for (let i = 0; i < this.files.length; i++) {
-      formData.append('files', this.files[i]);
+    for (let i = 0; i < this.filearray.length; i++) {
+      formData.append('files', this.filearray[i]);
     }
     this.http.post('/api/rent/SaveRentAgreementFiles', formData)
       .subscribe(
