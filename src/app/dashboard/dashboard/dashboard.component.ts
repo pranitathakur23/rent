@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchDashboardData(): void {
-    const apiUrl = '/api/RentAgreeMent/DashboardCount';
+    const apiUrl = '/api/api/RentAgreeMent/DashboardCount';
 
     this.http.get<any>(apiUrl).subscribe(
       (response) => {

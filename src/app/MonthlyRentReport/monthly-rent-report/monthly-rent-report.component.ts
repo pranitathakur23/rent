@@ -29,7 +29,7 @@ export class MonthlyRentReportComponent implements OnInit {
   }
 
   getStateDropdownData(): void {
-    const url = '/api/RentAgreeMent/GetDropDownData';
+    const url = '/api/api/RentAgreeMent/GetDropDownData';
     const body = { Mode: 2 };
 
     this.http.post<any>(url, body).subscribe(
@@ -52,7 +52,7 @@ export class MonthlyRentReportComponent implements OnInit {
       return;
     }
 
-    const url = '/api/RentAgreeMent/GetDropDownData';
+    const url = '/api/api/RentAgreeMent/GetDropDownData';
     const body = { Mode: 8, id: this.selectedState };
 
     this.http.post<any>(url, body).subscribe(
@@ -88,7 +88,7 @@ export class MonthlyRentReportComponent implements OnInit {
       branch: this.selectedBranch,
       branchstatus: branchStatusValue == 1,
     };
-    const url = '/api/RentAgreeMent/SubmitMonthlyReport';
+    const url = '/api/api/RentAgreeMent/SubmitMonthlyReport';
     this.http.post<any>(url, payload).subscribe(
       (response) => {
         if (response.status == true) {
@@ -104,7 +104,7 @@ export class MonthlyRentReportComponent implements OnInit {
   }
 
   fetchBranchStatus(): void {
-    const url = '/api/RentAgreeMent/GetDropDownData';
+    const url = '/api/api/RentAgreeMent/GetDropDownData';
     const body = { Mode: 7 };
 
     this.http.post<any>(url, body).subscribe(

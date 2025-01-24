@@ -18,7 +18,7 @@ constructor(private http: HttpClient) {}
    
   }
   fetchRentMasterOptions(): void {
-    const url = '/api/RentAgreeMent/GetDropDownData';
+    const url = '/api/api/RentAgreeMent/GetDropDownData';
     const body = { Mode: 5 };
   
     this.http.post<any>(url, body).subscribe(

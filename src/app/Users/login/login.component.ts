@@ -95,7 +95,7 @@ export class LoginComponent implements OnInit {
       this.createCaptcha(); // Regenerate CAPTCHA for user to try again
       return; // Stop execution
     }
-    const apiUrl = '/api/users/UserLogin';  // Note the relative path
+    const apiUrl = '/api/api/users/UserLogin';  // Note the relative path
     const body = { EmployeeCode: this.employeeCode, Password: this.password };
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
