@@ -38,7 +38,7 @@ export class BranchActionsComponent implements OnInit {
   }
 
   fetchRentMasterOptions(): void {
-    const url = '/api/RentAgreeMent/GetDropDownData';
+    const url = '/api/api/RentAgreeMent/GetDropDownData';
     const body = { Mode: 5 };
   
     this.http.post<any>(url, body).subscribe(
@@ -57,7 +57,7 @@ export class BranchActionsComponent implements OnInit {
   }
   
   fetchActionOptions(): void {
-    const url = '/api/RentAgreeMent/GetDropDownData';
+    const url = '/api/api/RentAgreeMent/GetDropDownData';
     const body = { Mode: 6 };
 
     this.http.post<any>(url, body).subscribe(
@@ -75,7 +75,7 @@ export class BranchActionsComponent implements OnInit {
   }
 
   fetchRentOptions() {
-    this.http.get<{ status: boolean; data: RentOption[] }>('/api/rent/getRentOptionDetails')
+    this.http.get<{ status: boolean; data: RentOption[] }>('/api/api/rent/getRentOptionDetails')
       .subscribe(response => {
         if (response.status) {
           this.rentOptions = response.data;
@@ -98,7 +98,7 @@ export class BranchActionsComponent implements OnInit {
     console.log('Fetc', saveData); // Log the fetched data
 
     // Call the save API
-    const url = '/api/rent/SaveRentOptionDetails';
+    const url = '/api/api/rent/SaveRentOptionDetails';
     this.http.post<any>(url, saveData).subscribe(
       response => {
         if (response.status == true) {
@@ -132,7 +132,7 @@ deleteRentOption(id: number) {
   const confirmDelete = window.confirm('Are you sure you want to delete this rent option?');
   
   if (confirmDelete) {
-    const url = '/api/rent/deleteRentOptionDetails';
+    const url = '/api/api/rent/deleteRentOptionDetails';
     const body = { id }; // Prepare the request body with the ID to delete
 
     // Call the delete API

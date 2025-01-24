@@ -54,7 +54,7 @@ type: string | null = null;
 
   // Fetch rent agreements from API
   getRentAgreementList(): void {
-    const url = '/api/RentAgreeMent/GetRentAgreeMentList';
+    const url = '/api/api/RentAgreeMent/GetRentAgreeMentList';
     const body = { type: "0" };
     this.http.post<any>(url, body).subscribe(
         (response) => {
@@ -94,7 +94,7 @@ filterTotalIncrements(): void {
   // Delete a rent agreement by ID
   deletedata(deleteId: number): void {
     if (window.confirm('Are you sure you want to delete this item?')) {
-      const apiUrl = '/api/rent/Delete';
+      const apiUrl = '/api/api/rent/Delete';
       const body = { id: deleteId };
 
       this.http.post<any>(apiUrl, body).subscribe(
