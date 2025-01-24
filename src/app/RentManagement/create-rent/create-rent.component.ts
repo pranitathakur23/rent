@@ -158,7 +158,7 @@ export class CreateRentComponent implements OnInit {
 
 
   getRentAgreementPopupdataList(): void {
-    const apiUrl = '/api/rent/GetRentDetails';  // Note the relative path
+    const apiUrl = '/api/api/rent/GetRentDetails';  // Note the relative path
     const body = { id: this.rentid };
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
@@ -173,7 +173,7 @@ export class CreateRentComponent implements OnInit {
   }
 
   getRentAgreementEditData(): void {
-    const apiUrl = '/api/RentAgreeMent/GetRenatMasterDataID';
+    const apiUrl = '/api/api/RentAgreeMent/GetRenatMasterDataID';
     const body = { id: this.rentid };
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
@@ -302,7 +302,7 @@ export class CreateRentComponent implements OnInit {
     for (let i = 0; i < this.filearray.length; i++) {
       formData.append('files', this.filearray[i]);
     }
-    this.http.post('/api/rent/SaveRentAgreementFiles', formData)
+    this.http.post('/api/api/rent/SaveRentAgreementFiles', formData)
       .subscribe(
         (response: any) => {
           if (response.status == true) {
@@ -335,7 +335,7 @@ export class CreateRentComponent implements OnInit {
       makerid: this.employeecode,
     };
     console.log('Request Data:', requestData);
-    this.http.post('/api/RentAgreeMent/SaveRentData', requestData).subscribe(
+    this.http.post('/api/api/RentAgreeMent/SaveRentData', requestData).subscribe(
       (response: any) => {
         if (response.status) {
           this.isButtonVisible = true;
@@ -361,7 +361,7 @@ export class CreateRentComponent implements OnInit {
       for (let i = 0; i < this.files.length; i++) {
         formData.append('files', this.files[i]);
       }
-      this.http.post('/api/rent/SaveRentAgreementFiles', formData)
+      this.http.post('/api/api/rent/SaveRentAgreementFiles', formData)
         .subscribe(
           (response: any) => {
             if (response.status == true) {
@@ -440,7 +440,7 @@ export class CreateRentComponent implements OnInit {
       status: this.status
     };
     console.log('Request Data:', requestData);
-    this.http.post('/api/rent/UpdateRentMasterDetailsForMaker', requestData).subscribe(
+    this.http.post('/api/api/rent/UpdateRentMasterDetailsForMaker', requestData).subscribe(
       (response: any) => {
         if (response.status) {
           this.isButtonVisible = true;
@@ -468,7 +468,7 @@ export class CreateRentComponent implements OnInit {
 
   /** Fetch bank data from the API */
   fetchBankData(): void {
-    this.http.post('/api/RentAgreeMent/GetDropDownData', { Mode: 1 })
+    this.http.post('/api/api/RentAgreeMent/GetDropDownData', { Mode: 1 })
       .subscribe((response: any) => {
         if (response.status) {
           this.banks = response.data;
@@ -482,7 +482,7 @@ export class CreateRentComponent implements OnInit {
 
   /** Fetch states from the API */
   fetchStates(): void {
-    this.http.post('/api/RentAgreeMent/GetDropDownData', { Mode: 2 })
+    this.http.post('/api/api/RentAgreeMent/GetDropDownData', { Mode: 2 })
       .subscribe((response: any) => {
         if (response.status) {
           this.states = response.data;
@@ -505,7 +505,7 @@ export class CreateRentComponent implements OnInit {
 
   /** Fetch areas based on selected state code */
   fetchAreas(stateCode: number): void {
-    this.http.post('/api/RentAgreeMent/GetDropDownData', { Mode: 3, ID: stateCode })
+    this.http.post('/api/api/RentAgreeMent/GetDropDownData', { Mode: 3, ID: stateCode })
       .subscribe((response: any) => {
         if (response.status) {
           this.areas = response.data;
@@ -519,7 +519,7 @@ export class CreateRentComponent implements OnInit {
 
   /** Fetch branches from the API */
   fetchBranches(areaCode: number): void {
-    this.http.post('/api/RentAgreeMent/GetDropDownData', { Mode: 4, ID: areaCode }) // Use areaCode instead of hardcoded value
+    this.http.post('/api/api/RentAgreeMent/GetDropDownData', { Mode: 4, ID: areaCode }) // Use areaCode instead of hardcoded value
       .subscribe((response: any) => {
         if (response.status) {
           this.branches = response.data; // Store the branch data
@@ -658,7 +658,7 @@ export class CreateRentComponent implements OnInit {
       Branch: Number(this.formFields['branch']),
       closingDate: this.formFields['closingDate']
     };
-    const apiUrl = '/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
+    const apiUrl = '/api/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
     this.http.post<any>(apiUrl, Test).subscribe(
       (response: any) => {
         if (response.status == true) {
@@ -715,7 +715,7 @@ export class CreateRentComponent implements OnInit {
       this.focusField('rentAmnt');
       return;
     }
-    const apiUrl = '/api/RentAgreeMent/SaveRentPopupData';
+    const apiUrl = '/api/api/RentAgreeMent/SaveRentPopupData';
     const body = {
       rentID: this.rentid,
       rentpopupID: this.isUpdate ? this.rentpopupID : 0,
@@ -771,7 +771,7 @@ export class CreateRentComponent implements OnInit {
 
     console.log('Payload:', payload);
 
-    this.http.post('/api/RentAgreeMent/UpdateBranchStatus', payload).subscribe(
+    this.http.post('/api/api/RentAgreeMent/UpdateBranchStatus', payload).subscribe(
       (response: any) => {
         if (response.status) {
           console.log('Branch status updated successfully:', response.message);

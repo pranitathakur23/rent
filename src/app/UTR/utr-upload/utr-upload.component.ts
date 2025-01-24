@@ -44,7 +44,7 @@ export class UtrUploadComponent {
       alert('No file selected.');
       return;
     }
-    const url = '/api/rent/Link';
+    const url = '/api/api/rent/Link';
     const formData = new FormData();
     formData.append('file', this.selectedFile); // Append the file to FormData
 
