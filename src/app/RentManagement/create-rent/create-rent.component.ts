@@ -180,12 +180,13 @@ export class CreateRentComponent implements OnInit {
         if (response.status == true) {
           this.rentMasterData = response.data[0];
           this.checkFormFieldsState();
-          if (this.rentMasterData.makerid != this.employeecode) {
-            this.isButtonVisibleAddrent = false;
-          }
-          else {
-            this.isButtonVisibleAddrent = true;
-          }
+          // if (this.rentMasterData.makerid != this.employeecode) {
+          //   this.isButtonVisibleAddrent = false;
+          // }
+          // else {
+          //   this.isButtonVisibleAddrent = true;
+          // }
+               this.isButtonVisibleAddrent = true;
           this.formFields['bank'] = response.data[0].bank;
           this.formFields['state'] = response.data[0].state;
           this.formFields['district'] = response.data[0].area;
@@ -447,6 +448,7 @@ export class CreateRentComponent implements OnInit {
           this.isButtonVisiblecreate = false;
           // this.showRentDetails = true;
           this.files = [];
+          this.router.navigate(['/layout/rent-list']);
         } else {
           console.error('API call failed:', response.message);
         }
