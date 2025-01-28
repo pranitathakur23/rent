@@ -187,6 +187,13 @@ export class CreateRentComponent implements OnInit {
           //   this.isButtonVisibleAddrent = true;
           // }
                this.isButtonVisibleAddrent = true;
+               if(response.data[0].rentstatus=="Completed")
+               {
+                this.formFields['landlordName'] = response.data[0].landLordName;
+                this.formFields['accountNo'] = response.data[0].landLordAccNo;
+                this.formFields['confirmAccountNo'] = response.data[0].landLordAccNo;
+                this.formFields['ifscCode'] = response.data[0].LandLordIFSC;
+               }
           this.formFields['bank'] = response.data[0].bank;
           this.formFields['state'] = response.data[0].state;
           this.formFields['district'] = response.data[0].area;
