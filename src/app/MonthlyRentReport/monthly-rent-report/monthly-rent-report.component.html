@@ -31,7 +31,7 @@
         </div>
         <!-- Branch Dropdown -->
         <div class="col-md-2">
-          <label for="branch" class="form-label">Branch</label>
+          <label for="branch" class="form-label">Type</label>
           <select id="branch" class="form-select" [(ngModel)]="selectedBranch">
             <option [value]="null" disabled>Select Branch</option>
             <option *ngFor="let branch of branches" [value]="branch.branchCode">
