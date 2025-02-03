@@ -125,12 +125,14 @@ export class MonthlyRentReportComponent implements OnInit {
    // Export to Excel function
    exportToExcel(): void {
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData.map(item => ({
+      SNO: item.srno,
+      State: item.stateName,
       Branch: item.branchName,
       BC: item.BankName,
       'Landlord Name': item.landLordName || '-',
-      'Landlord Email': item.landLordEmail || '-',
       'Landlord Account No': item.landLordAccNo || '-',
       IFSC: item.LandLordIFSC || '-',
+      Amount: item.Amount || '-',
       Remark: item.remark || '-',
     })));
 

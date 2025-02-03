@@ -60,23 +60,27 @@
           <table class="table table-bordered">
             <thead>
               <tr>
+                <th>SNo.</th>
+                <th>State</th>
                 <th>Branch</th>
                 <th>BC</th>
                 <th>Landlord Name</th>
-                <th>Landlord Email</th>
                 <th>Landlord Account No</th>
                 <th>IFSC</th>
+                <th>Amount</th>
                 <th>Remark</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of tableData">
+                <td>{{ item.srno }}</td>
+                <td>{{ item.stateName }}</td>
                 <td>{{ item.branchName }}</td>
                 <td>{{ item.BankName }}</td>
                 <td>{{ item.landLordName || '-' }}</td>
-                <td>{{ item.landLordEmail || '-' }}</td>
                 <td>{{ item.landLordAccNo || '-' }}</td>
                 <td>{{ item.LandLordIFSC || '-' }}</td>
+                <td>{{ item.Amount || '-' }}</td>
                 <td>{{ item.remark || '-' }}</td>
               </tr>
             </tbody>
