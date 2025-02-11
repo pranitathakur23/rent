@@ -20,7 +20,8 @@ export class MonthlyRentReportComponent implements OnInit {
   toDate: string = '';
   branchStatus: { ID: number; Status: string }[] = [];
   selectedBranchStatus: number | null = null;
-  tableData: any[] = []; 
+  tableData: any[] = [];
+  columnNames: string[] = [];
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -80,6 +81,7 @@ export class MonthlyRentReportComponent implements OnInit {
       alert('Please fill in all required fields.');
       return;
     }
+    
     const branchStatusValue = Number(this.selectedBranchStatus);
     const payload = {
       fromdate: this.fromDate,
@@ -88,11 +90,16 @@ export class MonthlyRentReportComponent implements OnInit {
       branch: this.selectedBranch,
       branchstatus: branchStatusValue == 1,
     };
+  
     const url = '/api/api/RentAgreeMent/SubmitMonthlyReport';
     this.http.post<any>(url, payload).subscribe(
       (response) => {
-        if (response.status == true) {
+        if (response.status === true) {
           this.tableData = response.data;
+  
+          if (this.tableData && this.tableData.length > 0) {
+            this.columnNames = Object.keys(this.tableData[0]);
+          }
         } else {
           console.error('Something went wrong');
         }
@@ -102,6 +109,7 @@ export class MonthlyRentReportComponent implements OnInit {
       }
     );
   }
+  
 
   fetchBranchStatus(): void {
     const url = '/api/api/RentAgreeMent/GetDropDownData';
@@ -124,20 +132,25 @@ export class MonthlyRentReportComponent implements OnInit {
 
    // Export to Excel function
    exportToExcel(): void {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData.map(item => ({
-      SNO: item.srno,
-      State: item.stateName,
-      Branch: item.branchName,
-      BC: item.BankName,
-      'Landlord Name': item.landLordName || '-',
-      'Landlord Account No': item.landLordAccNo || '-',
-      IFSC: item.LandLordIFSC || '-',
-      Amount: item.Amount || '-',
-      Remark: item.remark || '-',
-    })));
-
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Monthly Rent Report');
-    XLSX.writeFile(wb, 'monthly_rent_report.xlsx');
+    if (this.tableData && this.tableData.length > 0) {
+      const columnNames = Object.keys(this.tableData[0]);
+  
+      const formattedData = this.tableData.map(item => {
+        const row: any = {};
+        columnNames.forEach(col => {
+          row[col] = item[col] || '-'; 
+        });
+        return row;
+      });
+  
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(formattedData);
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Monthly Rent Report');
+      
+      XLSX.writeFile(wb, 'monthly_rent_report.xlsx');
+    } else {
+      console.error('No data available for export');
+    }
   }
+  
 }
