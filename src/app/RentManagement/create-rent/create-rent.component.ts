@@ -4,14 +4,22 @@ import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RentService } from '../rent.service';
 import { RentListComponent } from '../rent-list/rent-list.component';
-import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
+import { ActivatedRoute } from '@angular/router';
 import { Component, Inject, PLATFORM_ID, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
+interface CustomFile {
+  id?: number;
+  name: string;
+  url: string;
+  file?: File;
+}
+
 @Component({
   selector: 'app-create-rent',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule], // Ensure CommonModule is here
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './create-rent.component.html',
   styleUrls: ['./create-rent.component.css']
 })
@@ -39,14 +47,13 @@ export class CreateRentComponent implements OnInit {
   banks: { BankCode: number; BankName: string }[] = [];
   states: { stateCode: number; stateName: string }[] = [];
   areas: { areaCode: number; areaName: string }[] = [];
-  branches: { branchCode: number; branchName: string }[] = []; // Adjusted to number for branchCode
+  branches: { branchCode: number; branchName: string }[] = [];
   showCreateRentAgreement = true;
   showRentDetails = false;
-
   closeBranch: boolean = false;
-
+  newFiles: File[] = [];
   fileName: string = '';
-  rentData: any[] = []; // Initialize rentData as an empty array
+  rentData: any[] = [];
   ID: number = 0;
   file: File | null = null;
   fromDate: string | undefined;
@@ -59,9 +66,9 @@ export class CreateRentComponent implements OnInit {
   totalRentAmount: string = '';
   rentAmnt: string = '';
   errorMessage: string = '';
-  fileURL: SafeResourceUrl | null = null;  // Use SafeResourceUrl type
+  fileURL: SafeResourceUrl | null = null;
   rentpopupID: number = 0;
-  files: File[] = [];  // To hold the selected files
+  files: File[] = [];
   fileNames: string[] = [];
   employeecode: string | undefined;
   rentid: number = 0;
@@ -69,10 +76,10 @@ export class CreateRentComponent implements OnInit {
   rentMasterData: any = {};
   status: string | undefined;
   isDisabled: boolean = false;
-  filearray: File[] = []; // Store selected files
-  showClosingDate: boolean = false;      // Controls visibility of the common Closing Date
-  showRecoveryFields: boolean = false;   // Controls visibility of recovery-related fields
-  showPendingFields: boolean = false;    // Controls visibility of pending-related fields
+  filearray: CustomFile[] = [];
+  showClosingDate: boolean = false;
+  showRecoveryFields: boolean = false;
+  showPendingFields: boolean = false;
   formFields: { [key: string]: string } = {
     bank: '',
     state: '',
@@ -90,14 +97,16 @@ export class CreateRentComponent implements OnInit {
     remark: '',
     closingDate: ''
   };
+
   modelfields: any = {
-    recoveryStatus: 0,  // Default to Recovered (0)
+    recoveryStatus: 0, 
     closingDate: null,
     closingDateAdditional: null,
     amountRecovered: null,
     transferReferenceNumber: null,
     remarks: null
   };
+
   ngOnInit(): void {
     this.rentid = Number(this.route.snapshot.paramMap.get('id'));
     if (this.rentid != 0) {
@@ -112,10 +121,10 @@ export class CreateRentComponent implements OnInit {
       }
     }
     this.getRentAgreementPopupdataList();
+    this.getRentAgrrementFilesList();
     this.loadInitialData();
     this.employeecode = sessionStorage.getItem('userName') || '';
     this.onRecoveryStatusChange();
-
   }
 
   checkFormFieldsState(): void {
@@ -156,9 +165,8 @@ export class CreateRentComponent implements OnInit {
     }
   }
 
-
   getRentAgreementPopupdataList(): void {
-    const apiUrl = '/api/api/rent/GetRentDetails';  // Note the relative path
+    const apiUrl = '/api/api/rent/GetRentDetails';
     const body = { id: this.rentid };
     this.http.post<any>(apiUrl, body).subscribe(
       (response: any) => {
@@ -186,14 +194,13 @@ export class CreateRentComponent implements OnInit {
           // else {
           //   this.isButtonVisibleAddrent = true;
           // }
-               this.isButtonVisibleAddrent = true;
-               if(response.data[0].rentstatus=="Completed")
-               {
-                this.formFields['landlordName'] = response.data[0].landLordName;
-                this.formFields['accountNo'] = response.data[0].landLordAccNo;
-                this.formFields['confirmAccountNo'] = response.data[0].landLordAccNo;
-                this.formFields['ifscCode'] = response.data[0].LandLordIFSC;
-               }
+          this.isButtonVisibleAddrent = true;
+          if (response.data[0].rentstatus == "Completed") {
+            this.formFields['landlordName'] = response.data[0].landLordName;
+            this.formFields['accountNo'] = response.data[0].landLordAccNo;
+            this.formFields['confirmAccountNo'] = response.data[0].landLordAccNo;
+            this.formFields['ifscCode'] = response.data[0].LandLordIFSC;
+          }
           this.formFields['bank'] = response.data[0].bank;
           this.formFields['state'] = response.data[0].state;
           this.formFields['district'] = response.data[0].area;
@@ -214,7 +221,6 @@ export class CreateRentComponent implements OnInit {
       });
   }
 
-  /** Load initial data for banks and states */
   loadInitialData(): void {
     this.fetchBankData();
     this.fetchStates();
@@ -295,11 +301,6 @@ export class CreateRentComponent implements OnInit {
       this.datedeposite.nativeElement.focus();
       return;
     }
-    // if (!this.formFields['filepath']) {
-    //   alert('Please upload a file');
-    //   this.focusField('fileUpload');
-    //   return;
-    // }
     if (!this.filearray || this.filearray.length == 0) {
       alert('Please upload a file');
       this.focusField('fileUpload');
@@ -308,7 +309,10 @@ export class CreateRentComponent implements OnInit {
     const formData = new FormData();
     formData.append('rentMasterID', this.rentid.toString());
     for (let i = 0; i < this.filearray.length; i++) {
-      formData.append('files', this.filearray[i]);
+      const fileObj = this.filearray[i];
+      if (fileObj.file) {
+        formData.append('files', fileObj.file, fileObj.name);
+      }
     }
     this.http.post('/api/api/rent/SaveRentAgreementFiles', formData)
       .subscribe(
@@ -342,7 +346,6 @@ export class CreateRentComponent implements OnInit {
       LandLordIFSC: this.formFields['ifscCode'],
       makerid: this.employeecode,
     };
-    console.log('Request Data:', requestData);
     this.http.post('/api/api/RentAgreeMent/SaveRentData', requestData).subscribe(
       (response: any) => {
         if (response.status) {
@@ -363,25 +366,25 @@ export class CreateRentComponent implements OnInit {
   }
 
   onUpdate(): void {
-    if (this.files.length > 0) {
+    if (this.newFiles.length > 0) {
       const formData = new FormData();
       formData.append('rentMasterID', this.rentid.toString());
-      for (let i = 0; i < this.files.length; i++) {
-        formData.append('files', this.files[i]);
+      for (let i = 0; i < this.newFiles.length; i++) {
+        formData.append('files', this.newFiles[i]);
       }
-      this.http.post('/api/api/rent/SaveRentAgreementFiles', formData)
-        .subscribe(
-          (response: any) => {
-            if (response.status == true) {
-              this.UpdateRentDetails();
-            } else {
-              console.error('API call failed:', response.message);
-            }
-          },
-          error => {
-            console.error('Error making API call:', error);
+      this.http.post('/api/api/rent/SaveRentAgreementFiles', formData).subscribe(
+        (response: any) => {
+          if (response.status === true) {
+            this.UpdateRentDetails();
+            this.newFiles = [];
+          } else {
+            console.error('API call failed:', response.message);
           }
-        );
+        },
+        error => {
+          console.error('Error making API call:', error);
+        }
+      );
     } else {
       this.UpdateRentDetails();
     }
@@ -394,7 +397,6 @@ export class CreateRentComponent implements OnInit {
         this.focusField('landlordName');
         return;
       }
-
       if (!this.formFields['accountNo']) {
         alert('Please enter Landlord Account No');
         this.focusField('accountNo');
@@ -415,7 +417,6 @@ export class CreateRentComponent implements OnInit {
         this.focusField('ifscCode');
         return;
       }
-
       if (
         this.rentMasterData.landLordName == this.formFields['landlordName'] &&
         this.rentMasterData.landLordAccNo == this.formFields['accountNo'] &&
@@ -453,7 +454,6 @@ export class CreateRentComponent implements OnInit {
         if (response.status) {
           this.isButtonVisible = true;
           this.isButtonVisiblecreate = false;
-          // this.showRentDetails = true;
           this.files = [];
           this.router.navigate(['/layout/rent-list']);
         } else {
@@ -561,13 +561,10 @@ export class CreateRentComponent implements OnInit {
 
   /** Handle file selection */
   onFileChange(event: any): void {
-    // Clear previous selections
     this.fileNames = [];
     this.files = [];
-
     const selectedFiles = event.target.files;
     if (selectedFiles && selectedFiles.length > 0) {
-      // Store file names and file objects for further processing
       for (let i = 0; i < selectedFiles.length; i++) {
         this.fileNames.push(selectedFiles[i].name);
         this.files.push(selectedFiles[i]);
@@ -575,42 +572,60 @@ export class CreateRentComponent implements OnInit {
     }
   }
 
-  /** Upload file and log the filename */
-  uploadFile(): void {
-    console.log('File uploaded:', this.fileName);
-  }
+  getRentAgrrementFilesList(): void {
+    const apiUrl = '/api/api/rent/getFileDetails';
+    const body = { id: this.rentid };
+    this.http.post<any>(apiUrl, body).subscribe(
+      (response: any) => {
+        if (response.status === true) {
+          const apiFiles: CustomFile[] = response.data.map((file: any) => ({
+            id: file.ID,
+            name: file.filepath.split('/').pop(),
+            url: file.filepath.replace(/\\/g, '/')
+          }));
 
-  removeFile(index: number): void {
-    // Remove the file and the name from the arrays
-    this.fileNames.splice(index, 1);
-    this.files.splice(index, 1);
-
-    // Check if there are no more files remaining
-    if (this.fileNames.length == 0) {
-      // Reset the file input only when no files are left
-      const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
-      if (fileInput !== null && fileInput.value !== '') {
-        fileInput.value = '';
+          this.filearray = [...this.filearray, ...apiFiles];
+        } else {
+          console.error('Failed to fetch rent agreement list:', response.message);
+        }
+      },
+      error => {
+        console.error('Error fetching rent agreement list:', error);
       }
-    }
+    );
   }
 
   previewFile(index: number, event: Event): void {
     event.preventDefault();
     const file = this.filearray[index];
-    if (file) {
+    if (file.url) {
+      this.fileURL = this.sanitizer.bypassSecurityTrustResourceUrl(file.url);
+    } else if (file.file) {
       const reader = new FileReader();
       reader.onload = () => {
         const unsafeUrl = reader.result as string;
         this.fileURL = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeUrl);
-        // Show modal
-        const modalElement = document.getElementById('filePreviewModal');
-        if (modalElement) {
-          const modal = new bootstrap.Modal(modalElement);
-          modal.show();
-        }
       };
-      reader.readAsDataURL(file);  // Read the selected file
+      reader.readAsDataURL(file.file);
+    }
+    const modalElement = document.getElementById('filePreviewModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  removeFile(index: number): void {
+    const file = this.filearray[index];
+    if (file.id) {
+      this.deleteFile(file.id);
+    }
+    this.filearray.splice(index, 1);
+    if (this.filearray.length == 0) {
+      const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
+      if (fileInput !== null && fileInput.value !== '') {
+        fileInput.value = '';
+      }
     }
   }
 
@@ -624,19 +639,40 @@ export class CreateRentComponent implements OnInit {
     }
   }
 
-  // Handle file change event
-  onFileChangetabel(event: any) {
-    const selectedFiles: FileList = event.target.files;
-    const filesArray = Array.from(selectedFiles); // Convert FileList to Array
-    // Append new files to the existing array
-    this.filearray = [...this.filearray, ...filesArray];
-    // Clear the input field to allow re-upload of the same file (optional)
-    event.target.value = '';
+  deleteFile(id: number): void {
+    if (window.confirm('Are you sure you want to delete this item?')) {
+      const apiUrl = '/api/api/rent/DeleteFilePath';
+      const body = { deletedID: id };
+
+      this.http.post<any>(apiUrl, body).subscribe(
+        (response) => {
+          if (response.status === true) {
+            console.log('File deleted successfully');
+          } else {
+            console.error('Failed to delete rent file:', response.message);
+          }
+        },
+        (error) => {
+          console.error('Error deleting rent file:', error);
+        }
+      );
+    }
   }
 
-  // Remove a file from the list
-  removeFiletabel(index: number) {
-    this.filearray.splice(index, 1); // Remove file from the array
+  onFileChangetabel(event: any): void {
+    const selectedFiles: FileList = event.target.files;
+    if (selectedFiles) {
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        const fileURL = URL.createObjectURL(file); 
+        this.newFiles.push(file); 
+        this.filearray.push({
+          name: file.name,
+          url: fileURL, 
+          file: file
+        });
+      }
+    }
   }
 
   onCancel(): void {
@@ -667,7 +703,7 @@ export class CreateRentComponent implements OnInit {
       Branch: Number(this.formFields['branch']),
       closingDate: this.formFields['closingDate']
     };
-    const apiUrl = '/api/api/RentAgreeMent/UpdateBranchStatus';  // Note the relative path
+    const apiUrl = '/api/api/RentAgreeMent/UpdateBranchStatus';
     this.http.post<any>(apiUrl, Test).subscribe(
       (response: any) => {
         if (response.status == true) {
@@ -682,9 +718,7 @@ export class CreateRentComponent implements OnInit {
 
   closeBranchs(): void {
     this.closeBranch = true;
-
     this.formFields['closingDate'] = '';
-
   }
 
   onAddRentDetails(): void {
@@ -737,6 +771,7 @@ export class CreateRentComponent implements OnInit {
         if (response.status === true) {
           this.showRentDetails = false;
           this.getRentAgreementPopupdataList();
+          this.getRentAgrrementFilesList();
         } else {
           this.errorMessage = response.message;
         }
@@ -747,22 +782,21 @@ export class CreateRentComponent implements OnInit {
       }
     );
   }
+
   onRecoveryStatusChange() {
     const status = this.modelfields.recoveryStatus;
-
-    // Always keep remarks empty when 'Recovered' (0) is selected
     if (status === 0) {
       this.modelfields.remarks = '';
-      this.showRecoveryFields = true;  // Show recovery fields
-      this.showPendingFields = false;  // Hide pending fields
+      this.showRecoveryFields = true; 
+      this.showPendingFields = false; 
     } else if (status === 1) {
-      this.showRecoveryFields = false; // Hide recovery fields
-      this.showPendingFields = true;   // Show pending fields
+      this.showRecoveryFields = false;
+      this.showPendingFields = true;
     }
 
-    // Closing Date is always visible
     this.showClosingDate = true;
   }
+
   saveBranchStatus() {
     const payload: any = {
       rentmasterid: this.rentid,
@@ -770,7 +804,6 @@ export class CreateRentComponent implements OnInit {
       closingDate: this.modelfields.closingDate || this.modelfields.closingDateAdditional,
     };
 
-    // Add additional fields based on recovery status
     if (this.modelfields.recoveryStatus === 0) {
       payload.Amntrecoverd = this.modelfields.amountRecovered;
       payload.TrfRefNo = this.modelfields.transferReferenceNumber;

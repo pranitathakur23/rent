@@ -31,7 +31,7 @@
         </div>
         <!-- Branch Dropdown -->
         <div class="col-md-2">
-          <label for="branch" class="form-label">Branch</label>
+          <label for="branch" class="form-label">Type</label>
           <select id="branch" class="form-select" [(ngModel)]="selectedBranch">
             <option [value]="null" disabled>Select Branch</option>
             <option *ngFor="let branch of branches" [value]="branch.branchCode">
@@ -60,29 +60,18 @@
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th>Branch</th>
-                <th>BC</th>
-                <th>Landlord Name</th>
-                <th>Landlord Email</th>
-                <th>Landlord Account No</th>
-                <th>IFSC</th>
-                <th>Remark</th>
+                <th *ngFor="let column of columnNames">{{ column }}</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of tableData">
-                <td>{{ item.branchName }}</td>
-                <td>{{ item.BankName }}</td>
-                <td>{{ item.landLordName || '-' }}</td>
-                <td>{{ item.landLordEmail || '-' }}</td>
-                <td>{{ item.landLordAccNo || '-' }}</td>
-                <td>{{ item.LandLordIFSC || '-' }}</td>
-                <td>{{ item.remark || '-' }}</td>
+                <td *ngFor="let column of columnNames">{{ item[column] || '-' }}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+      
       
     </div>
   </div>

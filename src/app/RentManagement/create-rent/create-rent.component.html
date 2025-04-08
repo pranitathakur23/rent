@@ -158,7 +158,7 @@
     </div>
 
     <!-- Table to Display Selected Files -->
-    <div class="row mt-4" *ngIf="filearray.length > 0">
+    <div id="tblFileUpload" class="row mt-4" *ngIf="filearray.length > 0">
       <div class="col-md-8">
         <table class="table table-bordered table-striped">
           <thead>
@@ -172,16 +172,17 @@
             <tr *ngFor="let file of filearray; let i = index">
               <td>{{ i + 1 }}</td>
               <td class="text-truncate" (click)="previewFile(i, $event)"
-                style="cursor: pointer; color: blue; text-decoration: underline;">
+                  style="cursor: pointer; color: blue; text-decoration: underline;">
                 {{ file.name }}
               </td>
               <td>
-                <button class="btn btn-danger btn-sm" (click)="removeFiletabel(i)">
+                <button class="btn btn-danger btn-sm" (click)="removeFile(i)">
                   <i class="fas fa-trash"></i>
                 </button>
               </td>
             </tr>
           </tbody>
+          
         </table>
       </div>
     </div>
