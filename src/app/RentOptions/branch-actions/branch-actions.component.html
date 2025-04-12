@@ -16,8 +16,8 @@
       
       <!-- Month Select -->
       <div class="col-md-2">
-        <label for="date">Date</label>
-        <input type="date" class="form-control" id="date" placeholder="Choose a date">
+        <label for="month">Month</label>
+        <input type="month" class="form-control" id="month" [min]="minMonth" [(ngModel)]="selectedMonth">
       </div>
       
       <!-- Actions Select -->

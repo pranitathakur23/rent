@@ -29,14 +29,27 @@ export class BranchActionsComponent implements OnInit {
   selectedBranch: string = ''; // Assuming the branch name comes from rentMasterOptions
   selectedDate: string = ''; // Date in 'YYYY-MM-DD' format
   selectedRemarkID: number | null = null;
+  minMonth: string = '';
+  selectedMonth: string = '';
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.fetchRentMasterOptions();
     this.fetchActionOptions();
     this.fetchRentOptions();
-  }
+    const today = new Date();
+ 
+  // Previous Month (only allow this and anything after it)
+  const prev = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+  this.minMonth = this.formatMonth(prev);
 
+ 
+
+  }
+  formatMonth(date: Date): string {
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    return `${date.getFullYear()}-${month}`;
+  }
   fetchRentMasterOptions(): void {
     const url = '/api/api/RentAgreeMent/GetDropDownData';
     const body = { Mode: 5 };

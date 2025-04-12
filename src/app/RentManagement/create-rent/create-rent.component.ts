@@ -688,33 +688,7 @@ export class CreateRentComponent implements OnInit {
     this.closeBranch = false;
   }
 
-  savebranchstatus(): void {
-    if (!this.formFields['closingDate']) {
-      alert('Please select a closingDate');
-      this.dateInput.nativeElement.focus();
-      return;
-    }
-    if (!this.formFields['branch']) {
-      alert('Please select a Branch');
-      this.focusField('branch');
-      return;
-    }
-    const Test = {
-      Branch: Number(this.formFields['branch']),
-      closingDate: this.formFields['closingDate']
-    };
-    const apiUrl = '/api/api/RentAgreeMent/UpdateBranchStatus';
-    this.http.post<any>(apiUrl, Test).subscribe(
-      (response: any) => {
-        if (response.status == true) {
-          this.closeBranch = false;
-        } else {
-          console.error('Failed to fetch rent agreement list:', response.message);
-        }
-      }, error => {
-        console.error('Error fetching rent agreement list:', error);
-      });
-  }
+  
 
   closeBranchs(): void {
     this.closeBranch = true;
@@ -803,21 +777,19 @@ export class CreateRentComponent implements OnInit {
       IsAmntRecoverd: this.modelfields.recoveryStatus,  // 0 or 1
       closingDate: this.modelfields.closingDate || this.modelfields.closingDateAdditional,
     };
-
     if (this.modelfields.recoveryStatus === 0) {
       payload.Amntrecoverd = this.modelfields.amountRecovered;
       payload.TrfRefNo = this.modelfields.transferReferenceNumber;
+      payload.remark='';
+      payload.IsAmntRecoverd= true
     } else if (this.modelfields.recoveryStatus === 1) {
       payload.remark = this.modelfields.remarks;
+      payload.IsAmntRecoverd= false
     }
-
-    console.log('Payload:', payload);
-
     this.http.post('/api/api/RentAgreeMent/UpdateBranchStatus', payload).subscribe(
       (response: any) => {
         if (response.status) {
-          console.log('Branch status updated successfully:', response.message);
-          this.router.navigate(['/layout/create-rent']);
+          this.router.navigate(['/layout/rent-list']);
         } else {
           console.error('Failed to update branch status:', response.message);
         }
