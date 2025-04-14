@@ -80,6 +80,8 @@ export class CreateRentComponent implements OnInit {
   showClosingDate: boolean = false;
   showRecoveryFields: boolean = false;
   showPendingFields: boolean = false;
+  minAllowedDate: string | undefined;
+  maxAllowedDate: string | undefined;
   formFields: { [key: string]: string } = {
     bank: '',
     state: '',
@@ -125,6 +127,18 @@ export class CreateRentComponent implements OnInit {
     this.loadInitialData();
     this.employeecode = sessionStorage.getItem('userName') || '';
     this.onRecoveryStatusChange();
+
+    const today = new Date();
+
+  // Min allowed date = exactly 1 month ago from today
+  const oneMonthAgo = new Date(today);
+  oneMonthAgo.setMonth(today.getMonth() - 1);
+
+  const year = oneMonthAgo.getFullYear();
+  const month = (oneMonthAgo.getMonth() + 1).toString().padStart(2, '0');
+  const day = oneMonthAgo.getDate().toString().padStart(2, '0');
+
+  this.minAllowedDate = `${year}-${month}-${day}`;
   }
 
   checkFormFieldsState(): void {

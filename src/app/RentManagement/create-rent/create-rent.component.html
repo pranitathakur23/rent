@@ -356,9 +356,13 @@ scroll-behavior: auto;
     <div class="row mt-4" *ngIf="showClosingDate">
       <div class="col-md-12">
         <label for="closingDateAdditional">Closing Date</label>
-        <input type="date" class="form-control" id="closingDateAdditional"
-          [(ngModel)]="modelfields['closingDateAdditional']" />
-      </div>
+        <input
+        type="date"
+        class="form-control"
+        id="closingDateAdditional"
+        [(ngModel)]="modelfields['closingDateAdditional']"
+        [min]="minAllowedDate"
+      />
     </div>
 
     <!-- Recovered Fields -->
