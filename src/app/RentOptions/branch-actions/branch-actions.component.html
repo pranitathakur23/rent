@@ -6,9 +6,11 @@
     <div class="row">
       <!-- Rent Master Select -->
       <div class="col-md-2">
-        <label for="rentMaster">Rent Master</label>
-        <select class="form-control" id="rentMaster">
-          <option *ngFor="let option of rentMasterOptions" [value]="option.RentID">
+        <label for="rentMaster">Branch</label>
+        <select class="form-control" id="rentMaster" (change)="onRentMasterChange($event)">
+          <option [ngValue]="null" disabled selected hidden>Select Branch</option>
+
+                    <option *ngFor="let option of rentMasterOptions" [value]="option.RentID">
             {{ option.LandLordName }}
           </option>
         </select>
@@ -16,19 +18,24 @@
       
       <!-- Month Select -->
       <div class="col-md-2">
-        <label for="date">Date</label>
-        <input type="date" class="form-control" id="date" placeholder="Choose a date">
+        <label for="month">Month</label>
+        <input type="month" class="form-control" id="month" [min]="minMonth" [(ngModel)]="selectedMonth">
       </div>
       
       <!-- Actions Select -->
-     <div class="col-md-2">
-      <label for="action">Action</label>
-      <select class="form-control" id="action">
-        <option *ngFor="let action of actionOptions" [value]="action.Code">
-          {{ action.Name }}
-        </option>
-      </select>
-    </div>
+      <div class="col-md-2">
+        <label for="action">Action</label>
+        <select class="form-control" id="action" [(ngModel)]="selectedRemarkID">
+          <!-- Default option -->
+          <option [ngValue]="null" disabled selected hidden>Select Action</option>
+      
+          <!-- API options -->
+          <option *ngFor="let action of actionOptions" [value]="action.Code">
+            {{ action.Name }}
+          </option>
+        </select>
+      </div>
+      
       
       <!-- Save Button -->
       <div class="col-md-2 text-center mt-4">

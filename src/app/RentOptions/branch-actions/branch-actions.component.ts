@@ -29,14 +29,27 @@ export class BranchActionsComponent implements OnInit {
   selectedBranch: string = ''; // Assuming the branch name comes from rentMasterOptions
   selectedDate: string = ''; // Date in 'YYYY-MM-DD' format
   selectedRemarkID: number | null = null;
+  minMonth: string = '';
+  selectedMonth: string = '';
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.fetchRentMasterOptions();
     this.fetchActionOptions();
     this.fetchRentOptions();
-  }
+    const today = new Date();
+ 
+  // Previous Month (only allow this and anything after it)
+  const prev = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+  this.minMonth = this.formatMonth(prev);
 
+ 
+
+  }
+  formatMonth(date: Date): string {
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    return `${date.getFullYear()}-${month}`;
+  }
   fetchRentMasterOptions(): void {
     const url = '/api/api/RentAgreeMent/GetDropDownData';
     const body = { Mode: 5 };
@@ -84,27 +97,83 @@ export class BranchActionsComponent implements OnInit {
         }
       });
   }
+  onRentMasterChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.selectedRentMasterID = Number(target.value);
+  }
+  // onSave(): void {
+  //   const selectedRentMaster = this.rentMasterOptions.find(
+  //     option => option.RentID === this.selectedRentMasterID
+  //   );
+  
+  //   const branchName = selectedRentMaster ? selectedRentMaster.LandLordName : 'Unknown';  
+    // Prepare the data for the API request
+  //   const saveData = {
+  //     rentMasterID: this.selectedRentMasterID, // Use the selected Rent Master ID
+  //     Branch: branchName, // Hardcoded Branch
+  //     date: this.selectedMonth, // Date selected by the user
+  //     remarkID: this.selectedRemarkID // Remark ID selected by the user
+  //   };
+  //   console.log('Fetc', saveData); // Log the fetched data
+
+  //   // Call the save API
+  //   const url = '/api/api/rent/SaveRentOptionDetails';
+  //   this.http.post<any>(url, saveData).subscribe(
+  //     response => {
+  //       if (response.status == true) {
+  //         console.log('Save successful:', response.data);
+  //         // Optionally, you can refresh the rent options after saving
+  //         this.fetchRentOptions();
+  //       } else {
+  //         alert('Failed to save rent option');
+  //       }
+  //     },
+  //     error => {
+  //       console.error('Error saving rent option:', error);
+  //       alert('An error occurred while saving the rent option');
+  //     }
+  //   );
+  // }
+  
   onSave(): void {
-    // Hardcoded branch name as "Vashi-Priti"
-    const branchName = 'Vashi-Priti';
+    // Validation for required fields
+    if (!this.selectedRentMasterID) {
+      alert('Please select a Branch.');
+      return;
+    }
+  
+    if (!this.selectedMonth) {
+      alert('Please select a Month.');
+      return;
+    }
+  
+    if (!this.selectedRemarkID) {
+      alert('Please select an Action.');
+      return;
+    }
+  
+    const selectedRentMaster = this.rentMasterOptions.find(
+      option => option.RentID === this.selectedRentMasterID
+    );
+  
+    const branchName = selectedRentMaster ? selectedRentMaster.LandLordName : 'Unknown';
   
     // Prepare the data for the API request
     const saveData = {
-      rentMasterID: this.selectedRentMasterID, // Use the selected Rent Master ID
-      Branch: branchName, // Hardcoded Branch
-      date: this.selectedDate, // Date selected by the user
-      remarkID: this.selectedRemarkID // Remark ID selected by the user
+      rentMasterID: this.selectedRentMasterID,
+      Branch: branchName,
+      date: this.selectedMonth,
+      remarkID: this.selectedRemarkID
     };
-    console.log('Fetc', saveData); // Log the fetched data
-
+    console.log('Fetch', saveData); // Log the fetched data
+  
     // Call the save API
     const url = '/api/api/rent/SaveRentOptionDetails';
     this.http.post<any>(url, saveData).subscribe(
       response => {
         if (response.status == true) {
           console.log('Save successful:', response.data);
-          // Optionally, you can refresh the rent options after saving
-          this.fetchRentOptions();
+          this.fetchRentOptions(); // Refresh after saving
         } else {
           alert('Failed to save rent option');
         }
@@ -116,7 +185,6 @@ export class BranchActionsComponent implements OnInit {
     );
   }
   
-
 // Helper function to get the branch name based on RentID
 getBranchName(rentMasterID: number | null): string {
   // Only return the LandLordName if RentID exists
