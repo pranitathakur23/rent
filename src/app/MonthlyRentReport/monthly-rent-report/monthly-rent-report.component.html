@@ -55,23 +55,27 @@
         </div>
       </div>
       <!-- Row for table with checkboxes -->
-      <div class="row">
-        <div class="col-12">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th *ngFor="let column of columnNames">{{ column }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of tableData">
-                <td *ngFor="let column of columnNames">{{ item[column] || '-' }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      
+     <!-- Row for table with checkboxes -->
+<!-- Row for table with checkboxes -->
+<div class="row mt-3">
+  <div class="col-12">
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped w-100">
+        <thead style="background-color: #f2f2f2; font-weight: 600;">
+          <tr>
+            <th *ngFor="let column of columnNames">{{ column }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of tableData">
+            <td *ngFor="let column of columnNames">{{ item[column] || '' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
       
     </div>
   </div>
