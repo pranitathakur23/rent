@@ -62,8 +62,7 @@
               <td>{{ option.Name }}</td>
               <td class="text-center">
                 <button class="btn btn-danger" (click)="deleteRentOption(option.ID)">Delete</button> <!-- Delete button passes the ID -->
-
-                <button class="btn btn-success btn-sm ms-2">
+                <button class="btn btn-success btn-sm ms-2" (click)="releaseRentOption(option.ID)">
                   Release
                 </button>
               </td>

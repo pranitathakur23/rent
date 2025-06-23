@@ -224,5 +224,34 @@ deleteRentOption(id: number) {
   }
 }
 
+releaseRentOption(id: number) {
+  // Show confirmation prompt before proceeding with the deletion
+  const confirmDelete = window.confirm('Are you sure you want to release this rent option?');
+  
+  if (confirmDelete) {
+    const url = '/api/api/rent/releaseRentOptionDetails';
+    const body = { id }; // Prepare the request body with the ID to delete
+
+    // Call the delete API
+    this.http.post<any>(url, body).subscribe(
+      (response) => {
+        if (response.status) {
+          // On success, remove the deleted option from the list
+          this.rentOptions = this.rentOptions.filter(option => option.ID !== id); // Use 'ID' as the key
+          this.fetchRentOptions(); // Re-fetch to update the list
+        } else {
+          alert('Failed to delete rent option');
+        }
+      },
+      (error) => {
+        console.error('Error:', error);
+        alert('An error occurred while deleting the rent option');
+      }
+    );
+  } else {
+    console.log('Deletion cancelled');
+  }
+}
+
 
 }

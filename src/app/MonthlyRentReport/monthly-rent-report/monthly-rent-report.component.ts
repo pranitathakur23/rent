@@ -82,13 +82,12 @@ export class MonthlyRentReportComponent implements OnInit {
       return;
     }
     
-    const branchStatusValue = Number(this.selectedBranchStatus);
     const payload = {
       fromdate: this.fromDate,
       todate: this.toDate,
       state: this.selectedState,
-      branch: this.selectedBranch,
-      branchstatus: branchStatusValue == 1,
+      type: this.selectedBranch,
+      branchstatus: this.selectedBranchStatus
     };
   
     const url = '/api/api/RentAgreeMent/SubmitMonthlyReport';
